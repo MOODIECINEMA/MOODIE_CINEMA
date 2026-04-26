@@ -3,131 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOODIE | المنصة الأولى للسينما</title>
+    <title>MOODIE | المنصة الأولى للسينما والترفيه</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --card-bg: #111; --kids-blue: #00d4ff; }
-        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        :root { --gold: #d4af37; --bg: #000000; --card-bg: #141414; --kids: #00d4ff; }
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; transition: 0.4s ease; }
         body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* الهيدر الاحترافي */
+        /* الهيدر الفاخر */
         header { 
-            position: fixed; top: 0; width: 100%; height: 75px; 
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(15px);
+            position: fixed; top: 0; width: 100%; height: 70px; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%; z-index: 1000; border-bottom: 1.5px solid var(--gold);
+            padding: 0 5%; z-index: 1000; border-bottom: 1px solid rgba(212,175,55,0.1);
         }
-        .brand { font-size: 32px; font-weight: 900; color: var(--gold); text-decoration: none; letter-spacing: 2px; }
-        .kids-nav-btn { background: var(--kids-blue); color: black; padding: 8px 20px; border-radius: 50px; font-weight: 900; cursor: pointer; border: none; }
+        .brand { font-size: 35px; font-weight: 900; color: var(--gold); text-decoration: none; text-shadow: 0 0 10px rgba(212,175,55,0.5); }
+        .kids-btn { background: var(--kids); color: black; padding: 8px 25px; border-radius: 50px; font-weight: 900; cursor: pointer; border: none; font-size: 14px; }
 
-        /* منطقة الإعلانات العلوي */
-        .ad-top { width: 100%; padding: 90px 5% 10px; text-align: center; }
-        .ad-box { width: 100%; max-width: 970px; height: 90px; background: #111; margin: 0 auto; border: 1px dashed #444; display: flex; align-items: center; justify-content: center; color: #555; font-size: 12px; }
-
-        /* المشغل الاحترافي */
-        .main-player-section { padding: 20px 5%; text-align: center; }
-        .player-container { 
-            width: 100%; max-width: 1100px; margin: 0 auto; background: #000; 
-            border-radius: 20px; overflow: hidden; border: 2px solid #222; 
-            position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
+        /* المشغل السينمائي الاحترافي */
+        .hero-section { padding-top: 100px; text-align: center; }
+        .player-wrapper { 
+            width: 95%; max-width: 1100px; margin: 0 auto; background: #000; 
+            border-radius: 20px; overflow: hidden; border: 2px solid #1a1a1a;
+            position: relative; box-shadow: 0 0 40px rgba(0,0,0,1);
         }
-        .player-container:hover { border-color: var(--gold); }
-        .player-container iframe { width: 100%; aspect-ratio: 16/9; border: none; }
-        .video-title { margin-top: 15px; color: var(--gold); font-size: 24px; font-weight: bold; }
+        .player-wrapper:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(212,175,55,0.2); }
+        .watermark { position: absolute; top: 20px; right: 20px; color: var(--gold); opacity: 0.5; font-weight: 900; font-size: 18px; pointer-events: none; }
+        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
 
-        /* شبكة الأفلام الكبيرة */
-        .content-section { padding: 40px 5%; }
-        .section-header { font-size: 26px; color: white; margin-bottom: 25px; border-right: 5px solid var(--gold); padding-right: 15px; display: flex; align-items: center; gap: 10px; }
-        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        /* أماكن الإعلانات (Adsterra) */
+        .ad-space { width: 90%; max-width: 970px; height: 90px; background: #0a0a0a; margin: 20px auto; border: 1px dashed #333; display: flex; align-items: center; justify-content: center; color: #444; font-size: 12px; }
+
+        /* شبكة الأفلام (Netflix Style) */
+        .content-area { padding: 40px 5%; }
+        .row-title { font-size: 24px; font-weight: 900; color: white; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .row-title::before { content: ''; width: 5px; height: 30px; background: var(--gold); display: inline-block; border-radius: 5px; }
         
-        .movie-card { 
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; 
-            transition: 0.4s; cursor: pointer; border: 1px solid #222; position: relative;
+        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .card { 
+            background: var(--card-bg); border-radius: 10px; overflow: hidden; 
+            cursor: pointer; position: relative; border: 1px solid #222;
         }
-        .movie-card:hover { transform: scale(1.08); border-color: var(--gold); z-index: 5; }
-        .movie-card img { width: 100%; height: 270px; object-fit: cover; }
-        .card-meta { padding: 10px; text-align: center; background: linear-gradient(transparent, rgba(0,0,0,0.9)); position: absolute; bottom: 0; width: 100%; }
-        .card-meta span { color: var(--gold); font-weight: bold; font-size: 14px; }
+        .card:hover { transform: scale(1.1) translateY(-10px); border-color: var(--gold); z-index: 10; }
+        .card img { width: 100%; height: 280px; object-fit: cover; }
+        .card-info { position: absolute; bottom: 0; width: 100%; padding: 15px; background: linear-gradient(transparent, black); text-align: center; }
+        .card-info span { color: var(--gold); font-weight: 900; font-size: 13px; }
 
-        /* ركن الأطفال المخصص */
-        #kids-page { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #001220; z-index: 2000; display: none; padding: 40px 5%; overflow-y: auto;
+        /* ركن الأطفال - ديزني بلس ستايل */
+        #kids-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #001d3d 0%, #000814 100%);
+            z-index: 2000; display: none; padding: 50px; overflow-y: auto;
         }
-        .kids-title { color: #ffeb3b; font-size: 40px; text-align: center; margin-bottom: 40px; text-shadow: 0 0 15px #ffeb3b; }
+        .kids-title { color: var(--kids); font-size: 50px; text-align: center; margin-bottom: 50px; text-shadow: 0 0 20px var(--kids); font-weight: 900; }
 
-        footer { background: #000; padding: 50px; text-align: center; border-top: 1px solid #1a1a1a; margin-top: 50px; }
+        footer { padding: 60px; background: #000; text-align: center; border-top: 1px solid #111; margin-top: 50px; }
+        .footer-logo { font-size: 40px; font-weight: 900; color: var(--gold); margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="mainHeader">
         <a href="#" class="brand">MOODIE</a>
-        <button class="kids-nav-btn" onclick="toggleKids(true)">🧒 ركن الأطفال</button>
+        <button class="kids-btn" onclick="toggleKids(true)">🧒 عالم الأطفال</button>
     </header>
 
-    <div class="ad-top">
-        <div class="ad-box">Adsterra Header Banner - 728x90</div>
-    </div>
-
-    <section class="main-player-section">
-        <div class="player-container">
-            <div style="position: absolute; top: 10px; left: 10px; color: var(--gold); background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px; font-size: 12px; font-weight: bold;">MOODIE EXCLUSIVE 4K</div>
-            <iframe id="main-iframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+    <section class="hero-section">
+        <div class="ad-space">إعلان علوي - بنر 728x90</div>
+        
+        <div class="player-wrapper">
+            <div class="watermark">MOODIE TV</div>
+            <iframe id="videoPlayer" src="https://www.youtube.com/embed/shW9i6k8cB0?autoplay=0&rel=0&modestbranding=1" allowfullscreen></iframe>
         </div>
-        <div id="current-title" class="video-title">أهلاً بك في MOODIE | ابدأ المشاهدة الآن</div>
+        <h1 id="movieTitle" style="margin-top: 25px; color: var(--gold); font-size: 28px;">اختر فيلمك المفضل.. استمتع بمودك</h1>
     </section>
 
-    <section class="content-section">
-        <div class="section-header">🔥 تريند MOODIE الآن</div>
+    <section class="content-area">
+        <div class="row-title">حصريات MOODIE الأصلية</div>
         <div class="movie-grid">
-            <div class="movie-card" onclick="play('EXeTwQWrcwY', 'The Dark Knight - الحصري')"><img src="https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg"><div class="card-meta"><span>مشاهدة الآن</span></div></div>
-            <div class="movie-card" onclick="play('zSWdZVtXT7E', 'Interstellar - رحلة النجوم')"><img src="https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg"><div class="card-meta"><span>مشاهدة الآن</span></div></div>
-            <div class="movie-card" onclick="play('shW9i6k8cB0', 'Inception - العقل الباطن')"><img src="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg"><div class="card-meta"><span>مشاهدة الآن</span></div></div>
-            <div class="movie-card" onclick="play('8hP9D6kZseM', 'The Batman 2022')"><img src="https://m.media-amazon.com/images/M/MV5BYzg2NjYxZDYtYmZlYi00MzFmLWE0NmQtN2VlNzZlMWVjNzE0XkEyXkFqcGdeQXVyMTA3MDk2NDg2._V1_.jpg"><div class="card-meta"><span>مشاهدة الآن</span></div></div>
-            <div class="movie-card" onclick="play('mqqft22SkVG', 'Dune: Part Two')"><img src="https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg"><div class="card-meta"><span>مشاهدة الآن</span></div></div>
-            <div class="movie-card" onclick="play('hXzcyx9V0xw', 'Joker: Folie à Deux')"><img src="https://m.media-amazon.com/images/M/MV5BMzFjMWNhYzgtYzYwYi00ZWNhLWIyM2UtNTA3YWQ1NDRmMWU5XkEyXkFqcGdeQXVyMTM1NjM2ODg1._V1_.jpg"><div class="card-meta"><span>مشاهدة الآن</span></div></div>
+            <div class="card" onclick="changeMovie('mqqft22SkVG', 'Dune: Part Two - حصري')">
+                <img src="https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg">
+                <div class="card-info"><span>مشاهدة مجانية</span></div>
+            </div>
+            <div class="card" onclick="changeMovie('hXzcyx9V0xw', 'Joker: Folie à Deux')">
+                <img src="https://m.media-amazon.com/images/M/MV5BMzFjMWNhYzgtYzYwYi00ZWNhLWIyM2UtNTA3YWQ1NDRmMWU5XkEyXkFqcGdeQXVyMTM1NjM2ODg1._V1_.jpg">
+                <div class="card-info"><span>الأكثر مشاهدة</span></div>
+            </div>
+            <div class="card" onclick="changeMovie('shW9i6k8cB0', 'Inception - العقل الباطن')">
+                <img src="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg">
+                <div class="card-info"><span>جودة 4K</span></div>
+            </div>
+            <div class="card" onclick="changeMovie('zSWdZVtXT7E', 'Interstellar - بين النجوم')">
+                <img src="https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg">
+                <div class="card-info"><span>MOODIE Choice</span></div>
+            </div>
+            <div class="card" onclick="changeMovie('8hP9D6kZseM', 'The Batman - 2022')">
+                <img src="https://m.media-amazon.com/images/M/MV5BYzg2NjYxZDYtYmZlYi00MzFmLWE0NmQtN2VlNzZlMWVjNzE0XkEyXkFqcGdeQXVyMTA3MDk2NDg2._V1_.jpg">
+                <div class="card-info"><span>كامل ومترجم</span></div>
+            </div>
         </div>
 
-        <div class="ad-box" style="margin: 40px auto;">Adsterra Native Ads Space</div>
-
-        <div class="section-header" style="margin-top: 50px;">🎬 مسلسلات مختارة</div>
-        <div class="movie-grid">
-            <div class="movie-card" onclick="play('KPLWWIOCOOQ', 'Breaking Bad')"><img src="https://m.media-amazon.com/images/M/MV5BMjhiMzgxZTctNDc1Ni00OTIxLTgwMTUtMTY4NWJhY2IwMzE1XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg"><div class="card-meta"><span>كامل الحلقات</span></div></div>
-            <div class="movie-card" onclick="play('rlR4PJn8b8I', 'Sherlock Holmes')"><img src="https://m.media-amazon.com/images/M/MV5BMWY3NTljMjEtYzRiMi00NWM2LTkzNjItZTVmZjE0MTdjMjgzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg"><div class="card-meta"><span>كامل الحلقات</span></div></div>
-        </div>
+        <div class="ad-space" style="margin-top: 50px;">إعلان منتصف الصفحة - Native Ads</div>
     </section>
 
-    <div id="kids-page">
+    <div id="kids-overlay">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div class="kids-title">🍭 عالم مودي الصغير</div>
-            <button onclick="toggleKids(false)" style="background: red; color: white; border: none; padding: 10px 30px; border-radius: 50px; cursor: pointer; font-weight: bold;">خروج</button>
+            <div class="kids-title">✨ مودي كيدز</div>
+            <button onclick="toggleKids(false)" style="background: red; color: white; padding: 10px 30px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer;">العودة للسينما</button>
         </div>
-        <div class="movie-grid">
-            <div class="movie-card" style="border-color: #ffeb3b;" onclick="play('v-PjgYDrg70', 'Toy Story'); toggleKids(false)"><img src="https://m.media-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_.jpg"></div>
-            <div class="movie-card" style="border-color: #ff4081;" onclick="play('v-PjgYDrg70', 'Finding Nemo'); toggleKids(false)"><img src="https://m.media-amazon.com/images/M/MV5BMTY1OTIwODgzMV5BMl5BanBnXkFtZTgwMzUyMDgzNzE@._V1_.jpg"></div>
-            <div class="movie-card" style="border-color: #00e676;" onclick="play('v-PjgYDrg70', 'The Lion King'); toggleKids(false)"><img src="https://m.media-amazon.com/images/M/MV5BMjIwMjE1Nzc4NV5BMl5BanBnXkFtZTgwNDg4OTA1NzM@._V1_.jpg"></div>
+        <div class="movie-grid" style="margin-top: 50px;">
+            <div class="card" onclick="changeMovie('v-PjgYDrg70', 'Toy Story'); toggleKids(false)" style="border-color: yellow;">
+                <img src="https://m.media-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_.jpg">
+            </div>
+            <div class="card" onclick="changeMovie('v-PjgYDrg70', 'Finding Nemo'); toggleKids(false)" style="border-color: lime;">
+                <img src="https://m.media-amazon.com/images/M/MV5BMTY1OTIwODgzMV5BMl5BanBnXkFtZTgwMzUyMDgzNzE@._V1_.jpg">
+            </div>
         </div>
     </div>
 
     <footer>
-        <div class="brand" style="font-size: 40px;">MOODIE</div>
-        <p>المنصة رقم #1 في الوطن العربي للمشاهدة المباشرة</p>
-        <p style="color: #444; font-size: 12px;">© 2026 MOODIE CINEMA | Developed by Anas</p>
-        <div class="ad-box" style="height: 50px; border: none;">Adsterra Social Bar Placeholder</div>
+        <div class="footer-logo">MOODIE</div>
+        <p>المنصة الرائدة لمشاهدة الأفلام والمسلسلات مجاناً</p>
+        <div style="margin-top: 20px; font-size: 12px; color: #444;">© 2026 MOODIE CINEMA | جميع الحقوق محفوظة لـ أنس</div>
+        <div class="ad-space" style="height: 50px; border: none; margin-top: 20px;">إعلان فوتر - Social Bar</div>
     </footer>
 
     <script>
-        function play(id, title) {
-            document.getElementById('main-iframe').src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0&modestbranding=1";
-            document.getElementById('current-title').innerText = title;
-            window.scrollTo({top: 80, behavior: 'smooth'});
+        // دالة تغيير الفيلم بلمسة واحدة
+        function changeMovie(id, title) {
+            const player = document.getElementById('videoPlayer');
+            const titleElem = document.getElementById('movieTitle');
+            player.src = `https://www.youtube.com/embed/${id}?autoplay=1&modestbranding=1&rel=0`;
+            titleElem.innerText = title;
+            window.scrollTo({ top: 80, behavior: 'smooth' });
+            console.log("Adsterra Trigger: Popunder Call");
         }
 
+        // دالة فتح/إغلاق ركن الأطفال
         function toggleKids(show) {
-            document.getElementById('kids-page').style.display = show ? 'block' : 'none';
+            document.getElementById('kids-overlay').style.display = show ? 'block' : 'none';
             document.body.style.overflow = show ? 'hidden' : 'auto';
         }
+
+        // تأثير الهيدر عند السكرول
+        window.onscroll = function() {
+            const header = document.getElementById('mainHeader');
+            if (window.pageYOffset > 50) header.style.background = "#000";
+            else header.style.background = "linear-gradient(to bottom, rgba(0,0,0,0.9), transparent)";
+        };
     </script>
 </body>
 </html>
