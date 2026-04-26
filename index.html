@@ -3,139 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOODIE | المنصة العالمية للسينما</title>
+    <title>MOODIE | عالم السينما الحقيقي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #d4af37; --bg: #020202; --card-bg: #111; --kids: #00d4ff; }
+        :root { --gold: #d4af37; --black: #050505; --card: #121212; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background: var(--bg); color: white; overflow-x: hidden; }
+        body { background: var(--black); color: white; overflow-x: hidden; }
 
-        /* الهيدر الزجاجي */
+        /* الهيدر الملكي */
         header { 
-            position: fixed; top: 0; width: 100%; height: 70px; 
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%; z-index: 2000; border-bottom: 1px solid rgba(212,175,55,0.2);
+            background: rgba(0,0,0,0.9); height: 70px; display: flex; 
+            justify-content: space-between; align-items: center; padding: 0 5%;
+            position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--gold);
         }
-        .logo { font-size: 30px; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px var(--gold); cursor: pointer; }
-        .kids-toggle { background: var(--kids); color: black; padding: 8px 20px; border-radius: 50px; font-weight: 900; cursor: pointer; border: none; }
+        .logo { font-size: 28px; font-weight: 900; color: var(--gold); letter-spacing: 2px; }
 
-        /* منطقة البحث الرهيبة */
+        /* منطقة البحث */
         .hero { 
-            height: 450px; background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--bg)), url('https://w0.peakpx.com/wallpaper/403/551/HD-wallpaper-interstellar-movie-poster-black-hole.jpg');
-            background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            padding: 120px 5% 40px; text-align: center;
+            background: linear-gradient(to bottom, #111, var(--black));
         }
-        .search-bar { width: 90%; max-width: 600px; display: flex; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 50px; padding: 5px; border: 1px solid var(--gold); }
-        .search-bar input { flex: 1; background: transparent; border: none; padding: 15px 20px; color: white; font-size: 18px; outline: none; }
-        .search-bar button { background: var(--gold); border: none; padding: 0 25px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .search-container { 
+            max-width: 600px; margin: 20px auto; display: flex; 
+            background: #1a1a1a; border-radius: 50px; overflow: hidden; border: 1px solid var(--gold);
+        }
+        .search-container input { 
+            flex: 1; background: transparent; border: none; padding: 15px 20px; 
+            color: white; font-size: 16px; outline: none;
+        }
+        .search-container button { background: var(--gold); border: none; padding: 0 25px; cursor: pointer; color: black; font-weight: bold; }
 
-        /* المشغل البريميوم */
-        .player-container { padding: 40px 5%; display: none; } /* يظهر عند اختيار فيلم */
-        .video-box { width: 100%; max-width: 1100px; margin: 0 auto; background: #000; border-radius: 15px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212,175,55,0.3); }
+        /* المشغل */
+        #player-section { padding: 20px 5%; display: none; }
+        .video-wrapper { 
+            max-width: 1000px; margin: 0 auto; background: #000; 
+            border-radius: 15px; overflow: hidden; border: 2px solid #333; box-shadow: 0 0 30px rgba(212,175,55,0.2);
+        }
         iframe { width: 100%; aspect-ratio: 16/9; border: none; }
 
-        /* شبكة الأفلام الذكية */
-        .section-title { padding: 40px 5% 10px; font-size: 24px; font-weight: 900; color: var(--gold); display: flex; align-items: center; gap: 10px; }
-        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 20px 5%; }
-        .movie-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.4s; position: relative; border: 1px solid #222; }
-        .movie-card:hover { transform: scale(1.1); border-color: var(--gold); z-index: 10; }
-        .movie-card img { width: 100%; height: 240px; object-fit: cover; }
-        .movie-card .info { padding: 10px; font-size: 12px; font-weight: bold; text-align: center; }
+        /* شبكة الأفلام */
+        .section-title { padding: 30px 5% 10px; font-size: 22px; font-weight: bold; color: var(--gold); border-right: 4px solid var(--gold); margin-right: 5%; }
+        .movie-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+            gap: 20px; padding: 20px 5%; 
+        }
+        .movie-card { 
+            background: var(--card); border-radius: 10px; overflow: hidden; 
+            cursor: pointer; transition: 0.3s; border: 1px solid #222;
+        }
+        .movie-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .movie-card img { width: 100%; height: 225px; object-fit: cover; }
+        .movie-card h3 { padding: 10px; font-size: 13px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* ركن الأطفال */
-        #kids-area { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000b18; z-index: 3000; display: none; padding: 40px; overflow-y: auto; }
-        
-        footer { padding: 50px; text-align: center; border-top: 1px solid #111; margin-top: 50px; color: #444; }
+        footer { padding: 40px; text-align: center; color: #444; font-size: 14px; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" onclick="location.reload()">MOODIE</div>
-        <button class="kids-toggle" onclick="toggleKids(true)">🧒 عالم الأطفال</button>
+        <div class="logo">MOODIE</div>
+        <div style="color: #666; font-size: 12px;">Premium Cinema Experience</div>
     </header>
 
     <div class="hero">
-        <h1 style="font-size: 40px; margin-bottom: 20px;">شاهد أي فيلم في العالم.. فوراً</h1>
-        <div class="search-bar">
-            <input type="text" id="query" placeholder="اكتب اسم الفيلم بالعربي أو الإنجليزي...">
+        <h1>إيه فيلمك المفضل النهاردة؟</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="اكتب اسم الفيلم بالعربي أو الإنجليزي...">
             <button onclick="search()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 
-    <div id="playerSection" class="player-container">
-        <div class="video-box">
+    <div id="player-section">
+        <div class="video-wrapper">
             <iframe id="mainPlayer" src="" allowfullscreen></iframe>
         </div>
-        <h2 id="movieTitle" style="text-align: center; margin-top: 20px; color: var(--gold);"></h2>
+        <h2 id="currentTitle" style="text-align: center; margin-top: 15px; color: var(--gold);"></h2>
     </div>
 
-    <div class="section-title">🔥 الأكثر طلباً الآن</div>
-    <div class="movie-grid" id="trending"></div>
+    <div class="section-title">🔥 أفلام عالمية مختارة لك</div>
+    <div class="movie-grid" id="trending-grid"></div>
 
-    <div class="section-title">🇸🇦 سينما عربية</div>
-    <div class="movie-grid" id="arabic"></div>
-
-    <div id="kids-area">
-        <div style="display: flex; justify-content: space-between;">
-            <h1 style="color: var(--kids);">🍭 مودي كيدز</h1>
-            <button onclick="toggleKids(false)" style="background:red; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;">خروج</button>
-        </div>
-        <div class="movie-grid" id="kids-movies" style="margin-top: 40px;"></div>
-    </div>
+    <div class="section-title">🇸🇦 حصريات عربية</div>
+    <div class="movie-grid" id="arabic-grid"></div>
 
     <footer>
-        <p>© 2026 MOODIE | All Movies Hosted on External Servers</p>
+        <p>© 2026 MOODIE CINEMA | المنصة الأقوى لمشاهدة الأفلام</p>
     </footer>
 
     <script>
         const API_KEY = '8d398e30ad929d674454995574366914';
 
-        // دالة لجلب الأفلام
-        async function getMovies(url, elementId) {
-            const res = await fetch(url);
-            const data = await res.json();
-            const grid = document.getElementById(elementId);
-            grid.innerHTML = '';
-            data.results.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.onclick = () => play(m.id, m.title || m.name, m.media_type || (elementId==='trending'?'movie':'movie'));
-                card.innerHTML = `
-                    <img src="https://image.tmdb.org/t/p/w500${m.poster_path}">
-                    <div class="info">${m.title || m.name}</div>
-                `;
-                grid.appendChild(card);
-            });
+        async function loadMovies(url, containerId) {
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                
+                data.results.forEach(movie => {
+                    if(!movie.poster_path) return;
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.onclick = () => playMovie(movie.id, movie.title || movie.name);
+                    card.innerHTML = `
+                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
+                        <h3>${movie.title || movie.name}</h3>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) { console.error("خطأ في التحميل"); }
         }
 
-        // دالة التشغيل (سيرفر خارجي عملاق)
-        function play(id, title, type) {
-            const section = document.getElementById('playerSection');
+        function playMovie(id, title) {
+            const section = document.getElementById('player-section');
             const player = document.getElementById('mainPlayer');
             section.style.display = 'block';
-            // السيرفر ده هو اللي فيه كل الأفلام
-            let embedUrl = type === 'tv' ? `https://vidsrc.to/embed/tv/${id}` : `https://vidsrc.to/embed/movie/${id}`;
-            player.src = embedUrl;
-            document.getElementById('movieTitle').innerText = title;
-            window.scrollTo({top: 500, behavior: 'smooth'});
+            // استخدام سيرفر Vidsrc الموثوق للترجمة والجودة
+            player.src = `https://vidsrc.xyz/embed/movie/${id}`;
+            document.getElementById('currentTitle').innerText = title;
+            section.scrollIntoView({ behavior: 'smooth' });
         }
 
-        async function search() {
-            const q = document.getElementById('query').value;
-            if(q) getMovies(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${q}&language=ar`, 'trending');
+        function search() {
+            const q = document.getElementById('searchInput').value;
+            if(q) loadMovies(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${q}&language=ar`, 'trending-grid');
         }
 
-        function toggleKids(show) {
-            document.getElementById('kids-area').style.display = show ? 'block' : 'none';
-        }
-
-        // تشغيل الموقع عند التحميل
         window.onload = () => {
-            getMovies(`https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=ar`, 'trending');
-            getMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=ar`, 'arabic');
-            getMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16`, 'kids-movies');
+            loadMovies(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&language=ar`, 'trending-grid');
+            loadMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=ar&language=ar`, 'arabic-grid');
         };
     </script>
 </body>
