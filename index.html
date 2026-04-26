@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MOODIE | منصة الأفلام الأولى - Netflix العرب</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>MOODIE | Netflix العرب - أفلام ومسلسلات حصرية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -14,523 +14,568 @@
         }
 
         body {
-            background: #0a0a0a;
+            background-color: #141414;
             font-family: 'Cairo', sans-serif;
             color: #fff;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* تخصيص شريط التمرير */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #141414; }
-        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+        /* ========== NETFLIX SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141414;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
 
-        /* HEADER احترافي مثل نتفليكس */
-        .navbar {
+        /* ========== HEADER NETFLIX STYLE ========== */
+        .netflix-header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.7) 100%);
-            backdrop-filter: blur(12px);
             z-index: 1000;
-            padding: 0.8rem 4%;
+            background: linear-gradient(180deg, #000000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+            padding: 1rem 4%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(212,175,55,0.15);
+        }
+
+        .netflix-header.scrolled {
+            background: #0a0a0a;
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .logo {
             font-size: 2rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #d4af37 0%, #f9e076 100%);
+            background: linear-gradient(135deg, #d4af37, #ffec80);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             letter-spacing: -1px;
-            text-shadow: 0 0 15px rgba(212,175,55,0.3);
         }
 
-        .nav-links {
+        .nav-links-header {
             display: flex;
-            gap: 2rem;
-            align-items: center;
+            gap: 1.5rem;
         }
 
-        .nav-links a {
+        .nav-links-header a {
             color: #e5e5e5;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: 0.2s;
         }
 
-        .nav-links a:hover, .nav-links a.active { color: #d4af37; }
-
-        .kids-badge {
-            background: #00d4ff;
-            color: #000;
-            padding: 0.4rem 1.2rem;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-            border: none;
-        }
-
-        .kids-badge:hover { transform: scale(1.02); background: #00e5ff; }
-
-        /* HERO SECTION مع مشغل سينمائي */
-        .hero {
-            padding-top: 85px;
-            position: relative;
-        }
-
-        .cinema-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .player-card {
-            background: #000;
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(212,175,55,0.3);
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.8);
-            transition: 0.3s;
-        }
-
-        .player-card:hover { border-color: #d4af37; box-shadow: 0 0 28px rgba(212,175,55,0.2); }
-
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 */
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .watermark-lux {
-            position: absolute;
-            bottom: 20px;
-            right: 25px;
-            color: rgba(212,175,55,0.6);
-            font-weight: 900;
-            font-size: 1rem;
-            z-index: 2;
-            background: rgba(0,0,0,0.4);
-            padding: 4px 12px;
-            border-radius: 40px;
-            backdrop-filter: blur(4px);
-            pointer-events: none;
-        }
-
-        .movie-headline {
-            text-align: center;
-            margin: 28px 0 20px;
-        }
-
-        .movie-headline h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #d4af37);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-        }
-
-        /* إعلانات أنيقة */
-        .ad-slot {
-            background: rgba(20,20,20,0.8);
-            border-radius: 18px;
-            margin: 25px auto;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: #aaa;
-            border: 1px solid #2a2a2a;
-            backdrop-filter: blur(5px);
-            font-weight: 500;
-        }
-
-        .ad-top { max-width: 970px; height: 90px; }
-        .ad-mid { max-width: 728px; height: 90px; }
-        .ad-footer { max-width: 100%; height: 70px; margin-top: 15px; }
-
-        /* CATEGORY ROWS - Netflix style */
-        .categories {
-            padding: 40px 4%;
-        }
-
-        .category-row {
-            margin-bottom: 55px;
-        }
-
-        .row-header {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        .row-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            border-right: 5px solid #d4af37;
-            padding-right: 15px;
-        }
-
-        .movie-scroll {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 22px;
-            transition: all 0.2s;
-        }
-
-        /* البطاقات السينمائية */
-        .movie-card {
-            background: #141414;
-            border-radius: 14px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.3s;
-            position: relative;
-            border: 1px solid #2c2c2c;
-        }
-
-        .movie-card:hover {
-            transform: scale(1.05) translateY(-8px);
-            border-color: #d4af37;
-            box-shadow: 0 20px 30px -10px black;
-        }
-
-        .movie-card img {
-            width: 100%;
-            aspect-ratio: 2 / 3;
-            object-fit: cover;
-            display: block;
-        }
-
-        .card-badge {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(0deg, #000000dd, transparent);
-            padding: 12px 8px;
-            text-align: center;
-            font-weight: 800;
-            font-size: 0.8rem;
+        .nav-links-header a:hover, .nav-links-header a.active {
             color: #d4af37;
         }
 
-        .rating {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: #ffd966;
+        .kids-header-btn {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
         }
 
-        /* KIDS MODAL مميز */
-        .kids-world {
+        .kids-header-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ========== HERO SLIDER (NETFLIX STYLE) ========== */
+        .hero-slider {
+            margin-top: 0;
+            position: relative;
+            height: 85vh;
+            min-height: 550px;
+            background-size: cover;
+            background-position: top 30% center;
+            transition: 0.5s ease;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #141414 0%, rgba(20,20,20,0.4) 50%, transparent 100%);
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 20%;
+            right: 5%;
+            max-width: 500px;
+            text-align: right;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 8px black;
+            margin-bottom: 1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
+        }
+
+        .btn-play {
+            background: white;
+            color: black;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 8px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-info {
+            background: rgba(109, 109, 110, 0.7);
+            color: white;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 8px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* ========== PLAYER MODAL (NETFLIX PLAYER) ========== */
+        .movie-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at top, #0a2f4d, #030d17);
+            background: rgba(0,0,0,0.95);
             z-index: 2000;
-            overflow-y: auto;
             display: none;
-            padding: 2rem;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(12px);
         }
 
-        .kids-header {
+        .modal-container {
+            width: 90%;
+            max-width: 1100px;
+            background: #0f0f0f;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #d4af37;
+        }
+
+        .modal-video {
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        .modal-video iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .modal-info {
+            padding: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
 
-        .kids-title-glow {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: #00d4ff;
-            text-shadow: 0 0 15px #00d4ff;
-        }
-
-        .close-kids {
-            background: #ff4d4d;
+        .close-modal {
+            background: #d4af37;
+            color: black;
             border: none;
-            padding: 10px 28px;
-            border-radius: 50px;
-            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 30px;
             cursor: pointer;
-            color: white;
-            font-size: 1rem;
+            font-weight: bold;
         }
 
-        /* تذييل فاخر */
-        footer {
-            background: #030303;
-            padding: 50px 5% 30px;
-            border-top: 1px solid #1f1f1f;
+        /* ========== NETFLIX ROWS ========== */
+        .netflix-rows {
+            padding: 2rem 4% 4rem;
+        }
+
+        .row {
+            margin-bottom: 3rem;
+        }
+
+        .row-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            padding-right: 1rem;
+        }
+
+        .row-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-right: 4px solid #d4af37;
+            padding-right: 12px;
+        }
+
+        .movie-slider {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0 20px;
+            scrollbar-width: thin;
+        }
+
+        .movie-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .movie-item {
+            min-width: 180px;
+            width: 180px;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.25s;
+            cursor: pointer;
+            position: relative;
+            background: #1a1a1a;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.08);
+            z-index: 5;
+        }
+
+        .movie-item img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+
+        .movie-title-slide {
             text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(0,0,0,0.7);
         }
 
-        .footer-gold {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: #d4af37;
-            margin-bottom: 12px;
+        .badge-year {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #d4af37;
+            color: black;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
-        @media (max-width: 750px) {
-            .movie-scroll { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-            .row-title { font-size: 1.3rem; }
-            .kids-title-glow { font-size: 2rem; }
+        /* KIDS PAGE */
+        .kids-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, #0a2b3b, #010101);
+            z-index: 1500;
+            overflow-y: auto;
+            display: none;
+            padding: 80px 5% 50px;
+        }
+
+        .kids-header-page {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .footer {
+            background: #000000;
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.8rem; }
+            .movie-item { min-width: 130px; width: 130px; }
+            .hero-slider { height: 60vh; }
         }
     </style>
 </head>
 <body>
 
-    <div class="navbar" id="mainNav">
-        <div class="logo"><i class="fas fa-film" style="color:#d4af37; margin-left: 8px;"></i> MOODIE</div>
-        <div class="nav-links">
-            <a href="#" class="active">الرئيسية</a>
-            <a href="#">أفلام</a>
-            <a href="#">مسلسلات</a>
-            <button class="kids-badge" onclick="openKidsMode()"><i class="fas fa-child"></i> أطفال</button>
+    <!-- Netflix Header -->
+    <div class="netflix-header" id="netflixHeader">
+        <div class="logo-area">
+            <div class="logo"><i class="fas fa-tv" style="margin-left: 8px;"></i> MOODIE</div>
+            <div class="nav-links-header">
+                <a href="#" class="active">الرئيسية</a>
+                <a href="#">أفلام</a>
+                <a href="#">مسلسلات</a>
+                <a href="#">قائمتي</a>
+            </div>
+        </div>
+        <button class="kids-header-btn" onclick="openKidsPortal()"><i class="fas fa-baby-carriage"></i> عالم الأطفال</button>
+    </div>
+
+    <!-- Hero Slider Section -->
+    <div class="hero-slider" id="heroSlider" style="background-image: url('https://image.tmdb.org/t/p/original/8bRIfxP1zE8FkfG7E83wIhcKfSX.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-title" id="heroTitle">Dune: الجزء الثاني</div>
+            <p id="heroDesc">ملحمة الخيال العلمي - أعظم فيلم لعام 2024</p>
+            <div class="hero-buttons">
+                <button class="btn-play" onclick="openMovieWithId('mqqft22SkVG', 'Dune: الجزء الثاني')"><i class="fas fa-play"></i> تشغيل</button>
+                <button class="btn-info"><i class="fas fa-info-circle"></i> التفاصيل</button>
+            </div>
         </div>
     </div>
 
-    <main class="hero">
-        <div class="cinema-container">
-            <!-- إعلان علوي Adsterra Ready -->
-            <div class="ad-slot ad-top">
-                <i class="fas fa-ad"></i> إعلان Banner - مساحة إعلانية (Adsterra)
+    <!-- Netflix Style Rows -->
+    <div class="netflix-rows">
+        <!-- Row 1: أحدث الإصدارات MOODIE -->
+        <div class="row">
+            <div class="row-header">
+                <h2>🔥 أحدث إصدارات MOODIE الأصلية</h2>
+                <span style="color:#aaa; font-size:0.8rem;">الكل <i class="fas fa-chevron-left"></i></span>
             </div>
-
-            <div class="player-card">
-                <div class="video-wrapper">
-                    <iframe id="masterPlayer" src="https://www.youtube.com/embed/shW9i6k8cB0?autoplay=0&rel=0&modestbranding=1&showinfo=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <div class="watermark-lux">MOODIE ORIGINAL</div>
-                </div>
-            </div>
-            <div class="movie-headline">
-                <h1 id="dynamicTitle">🎬 inception | العبقرية المطلقة</h1>
-            </div>
+            <div class="movie-slider" id="rowOriginal"></div>
         </div>
 
-        <!-- أقسام الأفلام على طريقة Netflix -->
-        <div class="categories">
-            <!-- قسم الأفلام الحصرية -->
-            <div class="category-row">
-                <div class="row-header">
-                    <div class="row-title">🔥 حصريات MOODIE الأصلية</div>
-                    <span style="color:#aaa; font-size:0.8rem;">الأكثر مشاهدة</span>
-                </div>
-                <div class="movie-scroll" id="premiumMovies">
-                    <!-- سيتم تعبئتها بالجافاسكريبت مع صور عالية الجودة -->
-                </div>
-            </div>
-
-            <div class="ad-slot ad-mid" style="margin: 20px auto;">
-                <i class="fas fa-chart-line"></i> إعلان منتصف الصفحة - باينر تفاعلي (Adsterra)
-            </div>
-
-            <div class="category-row">
-                <div class="row-header">
-                    <div class="row-title">🏆 الأكثر طلباً هذا الأسبوع</div>
-                    <span style="color:#aaa;">Top 5</span>
-                </div>
-                <div class="movie-scroll" id="trendingMovies"></div>
-            </div>
+        <!-- Row 2: الأكثر مشاهدة -->
+        <div class="row">
+            <div class="row-header"><h2>🏆 الأكثر مشاهدة في العالم العربي</h2></div>
+            <div class="movie-slider" id="rowTrending"></div>
         </div>
-    </main>
 
-    <!-- ركن الأطفال الفاخر -->
-    <div id="kidsSection" class="kids-world">
-        <div class="kids-header">
-            <div class="kids-title-glow"><i class="fas fa-baby-carriage"></i> مودي كيدز - سحر السينما</div>
-            <button class="close-kids" onclick="closeKidsMode()">✖ العودة للصالات</button>
-        </div>
-        <div style="margin-top: 50px;">
-            <div class="movie-scroll" id="kidsMoviesGrid"></div>
+        <!-- Row 3: كلاسيكيات السينما -->
+        <div class="row">
+            <div class="row-header"><h2>⭐ كلاسيكيات لا تموت</h2></div>
+            <div class="movie-slider" id="rowClassics"></div>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-gold">MOODIE <i class="fas fa-crown"></i></div>
-        <p style="margin-bottom: 12px;">منصة المشاهدة اللانهائية | أفلام ومسلسلات بجودة سينمائية</p>
-        <p style="font-size: 0.75rem; color: #555;">© 2026 MOODIE - تصميم احترافي بنمط Netflix | جميع الحقوق محفوظة لـ أنس</p>
-        <div class="ad-slot ad-footer">
-            <i class="fas fa-share-alt"></i> تابعونا على社交 - Footer AdSpace
+    <!-- Video Modal (Netflix like) -->
+    <div id="movieModal" class="movie-modal">
+        <div class="modal-container">
+            <div class="modal-video">
+                <iframe id="modalIframe" src="" allow="autoplay; fullscreen"></iframe>
+            </div>
+            <div class="modal-info">
+                <h3 id="modalTitle"></h3>
+                <button class="close-modal" onclick="closeMovieModal()">إغلاق ✖</button>
+            </div>
         </div>
-    </footer>
+    </div>
+
+    <!-- Kids Portal -->
+    <div id="kidsPortal" class="kids-page">
+        <div class="kids-header-page">
+            <h1 style="color:#00d4ff; font-size:2.5rem;"><i class="fas fa-star"></i> مودي كيدز - Disney+ Style</h1>
+            <button onclick="closeKidsPortal()" style="background:#ff4d4d; padding:10px 25px; border:none; border-radius:40px; font-weight:bold; cursor:pointer;">✖ خروج</button>
+        </div>
+        <div class="movie-slider" id="kidsSlider" style="overflow-x: auto;"></div>
+        <div style="margin-top: 2rem;"><div class="movie-slider" id="kidsSlider2"></div></div>
+    </div>
+
+    <div class="footer">
+        <div style="font-size: 1.8rem; font-weight: 900; color:#d4af37;">MOODIE</div>
+        <p style="margin: 15px 0;">المنصة الأولى لمحاكاة Netflix في الشرق الأوسط | جميع الأفلام حصرية</p>
+        <p style="color:#555;">© 2026 MOODIE Entertainment. حقوق النشر محفوظة لأنس</p>
+    </div>
 
     <script>
-        // === قاعدة بيانات الأفلام (صور حقيقية + مقاطع يوتيوب) ===
-        const MOVIE_LIBRARY = [
-            { id: "mqqft22SkVG", title: "Dune: الجزء الثاني | ملحمة", img: "https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dnbOE6PYTDQcKZ9.jpg", cat: "premium" },
-            { id: "hXzcyx9V0xw", title: "Joker: جنون العبقري", img: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg", cat: "premium" },
-            { id: "shW9i6k8cB0", title: "Inception: الأحلام", img: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg", cat: "premium" },
-            { id: "zSWdZVtXT7E", title: "Interstellar: الفضاء", img: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", cat: "trending" },
-            { id: "8hP9D6kZseM", title: "The Batman: فارس الظلام", img: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg", cat: "trending" },
-            { id: "6ZfuNTqbHE8", title: "John Wick 4", img: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg", cat: "trending" },
-            { id: "QwievZ1Tx-8", title: "Top Gun: Maverick", img: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg", cat: "premium" },
-            { id: "d9MyW72ELq0", title: "Spider-Man: Across", img: "https://image.tmdb.org/t/p/w500/rIlvOBd0oF6kQjXZqzVJw1taFjW.jpg", cat: "trending" }
+        // قاعدة بيانات ضخمة تشبه Netflix (أفلام حقيقية + صور + يوتيوب IDs)
+        const MOVIES_DB = [
+            // حصريات
+            { id: "mqqft22SkVG", title: "Dune: Part Two", year: "2024", img: "https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dnbOE6PYTDQcKZ9.jpg", cat: "original", desc: "ملحمة الخيال العلمي" },
+            { id: "hXzcyx9V0xw", title: "Joker: Folie à Deux", year: "2024", img: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg", cat: "original", desc: "العبقرية المجنونة" },
+            { id: "shW9i6k8cB0", title: "Inception", year: "2010", img: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg", cat: "classic", desc: "أحلام داخل أحلام" },
+            { id: "zSWdZVtXT7E", title: "Interstellar", year: "2014", img: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", cat: "trending", desc: "رحلة عبر الزمن" },
+            { id: "8hP9D6kZseM", title: "The Batman", year: "2022", img: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg", cat: "trending", desc: "فارس الظلام" },
+            { id: "6ZfuNTqbHE8", title: "John Wick 4", year: "2023", img: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg", cat: "original", desc: "أكشن لا يصدق" },
+            { id: "3JNLwlcPpTY", title: "Frozen 2", year: "2019", img: "https://image.tmdb.org/t/p/w500/mINJaa34MtknCYl5AjtM1IskCuW.jpg", cat: "kids", desc: "مغامرة الجليد" },
+            { id: "v-PjgYDrg70", title: "Toy Story 4", year: "2019", img: "https://image.tmdb.org/t/p/w500/w9kR8qbmQ01HwnvK4alvnQ2ca0L.jpg", cat: "kids", desc: "أصدقاء اللعب" },
+            { id: "QwievZ1Tx-8", title: "Top Gun: Maverick", year: "2022", img: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg", cat: "trending", desc: "الطيران الأسطوري" },
+            { id: "d9MyW72ELq0", title: "Spider-Man: Across The Spider-Verse", year: "2023", img: "https://image.tmdb.org/t/p/w500/rIlvOBd0oF6kQjXZqzVJw1taFjW.jpg", cat: "original", desc: "متعدد الأكوان" },
+            { id: "eMlVOB7M9bw", title: "The Lion King", year: "2019", img: "https://image.tmdb.org/t/p/w500/dzbtM5QySEKO2dLJL0hCV15zDzr.jpg", cat: "classic", desc: "الأسطورة يعود" },
+            { id: "4wJm8B44T-U", title: "Lightyear", year: "2022", img: "https://image.tmdb.org/t/p/w500/43kZlRwDMfH6CQvRSNrPQn8gWQk.jpg", cat: "kids", desc: "قصة باز الضوئي" }
         ];
 
-        // محتوى ركن الأطفال
-        const KIDS_MOVIES = [
-            { id: "v-PjgYDrg70", title: "Toy Story 4", img: "https://lumiere-a.akamaihd.net/v1/images/au_toystory4_toystory4_18432_d92b5476.jpeg?region=0,0,540,810" },
-            { id: "3JNLwlcPpTY", title: "فروزن 2", img: "https://lumiere-a.akamaihd.net/v1/images/au_frozen2_22197_2fa76b96.jpeg" },
-            { id: "eMlVOB7M9bw", title: "الأسد الملك", img: "https://image.tmdb.org/t/p/w500/dzbtM5QySEKO2dLJL0hCV15zDzr.jpg" },
-            { id: "4wJm8B44T-U", title: "مغامرات بيكسار", img: "https://image.tmdb.org/t/p/w500/3iYFBLBDzIA3fBecbmZN3BVUI4J.jpg" }
-        ];
-
-        // دالة تغيير الفيلم + تأثيرات سينمائية
-        function changeMovie(videoId, movieTitle, optionalKids = false) {
-            const player = document.getElementById('masterPlayer');
-            if(!player) return;
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&controls=1`;
-            const titleEl = document.getElementById('dynamicTitle');
-            titleEl.innerHTML = `🎬 ${movieTitle} | الآن يعرض`;
-            // تمرير سلس للمشغل
-            window.scrollTo({ top: 85, behavior: 'smooth' });
-            // تسجيل تفعيل الإعلان (Adsterra ready)
-            console.log(`[Adsterra Event] تشغيل فيلم: ${movieTitle} - يمكن ربط popunder`);
-            // إذا تم الضغط من قسم الأطفال يمكن إغلاق الوضع الاختياري
-            if(optionalKids) closeKidsMode();
-        }
-
-        // إنشاء بطاقات شبكة نتفليكس
-        function renderMovies() {
-            const premiumContainer = document.getElementById('premiumMovies');
-            const trendingContainer = document.getElementById('trendingMovies');
-            
-            // فلتر premium
-            const premiumFilms = MOVIE_LIBRARY.filter(m => m.cat === 'premium');
-            const trendingFilms = MOVIE_LIBRARY.filter(m => m.cat === 'trending');
-            
-            premiumContainer.innerHTML = '';
-            trendingContainer.innerHTML = '';
-            
-            premiumFilms.forEach(movie => {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.setAttribute('data-id', movie.id);
-                card.innerHTML = `
-                    <img src="${movie.img}" alt="${movie.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=MOODIE'">
-                    <div class="rating"><i class="fas fa-star" style="color:#d4af37;"></i> IMDB 8.5</div>
-                    <div class="card-badge">${movie.title}</div>
-                `;
-                card.addEventListener('click', () => changeMovie(movie.id, movie.title, false));
-                premiumContainer.appendChild(card);
-            });
-            
-            trendingFilms.forEach(movie => {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.innerHTML = `
-                    <img src="${movie.img}" alt="${movie.title}" loading="lazy">
-                    <div class="rating"><i class="fas fa-fire" style="color:orange;"></i> مشهور</div>
-                    <div class="card-badge">${movie.title}</div>
-                `;
-                card.addEventListener('click', () => changeMovie(movie.id, movie.title, false));
-                trendingContainer.appendChild(card);
-            });
-        }
-        
-        // عرض ركن الأطفال
-        function renderKidsZone() {
-            const kidsGrid = document.getElementById('kidsMoviesGrid');
-            kidsGrid.innerHTML = '';
-            KIDS_MOVIES.forEach(kid => {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.style.border = "2px solid #00d4ff";
-                card.innerHTML = `
-                    <img src="${kid.img}" alt="${kid.title}" style="aspect-ratio:2/3; object-fit:cover;" onerror="this.src='https://via.placeholder.com/300x450?text=Kids+Fun'">
-                    <div class="card-badge" style="color:#00d4ff;">🌟 ${kid.title}</div>
-                `;
-                card.addEventListener('click', () => {
-                    changeMovie(kid.id, `${kid.title} - ركن الأطفال`, true);
-                    closeKidsMode(); 
-                });
-                kidsGrid.appendChild(card);
-            });
-        }
-        
-        function openKidsMode() {
-            const kidsDiv = document.getElementById('kidsSection');
-            kidsDiv.style.display = 'block';
+        // افتح مشغل Netflix Modal
+        function openMovieWithId(videoId, movieTitle) {
+            const modal = document.getElementById('movieModal');
+            const iframe = document.getElementById('modalIframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`;
+            document.getElementById('modalTitle').innerText = movieTitle;
+            modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            renderKidsZone();
         }
-        
-        function closeKidsMode() {
-            document.getElementById('kidsSection').style.display = 'none';
+
+        function closeMovieModal() {
+            const modal = document.getElementById('movieModal');
+            const iframe = document.getElementById('modalIframe');
+            iframe.src = '';
+            modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
-        
+
+        // ريندر السلايدرات
+        function renderRows() {
+            const originalRow = document.getElementById('rowOriginal');
+            const trendingRow = document.getElementById('rowTrending');
+            const classicsRow = document.getElementById('rowClassics');
+
+            const originalMovies = MOVIES_DB.filter(m => m.cat === 'original');
+            const trendingMovies = MOVIES_DB.filter(m => m.cat === 'trending');
+            const classicMovies = MOVIES_DB.filter(m => m.cat === 'classic');
+
+            function createSlide(movie, rowElement) {
+                const slide = document.createElement('div');
+                slide.className = 'movie-item';
+                slide.innerHTML = `
+                    <div class="badge-year">${movie.year}</div>
+                    <img src="${movie.img}" alt="${movie.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=MOODIE'">
+                    <div class="movie-title-slide">${movie.title}</div>
+                `;
+                slide.onclick = () => openMovieWithId(movie.id, movie.title);
+                rowElement.appendChild(slide);
+            }
+
+            originalMovies.forEach(m => createSlide(m, originalRow));
+            trendingMovies.forEach(m => createSlide(m, trendingRow));
+            classicMovies.forEach(m => createSlide(m, classicsRow));
+        }
+
+        // ركن الأطفال
+        function openKidsPortal() {
+            const kidsDiv = document.getElementById('kidsPortal');
+            kidsDiv.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            renderKidsContent();
+        }
+
+        function closeKidsPortal() {
+            document.getElementById('kidsPortal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderKidsContent() {
+            const kidsMovies = MOVIES_DB.filter(m => m.cat === 'kids');
+            const kidsSlider = document.getElementById('kidsSlider');
+            const kidsSlider2 = document.getElementById('kidsSlider2');
+            kidsSlider.innerHTML = '';
+            kidsSlider2.innerHTML = '';
+            
+            kidsMovies.forEach(movie => {
+                const kidCard = document.createElement('div');
+                kidCard.className = 'movie-item';
+                kidCard.style.border = "2px solid #00d4ff";
+                kidCard.innerHTML = `
+                    <div class="badge-year" style="background:#ffaa00;">⭐ kid</div>
+                    <img src="${movie.img}" alt="${movie.title}">
+                    <div class="movie-title-slide" style="color:#00d4ff;">${movie.title}</div>
+                `;
+                kidCard.onclick = () => {
+                    openMovieWithId(movie.id, `✨ ${movie.title} | ركن الأطفال`);
+                    closeKidsPortal();
+                };
+                kidsSlider.appendChild(kidCard);
+            });
+            // إضافة المزيد من محتوى الأطفال
+            const extraKids = [
+                { id: "Vv_2iQqVnLc", title: "Encanto", img: "https://image.tmdb.org/t/p/w500/4j0PNHkMr5ax3IA8tjtxcmPU3QT.jpg", year: "2021" },
+                { id: "a5uQwW3qP3I", title: "Soul", img: "https://image.tmdb.org/t/p/w500/hm58Jw4Lw8x2j4uA5fLwKjGk8Kz.jpg", year: "2020" }
+            ];
+            extraKids.forEach(ek => {
+                const extraCard = document.createElement('div');
+                extraCard.className = 'movie-item';
+                extraCard.innerHTML = `<img src="${ek.img}" onerror="this.src='https://via.placeholder.com/300x450?text=Kids'"><div class="movie-title-slide">${ek.title}</div>`;
+                extraCard.onclick = () => { openMovieWithId(ek.id, ek.title); closeKidsPortal(); };
+                kidsSlider2.appendChild(extraCard);
+            });
+        }
+
         // تغيير الهيدر عند السكرول
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('mainNav');
-            if(window.scrollY > 60) {
-                nav.style.background = "#030303";
-                nav.style.borderBottom = "1px solid #d4af37";
+            const header = document.getElementById('netflixHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
             } else {
-                nav.style.background = "linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.7) 100%)";
-                nav.style.borderBottom = "1px solid rgba(212,175,55,0.15)";
+                header.classList.remove('scrolled');
             }
         });
-        
-        // اضافة فيلم ترحيبي مميز
-        function initFeatured() {
-            renderMovies();
-            // اختيار فيلم عشوائي مميز عند التحميل
-            const defaultMovie = MOVIE_LIBRARY[0];
-            const playerFrame = document.getElementById('masterPlayer');
-            if(defaultMovie) playerFrame.src = `https://www.youtube.com/embed/${defaultMovie.id}?autoplay=0&rel=0&modestbranding=1`;
-            document.getElementById('dynamicTitle').innerHTML = `🎬 ${defaultMovie.title} | تجربة سينمائية فاخرة`;
+
+        // تغيير الـ Hero بشكل عشوائي لتبدو ديناميكية
+        const heroMovies = MOVIES_DB.filter(m => m.cat === 'original' || m.cat === 'trending');
+        let heroIndex = 0;
+        function rotateHero() {
+            const heroDiv = document.getElementById('heroSlider');
+            const heroTitleSpan = document.getElementById('heroTitle');
+            const heroDescElem = document.querySelector('#heroSlider .hero-content p');
+            const current = heroMovies[heroIndex % heroMovies.length];
+            heroDiv.style.backgroundImage = `linear-gradient(0deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('https://image.tmdb.org/t/p/original/${current.img.split('/').pop()}')`;
+            heroDiv.style.backgroundSize = 'cover';
+            heroDiv.style.backgroundPosition = 'top 20% center';
+            heroTitleSpan.innerText = current.title;
+            if(heroDescElem) heroDescElem.innerText = current.desc + " | شاهد الآن بحصري على MOODIE";
+            heroIndex++;
         }
+        setInterval(rotateHero, 6000);
         
-        // اضافة زر تجريبي للإعلانات (تأكيد تفاعل Adsterra)
-        window.addEventListener('load', () => {
-            initFeatured();
-            // محاكاة حدث للإعلانات يمكن استبداله بأي كود حقيقي (باندربار)
-            console.log("MOODIE Netflix Edition | Ready for Adsterra integration");
+        // ربط زر التشغيل بالهيرو الحالي
+        document.querySelector('.btn-play').onclick = () => {
+            const currentHero = heroMovies[(heroIndex-1+heroMovies.length)%heroMovies.length];
+            if(currentHero) openMovieWithId(currentHero.id, currentHero.title);
+        };
+
+        // تحميل كل شيء
+        renderRows();
+        rotateHero();
+        
+        // إغلاق المودال لو ضغط ESC
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') {
+                closeMovieModal();
+                closeKidsPortal();
+            }
         });
-        
-        // إتاحة دوال عامة للاستخدام
-        window.changeMovie = changeMovie;
-        window.openKidsMode = openKidsMode;
-        window.closeKidsMode = closeKidsMode;
     </script>
 </body>
 </html>
