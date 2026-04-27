@@ -1,242 +1,164 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MOODIE — Premium Cinema Experience</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Kufi+Arabic:wght@300;400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-  <style>
-    /* ===================== CSS المتغيرات والتصميم العام ===================== */
-    :root {
-      --c-bg: #070709;
-      --c-gold: #c9a84c;
-      --c-surface: #0d0d12;
-      --apple-blur: blur(25px);
-      --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background: var(--c-bg); color: #fff; font-family: 'Noto Kufi Arabic', sans-serif; overflow-x: hidden; }
-
-    /* 1. صفحة التحميل الأسطورية (Apple Splash) */
-    #moodie-loader {
-      position: fixed; inset: 0; background: #000; z-index: 9999;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 1s ease, visibility 1s;
-    }
-    .loader-logo { font-family: 'Bebas Neue'; font-size: 60px; color: var(--c-gold); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } }
-
-    /* 2. الهيدر (أسلوب أبل النظيف) */
-    header {
-      position: fixed; top: 0; width: 100%; z-index: 1000;
-      padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-      backdrop-filter: none; transition: var(--transition-smooth);
-    }
-    header.scrolled { background: rgba(7, 7, 9, 0.85); backdrop-filter: var(--apple-blur); border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .logo { font-family: 'Bebas Neue'; font-size: 38px; color: var(--c-gold); letter-spacing: 2px; }
-
-    /* 3. المشغل الاحترافي (Netflix Player Interface) */
-    #moodie-player-modal {
-      display: none; position: fixed; inset: 0; background: #000; z-index: 5000;
-      opacity: 0; transition: opacity 0.5s ease;
-    }
-    #moodie-player-modal.active { display: block; opacity: 1; }
-    .player-container { position: relative; width: 100%; height: 100%; }
-    #main-iframe { width: 100%; height: 100%; border: none; }
-
-    /* أزرار التحكم في المشغل */
-    .player-controls { position: absolute; top: 30px; width: 100%; padding: 0 40px; display: flex; justify-content: space-between; z-index: 5100; }
-    .close-btn { font-size: 40px; color: var(--c-gold); cursor: pointer; }
-    
-    /* قفل الأطفال (Child Lock) */
-    .child-lock-zone {
-      position: absolute; top: 30px; right: 40px; 
-      width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(0,0,0,0.5); border: 2px solid var(--c-gold);
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-    }
-    #lock-overlay { display: none; position: absolute; inset: 0; z-index: 5050; background: transparent; }
-
-    /* 4. السلايدرز والتصميم (نفس كودك القديم مع لمسات فخامة) */
-    .hero { height: 90vh; background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 5%; position: relative; }
-    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(75deg, #070709 25%, transparent 70%); }
-    .hero-content { position: relative; z-index: 10; max-width: 650px; }
-    .hero-title { font-family: 'Bebas Neue'; font-size: 90px; color: var(--c-gold); line-height: 0.9; }
-
-    .movie-row { padding: 40px 0 0 5%; }
-    .row-title { font-family: 'Bebas Neue'; font-size: 28px; color: var(--c-gold); margin-bottom: 15px; }
-    .slider { display: flex; overflow-x: auto; gap: 18px; padding: 15px 0; scrollbar-width: none; }
-    .slider::-webkit-scrollbar { display: none; }
-    .movie-card {
-      min-width: 200px; height: 300px; border-radius: 12px; overflow: hidden;
-      cursor: pointer; transition: var(--transition-smooth); border: 1px solid rgba(255,255,255,0.05);
-    }
-    .movie-card:hover { transform: scale(1.1) translateY(-10px); border-color: var(--c-gold); }
-    .movie-card img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* صفحة "قانوني ومحترم" (The Legal Document) */
-    #legal-modal {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-      z-index: 6000; padding: 100px 10%; overflow-y: auto;
-    }
-    .legal-content {
-      background: #0d0d12; padding: 50px; border-radius: 4px; border: 1px solid var(--c-gold);
-      box-shadow: 0 0 50px rgba(201,168,76,0.1); line-height: 2;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOODIE | بريميوم سينما</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#000;color:#fff;font-family:'Segoe UI',sans-serif;overflow-x:hidden;}
+:root{--gold:#c9a84c;--red:#e5373d;}
+#splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:fadeOut 0.8s ease 3s forwards;}
+@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
+.splash-logo{font-size:clamp(3rem,12vw,6rem);font-weight:bold;letter-spacing:0.2em;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;transform:scale(0.9);animation:logoIn 0.8s ease 0.4s forwards;}
+@keyframes logoIn{to{opacity:1;transform:scale(1);}}
+nav{position:fixed;top:0;left:0;right:0;height:65px;background:rgba(0,0,0,0.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 5%;z-index:900;border-bottom:1px solid rgba(255,255,255,0.05);}
+.logo{font-size:1.8rem;font-weight:bold;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.8rem;transition:0.3s;}
+.nav-links a:hover{color:#fff;}
+.btn-kids{background:rgba(74,158,255,0.2);padding:6px 14px;border-radius:40px;color:#4a9eff;border:none;cursor:pointer;}
+.search-wrapper{position:relative;}
+.search-input{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:40px;padding:8px 30px 8px 15px;color:#fff;width:190px;outline:none;transition:0.3s;}
+.search-input:focus{width:240px;border-color:var(--gold);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);}
+.search-dropdown{position:absolute;top:100%;right:0;width:300px;background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:16px;display:none;z-index:1000;margin-top:8px;}
+.search-dropdown.open{display:block;}
+.search-item{display:flex;align-items:center;gap:12px;padding:10px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);}
+.search-item:hover{background:rgba(201,168,76,0.1);}
+.search-item img{width:40px;height:56px;object-fit:cover;border-radius:8px;}
+.hero{height:85vh;min-height:550px;display:flex;align-items:flex-end;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#000 0%,rgba(0,0,0,0.6) 40%,transparent 100%);}
+.hero-content{position:relative;z-index:2;padding:5%;max-width:650px;}
+.hero-title{font-size:clamp(2rem,7vw,4rem);margin-bottom:0.5rem;}
+.hero-desc{color:rgba(255,255,255,0.7);margin-bottom:1.5rem;line-height:1.6;}
+.btn-gold{background:var(--gold);color:#000;border:none;padding:12px 28px;border-radius:40px;font-weight:bold;cursor:pointer;transition:0.3s;}
+.btn-gold:hover{transform:translateY(-2px);filter:brightness(1.05);}
+.section{padding:2rem 5%;}
+.section-title{font-size:1.6rem;margin-bottom:1rem;}
+.section-title span{color:var(--gold);}
+.mood-box{margin:1rem 5%;padding:1.5rem;background:rgba(255,255,255,0.02);border-radius:20px;text-align:center;}
+.mood-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1rem;}
+.mood-btn{background:rgba(255,255,255,0.05);padding:8px 18px;border-radius:40px;cursor:pointer;border:none;color:#fff;}
+.movie-row{display:flex;gap:1rem;overflow-x:auto;padding-bottom:0.5rem;}
+.movie-row::-webkit-scrollbar{display:none;}
+.movie-card{flex:0 0 150px;cursor:pointer;border-radius:12px;overflow:hidden;background:#0f0f0f;transition:0.3s;}
+.movie-card:hover{transform:translateY(-6px);}
+.movie-card img{width:100%;aspect-ratio:2/3;object-fit:cover;}
+.movie-card-info{padding:8px;}
+.movie-card-title{font-size:0.75rem;font-weight:bold;}
+.movie-card-year{font-size:0.65rem;color:rgba(255,255,255,0.5);}
+</style>
 </head>
 <body>
+<div id="splash"><div class="splash-logo">MOODIE</div></div>
+<nav><div class="logo">MOODIE</div>
+<ul class="nav-links"><li><a href="#" onclick="showHome()">الرئيسية</a></li><li><a href="#" onclick="openDisclaimer()">قانوني</a></li></ul>
+<div class="search-wrapper"><input class="search-input" id="searchInput" placeholder="ابحث..."><span class="search-icon">🔍</span><div class="search-dropdown" id="searchDropdown"></div></div>
+<button class="btn-kids" onclick="openKidsMode()">🌟 Kids</button>
+</nav>
+<div class="hero" id="hero"><div class="hero-bg" id="heroBg"></div><div class="hero-content" id="heroContent"></div></div>
+<main id="mainContent">
+<div class="mood-box"><h2>🎭 اختار مزاجك</h2><div class="mood-buttons">
+<button class="mood-btn" onclick="filterByGenre(28)">⚡ أكشن</button>
+<button class="mood-btn" onclick="filterByGenre(35)">😂 كوميدي</button>
+<button class="mood-btn" onclick="filterByGenre(10749)">❤️ رومانسي</button>
+<button class="mood-btn" onclick="filterByGenre(53)">😱 إثارة</button>
+</div></div>
+  <div class="section"><h2 class="section-title">🔥 <span>الأكثر مشاهدة</span></h2><div class="movie-row" id="trendingRow"></div></div>
+  <div class="player-modal" id="playerModal"><div class="player-box"><div class="player-header"><span id="playerTitle">MOODIE</span><div class="player-close" onclick="closePlayer()">✕</div></div><div class="player-frame" id="playerFrame"><div class="player-loader"><div class="spinner"></div><span id="loaderText">جاري البحث عن أفضل سيرفر...</span></div></div></div></div>
 
-<div id="moodie-loader">
-  <div class="loader-logo">MOODIE</div>
-  <p style="color: #555; letter-spacing: 5px; margin-top: 10px;">PREMIUM SYSTEM LOADING...</p>
-</div>
+<div class="kids-mode" id="kidsMode"><div class="kids-header"><h2>🌟 MOODIE KIDS</h2><button class="btn-kids" onclick="closeKidsMode()">✕ خروج</button></div><div class="kids-grid" id="kidsGrid"></div><button id="childLockBtn" class="child-lock-btn" onclick="toggleChildLock()">🔒 قفل الشاشة (للأطفال)</button></div>
 
-<header id="mainNav">
-  <div class="logo">MOODIE</div>
-  <div style="display:flex; gap:20px; align-items:center;">
-    <button onclick="toggleKids(true)" style="background:var(--c-gold); border:none; padding:10px 25px; border-radius:50px; font-weight:bold; cursor:pointer;">KIDS ROOM</button>
-  </div>
-</header>
+<div class="disclaimer" id="disclaimer"><div class="disclaimer-paper"><h1>📜 الإخلاء القانوني</h1><p>منصة MOODIE هي منصة تقنية تعمل كمحرك بحث. لا نستضيف أي ملفات فيديو على خوادمنا الخاصة.</p><p>جميع المحتويات تعرض من مصادر خارجية. للاستفسار: <strong style="color:var(--gold);">modie.cinema@proton.me</strong></p><button class="btn-gold" onclick="closeDisclaimer()" style="margin-top:1rem;">فهمت وأوافق</button></div></div>
 
-<section class="hero" id="heroBg">
-  <div class="hero-content">
-    <h1 class="hero-title" id="heroTitle">LOADING...</h1>
-    <p id="heroOverview" style="color: #aaa; margin: 20px 0 30px;"></p>
-    <button onclick="playFeatured()" style="background:#fff; color:#000; padding:15px 45px; border:none; border-radius:4px; font-weight:bold; cursor:pointer; font-size:18px;">
-      <i class="fas fa-play"></i> شاهد الآن
-    </button>
-  </div>
-</section>
+<footer><p>© 2025 MOODIE — Your Mood. Your Cinema.</p><p style="margin-top:8px; font-size:0.7rem;">📧 modie.cinema@proton.me</p></footer>
 
-<div class="movie-row">
-  <h2 class="row-title">حصريات مودي</h2>
-  <div class="slider" id="trendingSlider"></div>
-</div>
+<style>
+.player-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.98);z-index:2000;align-items:center;justify-content:center;}
+.player-modal.open{display:flex;}
+.player-box{width:90vw;max-width:1200px;background:#000;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);}
+.player-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#0a0a0a;}
+.player-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:0.2s;}
+.player-close:hover{background:var(--red);}
+.player-frame{width:100%;aspect-ratio:16/9;background:#000;position:relative;}
+.player-frame iframe{width:100%;height:100%;border:none;}
+.player-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#000;}
+.spinner{width:48px;height:48px;border:3px solid rgba(201,168,76,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.kids-mode{display:none;position:fixed;inset:0;background:#0a1628;z-index:850;overflow-y:auto;}
+.kids-mode.active{display:block;}
+.kids-header{padding:1rem;background:#0d1f3c;display:flex;justify-content:space-between;align-items:center;}
+.kids-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;padding:1.5rem;}
+.kids-card{border-radius:16px;overflow:hidden;cursor:pointer;background:rgba(255,255,255,0.05);transition:0.2s;}
+.kids-card:hover{transform:translateY(-4px);border:1px solid #4a9eff;}
+.kids-card img{width:100%;aspect-ratio:2/3;object-fit:cover;}
+.kids-card p{text-align:center;padding:8px;font-size:0.75rem;}
+.child-lock-btn{position:fixed;bottom:20px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);padding:8px 16px;border-radius:40px;font-size:0.7rem;border:1px solid rgba(255,255,255,0.2);cursor:pointer;z-index:860;transition:0.2s;}
+.child-lock-btn.active{background:var(--red);}
+.disclaimer{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:1500;align-items:center;justify-content:center;padding:2rem;}
+.disclaimer.open{display:flex;}
+.disclaimer-paper{max-width:650px;background:#111;border:1px solid rgba(201,168,76,0.2);border-radius:24px;padding:2rem;}
+.disclaimer-paper h1{color:var(--gold);margin-bottom:1rem;}
+.disclaimer-paper p{line-height:1.7;color:rgba(255,255,255,0.6);margin-bottom:1rem;}
+footer{padding:2rem;text-align:center;border-top:1px solid rgba(255,255,255,0.05);}
+footer p{font-size:0.7rem;color:rgba(255,255,255,0.4);}
+#infiniteTrigger{height:20px;}
+@media(max-width:768px){.nav-links{display:none;}}
+</style>
+  <script>
+const TMDB_KEY='da87358fe15e91315b13c0b1f439b8fd';
+const IMG_BASE='https://image.tmdb.org/t/p/w342';
+const BACKDROP_BASE='https://image.tmdb.org/t/p/original';
+const SOURCES=[
+{name:'vidsrc.pro',url:(id,type)=>`https://vidsrc.pro/embed/${type}/${id}`},
+{name:'embed.su',url:(id,type)=>`https://embed.su/embed/${type}/${id}`},
+{name:'vidsrc.to',url:(id,type)=>`https://vidsrc.to/embed/${type}/${id}`}
+];
+let childLockActive=false,currentPage=1,isLoading=false;
 
-<div class="movie-row">
-  <h2 class="row-title">الدراما العربية</h2>
-  <div class="slider" id="arabicSlider"></div>
-</div>
+async function fetchTMDB(e,t={}){let n=new URL(`https://api.themoviedb.org/3${e}`);n.searchParams.set('api_key',TMDB_KEY),n.searchParams.set('language','ar');for(let[e,r]of Object.entries(t))n.searchParams.set(e,r);return(await fetch(n)).json()}
 
-<div id="moodie-player-modal">
-  <div id="lock-overlay"></div>
-  <div class="player-container">
-    <div class="player-controls">
-      <div class="close-btn" onclick="closePlayer()">&times;</div>
-      <div class="child-lock-zone" id="lockIcon" onclick="toggleLock()">
-        <i class="fas fa-unlock"></i>
-      </div>
-    </div>
-    <iframe id="main-iframe" allowfullscreen allow="autoplay"></iframe>
-    <div style="position:absolute; bottom:20px; right:40px; color:rgba(201,168,76,0.1); font-family:'Bebas Neue'; font-size:30px; pointer-events:none;">MOODIE PREMIUM</div>
-  </div>
-</div>
+function renderMovieCard(e,t='movie'){let n=e.title||e.name||'—',r=e.poster_path?IMG_BASE+e.poster_path:'https://placehold.co/300x450/111/333?text=No+Poster',o=(e.release_date||e.first_air_date||'').split('-')[0]||'',a=(e.vote_average||0).toFixed(1);return`<div class="movie-card" onclick="openSmartPlayer(${e.id},'${t}')"><img src="${r}" loading="lazy"><div class="movie-card-info"><div class="movie-card-title">${n}</div><div class="movie-card-year">${o} ⭐ ${a}</div></div></div>`}
 
-<div id="legal-modal">
-  <div class="legal-content">
-    <h1 style="color:var(--c-gold); margin-bottom:30px; font-family:'Bebas Neue';">Legal Disclaimer & DMCA</h1>
-    <p style="color:#888;">هذا الموقع عبارة عن محرك بحث ذكي للمحتوى المتاح علنًا على الإنترنت. نحن لا نقوم برفع أو استضافة أي ملفات فيديو على خوادمنا. جميع الحقوق تعود لأصحابها الأصليين...</p>
-    <button onclick="closeLegal()" style="margin-top:40px; background:var(--c-gold); color:#000; border:none; padding:10px 30px; cursor:pointer; font-weight:bold;">موافق وفهمت</button>
-  </div>
-</div>
+window.openSmartPlayer=async function(e,t){let n=document.getElementById('playerModal'),r=document.getElementById('playerFrame'),o=document.getElementById('loaderText');n.classList.add('open'),document.body.style.overflow='hidden';for(let a=0;a<SOURCES.length;a++){let s=SOURCES[a];o.innerText=`🔍 جرب ${s.name} (${a+1}/${SOURCES.length})...`;let i=s.url(e,t),l=document.createElement('iframe');l.src=i,l.allow='autoplay; encrypted-media; fullscreen',l.allowFullscreen=!0;try{let c=new AbortController;setTimeout(()=>c.abort(),2500),await fetch(i,{mode:'no-cors',signal:c.signal}),r.innerHTML='',r.appendChild(l),showToast(`✅ تم التشغيل عبر ${s.name}`);return}catch(d){console.log(`${s.name} غير متاح`)}}o.innerText='⚠️ جميع السيرفرات معطلة حالياً',setTimeout(()=>closePlayer(),2000)};
 
-<footer style="padding:100px 5%; text-align:center; border-top:1px solid rgba(255,255,255,0.05); margin-top:100px;">
-  <div class="logo">MOODIE</div>
-  <p onclick="openLegal()" style="color:#555; cursor:pointer; text-decoration:underline; margin:20px 0;">البيان القانوني</p>
-  <p style="color:#333; font-size:12px;">Contact: modie.cinema@proton.me</p>
-</footer>
+function closePlayer(){document.getElementById('playerModal').classList.remove('open'),document.body.style.overflow='',document.getElementById('playerFrame').innerHTML=`<div class="player-loader"><div class="spinner"></div><span id="loaderText">جاري البحث عن أفضل سيرفر...</span></div>`}
 
-<script>
-  const API_KEY = 'da87358fe15e91315b13c0b1f439b8fd';
-  const BASE_IMG = 'https://image.tmdb.org/t/p/original';
-  let currentMovieId = null;
-  let isLocked = false;
+function showToast(e){let t=document.createElement('div');t.innerText=e,t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#c9a84c;color:#000;padding:8px 20px;border-radius:40px;z-index:10000;font-size:14px;',document.body.appendChild(t),setTimeout(()=>t.remove(),2000)}
 
-  // 1. تشغيل صفحة التحميل
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const loader = document.getElementById('moodie-loader');
-      loader.style.opacity = '0';
-      setTimeout(() => loader.style.visibility = 'hidden', 1000);
-    }, 2000);
-    initSite();
-  });
+window.toggleChildLock=function(){childLockActive=!childLockActive;let e=document.getElementById('childLockBtn');if(childLockActive){e.innerHTML='🔴 قفل نشط (اضغط مطولاً 2 ثانية)',e.classList.add('active'),showToast('قفل الشاشة مفعل - اضغط مطولاً 2 ثانية');let t;let n=()=>{clearTimeout(t),childLockActive=!1,e.innerHTML='🔒 قفل الشاشة (للأطفال)',e.classList.remove('active'),showToast('تم فتح القفل')};e.onmousedown=()=>{t=setTimeout(n,2000)},e.onmouseup=()=>clearTimeout(t),e.ontouchstart=()=>{t=setTimeout(n,2000)},e.ontouchend=()=>clearTimeout(t)}else e.innerHTML='🔒 قفل الشاشة (للأطفال)',e.classList.remove('active')};
 
-  async function initSite() {
-    loadRow(`https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=ar`, 'trendingSlider');
-    loadRow(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=ar`, 'arabicSlider');
-    
-    // لود الهيرو
-    const res = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=ar`);
-    const data = await res.json();
-    const top = data.results[0];
-    document.getElementById('heroBg').style.backgroundImage = `url(${BASE_IMG + top.backdrop_path})`;
-    document.getElementById('heroTitle').innerText = top.title || top.name;
-    document.getElementById('heroOverview').innerText = top.overview.slice(0, 160) + "...";
-    currentMovieId = top.id;
-  }
+window.openKidsMode=async function(){document.getElementById('kidsMode').classList.add('active');let e=await fetchTMDB('/discover/movie',{with_genres:16,sort_by:'popularity.desc'});document.getElementById('kidsGrid').innerHTML=e.results.slice(0,24).map(e=>`<div class="kids-card" onclick="openSmartPlayer(${e.id},'movie')"><img src="${IMG_BASE+e.poster_path}"><p>${e.title}</p></div>`).join('')};
 
-  async function loadRow(url, containerId) {
-    const res = await fetch(url);
-    const data = await res.json();
-    const container = document.getElementById(containerId);
-    data.results.forEach(m => {
-      if(!m.poster_path) return;
-      const card = document.createElement('div');
-      card.className = 'movie-card';
-      card.onclick = () => openPlayer(m.id, m.media_type || 'movie');
-      card.innerHTML = `<img src="${BASE_IMG + m.poster_path}">`;
-      container.appendChild(card);
-    });
-  }
+window.closeKidsMode=function(){document.getElementById('kidsMode').classList.remove('active'),childLockActive=!1};
 
-  // المشغل الذكي المدمج
-  function openPlayer(id, type) {
-    const modal = document.getElementById('moodie-player-modal');
-    const iframe = document.getElementById('main-iframe');
-    const vType = type === 'tv' ? 'tv' : 'movie';
-    
-    // استخدام سيرفر ذكي مدمج
-    iframe.src = `https://vidsrc.pro/embed/${vType}/${id}`;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+window.openDisclaimer=function(){document.getElementById('disclaimer').classList.add('open')};
 
-  function playFeatured() { if(currentMovieId) openPlayer(currentMovieId, 'movie'); }
+window.closeDisclaimer=function(){document.getElementById('disclaimer').classList.remove('open')};
 
-  function closePlayer() {
-    if(isLocked) { alert("فك القفل أولاً!"); return; }
-    const modal = document.getElementById('moodie-player-modal');
-    document.getElementById('main-iframe').src = '';
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+window.showHome=function(){closeDisclaimer(),closeKidsMode()};
 
-  // نظام قفل الأطفال
-  function toggleLock() {
-    isLocked = !isLocked;
-    const overlay = document.getElementById('lock-overlay');
-    const icon = document.querySelector('#lockIcon i');
-    overlay.style.display = isLocked ? 'block' : 'none';
-    icon.className = isLocked ? 'fas fa-lock' : 'fas fa-unlock';
-    if(isLocked) alert("تم تفعيل قفل الأطفال.");
-  }
+window.filterByGenre=async function(e){let t=await fetchTMDB('/discover/movie',{with_genres:e});document.getElementById('nowPlayingRow').innerHTML=t.results.slice(0,12).map(e=>renderMovieCard(e,'movie')).join(''),showToast('🎬 تم التصفية حسب النوع')};
 
-  function openLegal() { document.getElementById('legal-modal').style.display = 'block'; }
-  function closeLegal() { document.getElementById('legal-modal').style.display = 'none'; }
+let searchInput=document.getElementById('searchInput'),searchDropdown=document.getElementById('searchDropdown'),searchTimeout;
+searchInput.addEventListener('input',e=>{clearTimeout(searchTimeout);let t=e.target.value.trim();if(t.length<2){searchDropdown.classList.remove('open');return}searchTimeout=setTimeout(async()=>{let e=await fetchTMDB('/search/multi',{query:t}),n=e.results.filter(e=>e.media_type!=='person').slice(0,6);if(!n.length)searchDropdown.innerHTML='<div style="padding:12px;color:gray;">❌ لا توجد نتائج</div>';else searchDropdown.innerHTML=n.map(e=>`<div class="search-item" onclick="openSmartPlayer(${e.id},'${e.media_type==='tv'?'tv':'movie'}')"><img src="${e.poster_path?IMG_BASE+e.poster_path:'https://placehold.co/40x56'}"><div><div>${e.title||e.name}</div><div style="font-size:11px;">⭐ ${(e.vote_average||0).toFixed(1)}</div></div></div>`).join('');searchDropdown.classList.add('open')},400)});
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrapper'))searchDropdown.classList.remove('open')});
 
-  window.onscroll = () => {
-    const nav = document.getElementById('mainNav');
-    if(window.scrollY > 100) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-  };
+async function loadMore(){if(isLoading)return;isLoading=!0,currentPage++;let e=await fetchTMDB('/movie/now_playing',{page:currentPage}),t=document.getElementById('nowPlayingRow');e.results.forEach(e=>{t.insertAdjacentHTML('beforeend',renderMovieCard(e,'movie'))}),isLoading=!1}
+new IntersectionObserver(e=>{if(e[0].isIntersecting)loadMore()},{threshold:0.5}).observe(document.getElementById('infiniteTrigger'));
+
+function saveToHistory(e,t){let n=JSON.parse(localStorage.getItem('moodie_history')||'[]');n=n.filter(t=>t.id!==e),n.unshift({id:e,type:t,time:Date.now()}),n.length>30&&n.pop(),localStorage.setItem('moodie_history',JSON.stringify(n))}
+let origOpen=window.openSmartPlayer;window.openSmartPlayer=async function(e,t){return saveToHistory(e,t),origOpen(e,t)};
+
+async function init(){let e=await fetchTMDB('/trending/movie/week'),t=await fetchTMDB('/movie/now_playing');document.getElementById('trendingRow').innerHTML=e.results.slice(0,12).map(e=>renderMovieCard(e,'movie')).join(''),document.getElementById('nowPlayingRow').innerHTML=t.results.slice(0,12).map(e=>renderMovieCard(e,'movie')).join('');if(e.results[0]){document.getElementById('heroBg').style.backgroundImage=`url(${BACKDROP_BASE+e.results[0].backdrop_path})`;document.getElementById('heroContent').innerHTML=`<h1 class="hero-title">${e.results[0].title}</h1><p class="hero-desc">${(e.results[0].overview||'').slice(0,120)}...</p><button class="btn-gold" onclick="openSmartPlayer(${e.results[0].id},'movie')">▶ شغّل الآن</button>`}}
+document.addEventListener('DOMContentLoaded',()=>{init(),setTimeout(()=>{let e=document.getElementById('splash');e&&(e.style.display='none')},3800)});
+document.addEventListener('keydown',e=>{e.key==='Escape'&&(closePlayer(),closeKidsMode(),closeDisclaimer())});
+console.log('%c MOODIE Premium | تشغيل كامل', 'color:#c9a84c;font-size:14px;');
 </script>
-
 </body>
 </html>
+<div class="section"><h2 class="section-title">🎬 <span>الآن في السينما</span></h2><div class="movie-row" id="nowPlayingRow"></div></div>
+<div id="infiniteTrigger"></div>
+</main>
