@@ -1374,130 +1374,124 @@
     loadHero();
     loadSections();
   });
-  // ============= المشغل الذكي المدمج (جوه الموقع) =============
-  const SOURCES = [
+    // ==================== المشغل الذكي الاحترافي ====================
+  
+  const PLAYERS = [
     { name: '🎬 Vidsrc.pro', url: (id, type) => `https://vidsrc.pro/embed/${type}/${id}` },
     { name: '🎥 Embed.su', url: (id, type) => `https://embed.su/embed/${type}/${id}` },
     { name: '🎞️ Vidsrc.to', url: (id, type) => `https://vidsrc.to/embed/${type}/${id}` }
   ];
 
-  let currentPlayerFrame = null;
+  let activeFrame = null;
 
-  window.openSmartPlayer = async function(id, type, title = '') {
+  window.openSmartPlayer = async function(id, type, title) {
     const modal = document.getElementById('player-modal');
-    const playerLoading = document.getElementById('playerLoading');
-    const playerYT = document.getElementById('playerYT');
-    const playerNoTrailer = document.getElementById('playerNoTrailer');
-    const playerTitle = document.getElementById('playerTitle');
+    const loading = document.getElementById('playerLoading');
+    const ytDiv = document.getElementById('playerYT');
+    const noDiv = document.getElementById('playerNoTrailer');
+    const titleSpan = document.getElementById('playerTitle');
+    const loaderText = document.getElementById('playerLoadingText');
     
-    if (playerTitle && title) playerTitle.textContent = title;
+    if(titleSpan && title) titleSpan.textContent = title;
     
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     
-    playerLoading.style.display = 'flex';
-    playerYT.style.display = 'none';
-    playerNoTrailer.style.display = 'none';
+    loading.style.display = 'flex';
+    ytDiv.style.display = 'none';
+    noDiv.style.display = 'none';
     
-    if (currentPlayerFrame) currentPlayerFrame.remove();
+    if(activeFrame) { activeFrame.remove(); activeFrame = null; }
     
-    for (let i = 0; i < SOURCES.length; i++) {
-      const src = SOURCES[i];
-      const loaderText = document.getElementById('playerLoadingText');
-      if (loaderText) loaderText.textContent = `🔍 ${src.name} (${i+1}/${SOURCES.length})...`;
+    for(let i = 0; i < PLAYERS.length; i++) {
+      const p = PLAYERS[i];
+      if(loaderText) loaderText.textContent = `🔍 جرب ${p.name} (${i+1}/${PLAYERS.length})...`;
       
       const iframe = document.createElement('iframe');
-      iframe.src = src.url(id, type);
+      iframe.src = p.url(id, type);
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
-      iframe.allow = 'autoplay; encrypted-media; fullscreen';
+      iframe.allow = 'autoplay; fullscreen';
       iframe.allowFullscreen = true;
       
+      const wrapper = document.createElement('div');
+      wrapper.id = 'activePlayer';
+      wrapper.style.position = 'relative';
+      wrapper.style.width = '100%';
+      wrapper.style.aspectRatio = '16/9';
+      wrapper.style.background = '#000';
+      wrapper.appendChild(iframe);
+      
+      const wm = document.createElement('div');
+      wm.innerHTML = 'MOODIE™';
+      wm.style.position = 'absolute';
+      wm.style.bottom = '12px';
+      wm.style.right = '15px';
+      wm.style.zIndex = '10';
+      wm.style.pointerEvents = 'none';
+      wm.style.fontFamily = "'Bebas Neue'";
+      wm.style.fontSize = '0.9rem';
+      wm.style.background = 'linear-gradient(135deg,#c9a84c,#fff)';
+      wm.style.webkitBackgroundClip = 'text';
+      wm.style.backgroundClip = 'text';
+      wm.style.color = 'transparent';
+      wrapper.appendChild(wm);
+      
       try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 2500);
-        await fetch(src.url(id, type), { mode: 'no-cors', signal: controller.signal });
+        const c = new AbortController();
+        setTimeout(() => c.abort(), 2000);
+        await fetch(p.url(id, type), { mode: 'no-cors', signal: c.signal });
         
-        const playerContainer = document.querySelector('.player-container');
-        
-        const frameWrapper = document.createElement('div');
-        frameWrapper.id = 'smartPlayerFrame';
-        frameWrapper.style.position = 'relative';
-        frameWrapper.style.width = '100%';
-        frameWrapper.style.aspectRatio = '16/9';
-        frameWrapper.style.backgroundColor = '#000';
-        frameWrapper.appendChild(iframe);
-        
-        // العلامة المائية اليمين
-        const wmRight = document.createElement('div');
-        wmRight.innerText = 'MOODIE™';
-        wmRight.style.position = 'absolute';
-        wmRight.style.bottom = '12px';
-        wmRight.style.right = '15px';
-        wmRight.style.zIndex = '10';
-        wmRight.style.pointerEvents = 'none';
-        wmRight.style.fontFamily = "'Bebas Neue', sans-serif";
-        wmRight.style.fontSize = '0.9rem';
-        wmRight.style.letterSpacing = '0.12em';
-        wmRight.style.background = 'linear-gradient(135deg, #c9a84c, #fff)';
-        wmRight.style.webkitBackgroundClip = 'text';
-        wmRight.style.backgroundClip = 'text';
-        wmRight.style.color = 'transparent';
-        frameWrapper.appendChild(wmRight);
-        
-        // العلامة المائية اليسار
-        const wmLeft = document.createElement('div');
-        wmLeft.innerText = 'PREMIUM CINEMA';
-        wmLeft.style.position = 'absolute';
-        wmLeft.style.bottom = '12px';
-        wmLeft.style.left = '15px';
-        wmLeft.style.zIndex = '10';
-        wmLeft.style.pointerEvents = 'none';
-        wmLeft.style.fontFamily = "'Bebas Neue', sans-serif";
-        wmLeft.style.fontSize = '0.6rem';
-        wmLeft.style.letterSpacing = '0.08em';
-        wmLeft.style.color = 'rgba(201,168,76,0.7)';
-        frameWrapper.appendChild(wmLeft);
-        
-        currentPlayerFrame = frameWrapper;
-        playerContainer.insertBefore(frameWrapper, playerLoading);
-        playerLoading.style.display = 'none';
-        
-        showToast(`✅ تم التشغيل عبر ${src.name.split(' ')[1] || src.name}`);
+        const container = document.querySelector('.player-container');
+        const old = document.getElementById('activePlayer');
+        if(old) old.remove();
+        container.insertBefore(wrapper, loading);
+        activeFrame = wrapper;
+        loading.style.display = 'none';
+        showToast(`✅ ${p.name.split(' ')[1]}`);
         return;
-      } catch(e) {
-        console.log(`${src.name} غير متاح`);
-      }
+      } catch(e) {}
     }
     
-    const loaderText = document.getElementById('playerLoadingText');
-    if (loaderText) loaderText.textContent = '⚠️ جميع السيرفرات معطلة حالياً';
-    setTimeout(() => closePlayer(), 2000);
+    if(loaderText) loaderText.textContent = '⚠️ السيرفرات معطلة';
+    setTimeout(() => { loading.style.display = 'flex'; noDiv.style.display = 'flex'; }, 1500);
   };
 
-  // تعديل دالة closePlayer
-  const originalClosePlayer = window.closePlayer;
   window.closePlayer = function() {
-    const modal = document.getElementById('player-modal');
-    modal.classList.remove('open');
+    document.getElementById('player-modal').classList.remove('open');
     document.body.style.overflow = '';
-    if (currentPlayerFrame) {
-      currentPlayerFrame.remove();
-      currentPlayerFrame = null;
-    }
-    const loadingDiv = document.getElementById('playerLoading');
-    if (loadingDiv) loadingDiv.style.display = 'flex';
-    const ytFrame = document.getElementById('ytFrame');
-    if (ytFrame) ytFrame.src = '';
+    if(activeFrame) { activeFrame.remove(); activeFrame = null; }
+    document.getElementById('playerLoading').style.display = 'flex';
+    document.getElementById('ytFrame').src = '';
   };
 
-  // تعديل دالة openPlayer عشان تستخدم المشغل الجديد
-  const originalOpenPlayer = window.openPlayer;
   window.openPlayer = function() {
-    if (currentHeroMovie) {
-      openSmartPlayer(currentHeroMovie.id, currentHeroMovie.first_air_date ? 'tv' : 'movie', currentHeroMovie.title || currentHeroMovie.name);
-    } else if (originalOpenPlayer) {
-      originalOpenPlayer();
+    if(currentHeroMovie) {
+      openSmartPlayer(currentHeroMovie.id, currentHeroMovie.first_air_date ? 'tv' : 'movie', currentHeroMovie.title);
+    } else {
+      showToast('اختر فيلماً أولاً');
     }
   };
+
+  function showToast(msg) {
+    let t = document.getElementById('toast');
+    if(!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#c9a84c;color:#000;padding:8px 20px;border-radius:40px;z-index:10000;font-size:13px;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  window.toggleFullscreen = function() {
+    const el = document.querySelector('.player-container');
+    if(!document.fullscreenElement) el.requestFullscreen();
+    else document.exitFullscreen();
+  };
+</script>
+</body>
+</html>
