@@ -1393,3 +1393,141 @@
   pointer-events: none;
   z-index: 9999 !important;
 }
+  // ============= المشغل الذكي المدمج مع علامة مائية =============
+  const SOURCES = [
+    { name: '🎬 Vidsrc.pro', url: (id, type) => `https://vidsrc.pro/embed/${type}/${id}` },
+    { name: '🎥 Embed.su', url: (id, type) => `https://embed.su/embed/${type}/${id}` },
+    { name: '🎞️ Vidsrc.to', url: (id, type) => `https://vidsrc.to/embed/${type}/${id}` }
+  ];
+
+  let currentPlayerFrame = null;
+
+  window.openSmartPlayer = async function(id, type, title = '') {
+    const modal = document.getElementById('player-modal');
+    const playerLoading = document.getElementById('playerLoading');
+    const playerYT = document.getElementById('playerYT');
+    const playerNoTrailer = document.getElementById('playerNoTrailer');
+    const playerTitle = document.getElementById('playerTitle');
+    
+    if (playerTitle && title) playerTitle.textContent = title;
+    
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    
+    playerLoading.style.display = 'flex';
+    playerYT.style.display = 'none';
+    playerNoTrailer.style.display = 'none';
+    
+    if (currentPlayerFrame) currentPlayerFrame.remove();
+    
+    for (let i = 0; i < SOURCES.length; i++) {
+      const src = SOURCES[i];
+      const loaderText = document.getElementById('playerLoadingText');
+      if (loaderText) loaderText.textContent = `🔍 ${src.name} (${i+1}/${SOURCES.length})...`;
+      
+      const iframe = document.createElement('iframe');
+      iframe.src = src.url(id, type);
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.allow = 'autoplay; encrypted-media; fullscreen';
+      iframe.allowFullscreen = true;
+      
+      try {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), 2500);
+        await fetch(src.url(id, type), { mode: 'no-cors', signal: controller.signal });
+        
+        const playerContainer = document.querySelector('.player-container');
+        
+        const frameWrapper = document.createElement('div');
+        frameWrapper.id = 'smartPlayerFrame';
+        frameWrapper.style.position = 'relative';
+        frameWrapper.style.width = '100%';
+        frameWrapper.style.aspectRatio = '16/9';
+        frameWrapper.style.backgroundColor = '#000';
+        frameWrapper.appendChild(iframe);
+        
+        // العلامة المائية اليمين
+        const wmRight = document.createElement('div');
+        wmRight.innerText = 'MOODIE™';
+        wmRight.style.position = 'absolute';
+        wmRight.style.bottom = '12px';
+        wmRight.style.right = '15px';
+        wmRight.style.zIndex = '10';
+        wmRight.style.pointerEvents = 'none';
+        wmRight.style.fontFamily = "'Bebas Neue', sans-serif";
+        wmRight.style.fontSize = '0.9rem';
+        wmRight.style.letterSpacing = '0.12em';
+        wmRight.style.background = 'linear-gradient(135deg, #c9a84c, #fff)';
+        wmRight.style.webkitBackgroundClip = 'text';
+        wmRight.style.backgroundClip = 'text';
+        wmRight.style.color = 'transparent';
+        wmRight.style.textShadow = '0 0 5px rgba(0,0,0,0.5)';
+        frameWrapper.appendChild(wmRight);
+        
+        // العلامة المائية اليسار
+        const wmLeft = document.createElement('div');
+        wmLeft.innerText = 'PREMIUM CINEMA';
+        wmLeft.style.position = 'absolute';
+        wmLeft.style.bottom = '12px';
+        wmLeft.style.left = '15px';
+        wmLeft.style.zIndex = '10';
+        wmLeft.style.pointerEvents = 'none';
+        wmLeft.style.fontFamily = "'Bebas Neue', sans-serif";
+        wmLeft.style.fontSize = '0.6rem';
+        wmLeft.style.letterSpacing = '0.08em';
+        wmLeft.style.color = 'rgba(201,168,76,0.7)';
+        frameWrapper.appendChild(wmLeft);
+        
+        currentPlayerFrame = frameWrapper;
+        playerContainer.insertBefore(frameWrapper, playerLoading);
+        playerLoading.style.display = 'none';
+        
+        showToast(`✅ تم التشغيل عبر ${src.name.split(' ')[1]}`);
+        return;
+      } catch(e) {}
+    }
+    
+    const loaderText = document.getElementById('playerLoadingText');
+    if (loaderText) loaderText.textContent = '⚠️ جميع السيرفرات معطلة حالياً';
+    setTimeout(() => closePlayer(), 2000);
+  };
+
+  window.closePlayer = function() {
+    const modal = document.getElementById('player-modal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (currentPlayerFrame) {
+      currentPlayerFrame.remove();
+      currentPlayerFrame = null;
+    }
+    const loadingDiv = document.getElementById('playerLoading');
+    if (loadingDiv) loadingDiv.style.display = 'flex';
+  };
+
+  function showToast(msg) {
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#c9a84c;color:#000;padding:8px 20px;border-radius:40px;z-index:10000;font-size:13px;font-weight:bold;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  // تشغيل الفيلم من الـ Hero
+  const originalOpenPlayer = window.openPlayer;
+  window.openPlayer = function() {
+    if (currentHeroMovie) {
+      openSmartPlayer(currentHeroMovie.id, currentHeroMovie.first_air_date ? 'tv' : 'movie', currentHeroMovie.title || currentHeroMovie.name);
+    } else if (originalOpenPlayer) {
+      originalOpenPlayer();
+    }
+  };
+</script>
+</body>
+</html>
