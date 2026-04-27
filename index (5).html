@@ -2,369 +2,713 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MOODIE — Premium Cinema Experience</title>
+  <meta name="description" content="منصة MOODIE السينمائية — تجربة مشاهدة بريميوم بناءً على مزاجك" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #070709; color: #f0ede8; font-family: 'Segoe UI', system-ui, sans-serif; }
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: #070709; }
-    ::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 4px; }
+    /* ===================== CSS VARIABLES - OLED BLACK PREMIUM ===================== */
+    :root {
+      --c-bg:        #000000;
+      --c-surface:   #0a0a0a;
+      --c-card:      #0f0f0f;
+      --c-border:    rgba(255,255,255,0.06);
+      --c-gold:      #c9a84c;
+      --c-gold-dim:  rgba(201,168,76,0.12);
+      --c-red:       #e5373d;
+      --c-text:      #ffffff;
+      --c-muted:     rgba(255,255,255,0.45);
+      --c-kids-bg:   #0a1628;
+      --c-kids-acc:  #4a9eff;
+      --radius:      12px;
+      --radius-lg:   20px;
+      --radius-xl:   28px;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif:   'Cormorant Garamond', serif;
+      --font-body:    'DM Sans', 'Noto Kufi Arabic', sans-serif;
+      --transition:   all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
 
+    /* ===================== RESET & GLOBAL ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--c-bg); }
+    body {
+      background: var(--c-bg);
+      color: var(--c-text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; pointer-events: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ===================== PREMIUM SCROLLBAR ===================== */
+    ::-webkit-scrollbar { width: 3px; height: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--c-gold); border-radius: 3px; }
+
+    /* ===================== SPLASH SCREEN - PREMIUM ANIMATION ===================== */
+    #splash {
+      position: fixed; inset: 0; z-index: 10000;
+      background: #000;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      animation: splashFadeOut 0.9s cubic-bezier(0.65, 0, 0.35, 1) 3s forwards;
+    }
+    @keyframes splashFadeOut {
+      to { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
+    .splash-logo {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 14vw, 10rem);
+      letter-spacing: 0.2em;
+      color: #fff;
+      opacity: 0;
+      transform: scale(0.96);
+      animation: splashLogoReveal 1.1s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.4s forwards;
+    }
+    .splash-logo span { color: var(--c-gold); }
+    @keyframes splashLogoReveal {
+      0% { opacity: 0; transform: scale(0.94); letter-spacing: 0.4em; }
+      100% { opacity: 1; transform: scale(1); letter-spacing: 0.2em; }
+    }
+    .splash-glow {
+      width: 120px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--c-gold), transparent);
+      margin-top: 1.2rem;
+      opacity: 0;
+      transform: scaleX(0.5);
+      animation: splashGlow 1.2s ease-out 1.2s forwards;
+    }
+    @keyframes splashGlow {
+      0% { opacity: 0; transform: scaleX(0.5); width: 40px; }
+      100% { opacity: 1; transform: scaleX(1); width: 120px; }
+    }
+
+    /* ===================== NAVIGATION - GLASSMORPHISM ===================== */
     #nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-      padding: 0 4rem; height: 68px;
+      padding: 0 clamp(1rem, 5vw, 4rem);
+      height: 72px;
       display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(7,7,9,0.98), transparent);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: all 0.4s var(--ease-out);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
     }
-    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: #fff; letter-spacing: 0.12em; }
-    .nav-logo span { color: #c9a84c; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links li a { font-size: 0.82rem; color: rgba(240,237,232,0.45); text-decoration: none; text-transform: uppercase; }
-    .search-input {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 50px; padding: 0.45rem 1rem; color: #f0ede8;
-      width: 200px; outline: none;
+    #nav.scrolled {
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(24px);
+      border-bottom-color: rgba(201,168,76,0.15);
     }
-    .btn-kids {
-      padding: 0.42rem 1.1rem; border: 1px solid #4a9eff;
-      border-radius: 50px; background: none; color: #4a9eff; cursor: pointer;
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 0.12em;
+      background: linear-gradient(135deg, #fff 0%, var(--c-gold) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
+    .nav-links {
+      display: flex; align-items: center; gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links li a {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      color: var(--c-muted);
+      transition: var(--transition);
+      text-transform: uppercase;
+      position: relative;
+    }
+    .nav-links li a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0; right: 0;
+      height: 1.5px; background: var(--c-gold); transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .nav-links li a:hover::after, .nav-links li a.active::after { transform: scaleX(1); }
+    .nav-links li a:hover, .nav-links li a.active { color: var(--c-text); }
 
-    #hero {
-      position: relative; height: 100vh; min-height: 600px;
-      display: flex; align-items: flex-end; overflow: hidden;
+    /* ===================== PREMIUM SEARCH ===================== */
+    .search-wrapper {
+      position: relative;
     }
-    .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+    .search-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 100px;
+      padding: 0.55rem 2.6rem 0.55rem 1rem;
+      color: var(--c-text);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      width: 220px;
+      outline: none;
+      transition: all 0.35s ease;
+    }
+    .search-input:focus {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--c-gold);
+      width: 280px;
+    }
+    .search-results-dropdown {
+      position: absolute; top: calc(100% + 12px); right: 0;
+      width: 380px;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+    .search-results-dropdown.open { display: block; }
+
+    /* ===================== HERO SECTION ===================== */
+    #hero {
+      position: relative; height: 95vh; min-height: 650px;
+      display: flex; align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center 20%;
+      transition: opacity 1.2s var(--ease-out);
+    }
     .hero-bg::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, #070709 0%, rgba(7,7,9,0.7) 40%, transparent 100%);
+      background: linear-gradient(to top, #000000 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.2) 100%);
     }
-    .hero-content { position: relative; z-index: 2; padding: 5rem; max-width: 680px; }
-    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; margin-bottom: 1rem; }
-    .hero-desc { font-size: 0.92rem; line-height: 1.7; color: rgba(240,237,232,0.75); margin-bottom: 2rem; }
-    .btn-play {
-      background: #fff; color: #000; padding: 0.85rem 2.2rem;
-      border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: clamp(2rem, 6vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+      padding-bottom: clamp(3rem, 7vw, 7rem);
+      max-width: 720px;
     }
-    .btn-info {
-      background: rgba(255,255,255,0.12); color: #fff; padding: 0.85rem 2rem;
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer;
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .btn-play-premium {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      background: var(--c-gold);
+      color: #000;
+      padding: 0.9rem 2.5rem;
+      border-radius: 40px;
+      font-weight: 700; font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+    }
+    .btn-play-premium:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201,168,76,0.5);
+      filter: brightness(1.05);
     }
 
-    .section { padding: 3rem 4rem; }
-    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 1.5rem; }
-    .section-title span { color: #c9a84c; }
+    /* ===================== MOVIE GRID - PREMIUM ===================== */
+    .section { padding: 2.5rem clamp(1.5rem, 5vw, 4rem); }
     .movie-row {
-      display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;
+      display: flex; gap: 1.2rem; overflow-x: auto;
+      padding-bottom: 1.2rem;
+      scrollbar-width: thin;
     }
-    .movie-row::-webkit-scrollbar { display: none; }
     .movie-card {
-      flex: 0 0 180px; cursor: pointer; border-radius: 12px;
-      overflow: hidden; background: #111118; position: relative;
-      transition: transform 0.2s;
+      flex: 0 0 clamp(140px, 17vw, 200px);
+      cursor: pointer; position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--c-card);
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
-    .movie-card:hover { transform: scale(1.05); }
-    .movie-card-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
-    .movie-card-rating {
-      position: absolute; top: 8px; right: 8px;
-      background: rgba(0,0,0,0.75); border-radius: 6px;
-      padding: 0.2rem 0.5rem; font-size: 0.68rem; color: #c9a84c;
-    }
-    .movie-card-play-btn {
-      position: absolute; bottom: 10px; left: 50%;
-      transform: translateX(-50%); background: rgba(255,255,255,0.9);
-      border: none; width: 40px; height: 40px; border-radius: 50%;
-      cursor: pointer; opacity: 0; transition: opacity 0.2s;
-    }
-    .movie-card:hover .movie-card-play-btn { opacity: 1; }
-    .movie-card-title { padding: 10px; font-size: 0.8rem; text-align: center; }
+    .movie-card:hover { transform: translateY(-8px) scale(1.02); }
 
+    /* ===================== EMBEDDED SMART PLAYER ===================== */
     #player-modal {
-      display: none; position: fixed; inset: 0; z-index: 10000;
-      background: #000; align-items: center; justify-content: center;
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.98);
+      align-items: center; justify-content: center;
     }
     #player-modal.open { display: flex; }
-    .player-container {
-      width: 90%; max-width: 1000px; background: #000;
-      border-radius: 16px; overflow: hidden;
+    .premium-player-container {
+      width: 90vw; max-width: 1280px;
+      background: #000; border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+      border: 1px solid rgba(255,255,255,0.08);
     }
-    .player-header {
-      padding: 15px 20px; background: #111;
-      display: flex; justify-content: space-between;
+    .player-video-frame { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
+    .player-video-frame iframe { width: 100%; height: 100%; border: none; }
+
+    /* ===================== CHILD LOCK BUTTON ===================== */
+    .child-lock-btn {
+      position: absolute; bottom: 20px; left: 20px; z-index: 30;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      padding: 0.6rem 1.2rem; border-radius: 40px;
+      font-size: 0.75rem; color: var(--c-text);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: var(--transition);
     }
-    .player-close {
-      background: #E50914; border: none; color: white;
-      padding: 5px 15px; border-radius: 50px; cursor: pointer;
+    .child-lock-btn.active { background: var(--c-red); border-color: var(--c-red); }
+
+    /* ===================== INFINITE SCROLL TRIGGER ===================== */
+    #infinite-trigger {
+      height: 40px; width: 100%;
+      text-align: center; padding: 1rem;
+      color: var(--c-muted);
     }
 
-    #detail-modal {
-      display: none; position: fixed; inset: 0; z-index: 950;
-      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+    /* ===================== DISCLAIMER PAGE ===================== */
+    #disclaimer-page {
+      display: none; position: fixed; inset: 0; z-index: 1500;
+      background: #0a0a0c; overflow-y: auto;
+      padding: 2rem;
     }
-    #detail-modal.open { display: flex; }
-    .detail-box {
-      width: 90%; max-width: 800px; background: #13131c;
-      border-radius: 20px; overflow: hidden;
+    #disclaimer-page.open { display: block; }
+    .disclaimer-paper {
+      max-width: 900px; margin: 2rem auto;
+      background: #111; border: 1px solid rgba(201,168,76,0.2);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
     }
-    .detail-body { padding: 1.5rem; }
 
+    /* ===================== KIDS MODE WITH CHILD LOCK ===================== */
     #kids-mode {
       display: none; position: fixed; inset: 0; z-index: 800;
-      background: #0a1628; overflow-y: auto;
+      background: var(--c-kids-bg);
+      overflow-y: auto;
     }
     #kids-mode.active { display: block; }
-    .kids-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1rem; padding: 2rem;
-    }
 
-    #toast {
-      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      background: #1a1a26; border-radius: 50px; padding: 0.7rem 1.5rem;
-      z-index: 9999; opacity: 0; transition: opacity 0.3s;
-    }
-    #toast.show { opacity: 1; }
-
+    /* ===================== RESPONSIVE ===================== */
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .hero-content { padding: 2rem; }
-      .hero-title { font-size: 2.5rem; }
-      .section { padding: 2rem; }
+      .search-input { width: 150px; }
+      .search-input:focus { width: 200px; }
+      .search-results-dropdown { width: 300px; }
+      .disclaimer-paper { padding: 1.5rem; margin: 1rem; }
+    }
+    @media (max-width: 480px) {
+      .premium-player-container { width: 98vw; border-radius: 16px; }
     }
   </style>
 </head>
 <body>
 
-<div id="splash" style="position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:splashOut 0.8s ease 3.2s forwards">
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:5rem;color:#fff;animation:splashLogoIn 1s ease 0.5s forwards;opacity:0">M<span style="color:#c9a84c">OO</span>DIE</div>
+<!-- ===================== SPLASH SCREEN ===================== -->
+<div id="splash">
+  <div class="splash-logo">M<span>OO</span>DIE</div>
+  <div class="splash-glow"></div>
 </div>
-<style>
-  @keyframes splashLogoIn { to { opacity: 1; } }
-  @keyframes splashOut { to { opacity: 0; pointer-events: none; } }
-</style>
 
+<!-- ===================== NAVIGATION ===================== -->
 <nav id="nav">
   <div class="nav-logo">M<span>OO</span>DIE</div>
   <ul class="nav-links">
-    <li><a href="#">الرئيسية</a></li>
-    <li><a href="#movies">أفلام</a></li>
-    <li><a href="#trending">الأكثر مشاهدة</a></li>
+    <li><a href="#" onclick="showHome()" class="active">الرئيسية</a></li>
+    <li><a href="#" onclick="showHome()">أفلام</a></li>
+    <li><a href="#" onclick="showHome()">مسلسلات</a></li>
+    <li><a href="#" onclick="openDisclaimer()">قانوني</a></li>
   </ul>
-  <div class="nav-right" style="display:flex;gap:1rem;align-items:center">
-    <input class="search-input" type="text" placeholder="ابحث عن فيلم..." id="searchInput">
+  <div class="nav-right">
+    <div class="search-wrapper">
+      <input class="search-input" type="text" placeholder="🔍 ابحث عن فيلم..." id="searchInput" />
+      <div class="search-results-dropdown" id="searchDropdown"></div>
+    </div>
     <button class="btn-kids" onclick="openKidsMode()">🌟 Kids</button>
   </div>
 </nav>
 
-<section id="hero">
-  <div class="hero-bg" id="heroBg"></div>
-  <div class="hero-content">
-    <h1 class="hero-title" id="heroTitle">MOODIE</h1>
-    <p class="hero-desc" id="heroDesc">جارٍ التحميل...</p>
-    <button class="btn-play" onclick="openMoviePlayer()">▶ شغّل الآن</button>
-    <button class="btn-info" onclick="openDetail(currentHeroMovie)">⊕ معلومات</button>
-  </div>
-</section>
+<!-- ===================== HERO ===================== -->
+<section id="hero"><div class="hero-bg" id="heroBg"></div><div class="hero-content" id="heroContent"></div></section>
 
-<main>
-  <div class="section" id="movies">
-    <div class="section-title">الأفلام <span>الشائعة</span></div>
-    <div class="movie-row" id="moviesRow"></div>
+<!-- ===================== MAIN SECTIONS (MOVIE ROWS) ===================== -->
+<main id="main-content">
+  <div class="mood-section" style="margin:1.5rem; padding:2rem; text-align:center; background:rgba(255,255,255,0.02); border-radius:var(--radius-lg);">
+    <h2 class="mood-title">ما هو مزاجك اليوم؟</h2>
+    <div class="mood-chips" style="display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; margin-top:1rem;">
+      <button class="mood-chip" onclick="filterByMood(28)">⚡ أكشن</button>
+      <button class="mood-chip" onclick="filterByMood(35)">😂 كوميدي</button>
+      <button class="mood-chip" onclick="filterByMood(10749)">❤️ رومانسي</button>
+      <button class="mood-chip" onclick="filterByMood(53)">😱 إثارة</button>
+    </div>
   </div>
-  <div class="section" id="trending">
-    <div class="section-title">الأكثر <span>مشاهدة</span></div>
-    <div class="movie-row" id="trendingRow"></div>
-  </div>
+  <div class="section"><h2 class="section-title">🔥 الأكثر مشاهدة</h2><div class="movie-row" id="trendingRow"></div></div>
+  <div class="section"><h2 class="section-title">🎬 الآن في السينما</h2><div class="movie-row" id="nowPlayingRow"></div></div>
+  <div id="infinite-trigger"></div>
 </main>
 
-<footer style="padding:2rem 4rem;border-top:1px solid rgba(255,255,255,0.07);margin-top:2rem">
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem">M<span style="color:#c9a84c">OO</span>DIE</div>
-  <div style="font-size:0.75rem;color:#666;margin-top:1rem">© 2025 MOODIE Cinema.</div>
+<!-- ===================== SMART PLAYER MODAL ===================== -->
+<div id="player-modal">
+  <div class="premium-player-container">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:0.8rem 1.2rem; background:#0a0a0a;">
+      <span id="playerTitle" style="font-weight:500;">MOODIE Cinema</span>
+      <button onclick="closePlayer()" style="color:white; background:rgba(255,255,255,0.1); width:32px; height:32px; border-radius:50%;">✕</button>
+    </div>
+    <div class="player-video-frame" id="playerFrame">
+      <div id="playerLoader" style="display:flex; align-items:center; justify-content:center; height:100%; background:#000;">⏳ جاري البحث عن أفضل سيرفر...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== KIDS MODE ===================== -->
+<div id="kids-mode">
+  <div style="padding:1rem; display:flex; justify-content:space-between; align-items:center; background:#0a1628;">
+    <h2 style="color:#4a9eff;">🌟 MOODIE KIDS</h2>
+    <button onclick="closeKidsMode()" style="color:white;">✕ خروج</button>
+  </div>
+  <div class="kids-grid" id="kidsGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:1rem; padding:1.5rem;"></div>
+  <button id="childLockBtn" class="child-lock-btn" onclick="toggleChildLock()">🔒 قفل الشاشة (للأطفال)</button>
+</div>
+
+<!-- ===================== DISCLAIMER PAGE ===================== -->
+<div id="disclaimer-page">
+  <div class="disclaimer-paper">
+    <h1 style="color:var(--c-gold); margin-bottom:1rem;">📜 الإخلاء القانوني / Disclaimer</h1>
+    <p style="margin-bottom:1rem; line-height:1.8;">منصة MOODIE هي منصة تقنية تعمل كـ "محرك بحث وجمع روابط" للمحتوى المتاح عبر الإنترنت. نحن لا نستضيف أي ملفات فيديو على خوادمنا الخاصة. جميع المحتويات المعروضة يتم جلبها من مصادر خارجية عبر واجهات برمجة التطبيقات (APIs) المفتوحة.</p>
+    <p style="margin-bottom:1rem;">MOODIE لا تتحمل أي مسؤولية قانونية عن المحتوى المنشور على الخوادم الخارجية. إذا كنت تمتلك حقوق ملكية لأي محتوى وترغب في إزالته، يرجى التواصل مع المزود الأصلي. هذا الموقع يلتزم بأحكام قانون الألفية الجديدة لحقوق طبع ونشر المواد الرقمية (DMCA).</p>
+    <p style="margin-bottom:2rem;">لأي استفسار: <strong style="color:var(--c-gold);">modie.cinema@proton.me</strong></p>
+    <button onclick="closeDisclaimer()" class="btn-play-premium">فهمت وأوافق</button>
+  </div>
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer style="border-top:1px solid rgba(255,255,255,0.05); padding:2rem; text-align:center;">
+  <p>© 2025 MOODIE — Your Mood. Your Cinema.</p>
+  <p style="margin-top:0.5rem; font-size:0.75rem; color:var(--c-muted);">📧 modie.cinema@proton.me</p>
 </footer>
 
-<div id="player-modal">
-  <div class="player-container">
-    <div class="player-header">
-      <span style="color:#c9a84c">🎬 MOODIE PREMIUM</span>
-      <button class="player-close" onclick="closePlayerModal()">✕ إغلاق</button>
-    </div>
-    <div id="playerContent" style="aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;text-align:center">
-      <div style="font-size:3rem">🎥</div>
-      <div id="playerMsg">جارٍ تجهيز المشغل...</div>
-      <button id="playerBtn" style="display:none;background:#c9a84c;border:none;color:#000;padding:12px 30px;border-radius:50px;cursor:pointer;font-weight:bold" onclick="openExternal()">▶ مشاهدة الفيلم</button>
-    </div>
-  </div>
-</div>
-
-<div id="detail-modal">
-  <div class="detail-box">
-    <button style="position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,0.7);border:none;color:white;width:36px;height:36px;border-radius:50%;cursor:pointer" onclick="closeDetail()">✕</button>
-    <img id="detailBackdrop" style="width:100%;aspect-ratio:16/9;object-fit:cover;opacity:0.6">
-    <div class="detail-body">
-      <h1 id="detailTitle" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem">—</h1>
-      <p id="detailOverview" style="margin:1rem 0;line-height:1.7">—</p>
-      <button class="btn-play" onclick="openMoviePlayer()">▶ شغّل الآن</button>
-    </div>
-  </div>
-</div>
-
-<div id="kids-mode">
-  <div style="padding:1rem 2rem;background:#0a1628;display:flex;justify-content:space-between">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#4a9eff">MOODIE KIDS</div>
-    <button onclick="closeKidsMode()" style="background:none;border:1px solid #aaa;color:#aaa;padding:0.5rem 1rem;border-radius:50px;cursor:pointer">✕ خروج</button>
-  </div>
-  <div class="kids-grid" id="kidsGrid"></div>
-</div>
-
-<div id="toast"></div>
-
 <script>
-  const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYTg3MzU4ZmUxNWU5MTMxNWIxM2MwYjFmNDM5YjhmZCIsIm5iZiI6MTc3NzI1NzU2My41MjcsInN1YiI6IjY5ZWVjYzViNDk4Y2YxNDA2NjAyOTkzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TQ6XojRk4ejK4DawXrMJ0tH-6enYdAkD-3wuqUGrcSs';
-  const IMG_BASE = 'https://image.tmdb.org/t/p/';
+  // ===================== CONFIG (TMDB + SMART SOURCES) =====================
+  const TMDB_KEY = 'da87358fe15e91315b13c0f1f439b8fd';
+  const TMDB_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYTg3MzU4ZmUxNWU5MTMxNWIxM2MwYjFmNDM5YjhmZCIsIm5iZiI6MTc3NzI1NzU2My41MjcsInN1YiI6IjY5ZWVjYzViNDk4Y2YxNDA2NjAyOTkzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TQ6XojRk4ejK4DawXrMJ0tH-6enYdAkD-3wuqUGrcSs';
+  const IMG_BASE = 'https://image.tmdb.org/t/p/w342';
+  const BACKDROP_BASE = 'https://image.tmdb.org/t/p/original';
   
-  let currentHeroMovie = null;
-  let heroMovies = [];
-  let currentPlayerUrl = null;
+  // قائمة السيرفرات الذكية (Smart Sources)
+  const SOURCES = [
+    { name: 'vidsrc.pro', url: (id, type) => `https://vidsrc.pro/embed/${type}/${id}` },
+    { name: 'embed.su',   url: (id, type) => `https://embed.su/embed/${type}/${id}` },
+    { name: 'vidsrc.to',  url: (id, type) => `https://vidsrc.to/embed/${type}/${id}` },
+    { name: 'superembed', url: (id, type) => `https://multiembed.mov/?video_id=${id}&tmdb=1` }
+  ];
+  
+  let currentMovie = null;
+  let currentMediaType = 'movie';
+  let currentPage = 1;
+  let isLoadingMore = false;
+  let childLockActive = false;
+  let kidsPlayerFrame = null;
 
-  async function tmdb(endpoint) {
-    const res = await fetch(`https://api.themoviedb.org/3${endpoint}`, {
-      headers: { 'Authorization': `Bearer ${API_TOKEN}` }
-    });
+  // ===================== API HELPER =====================
+  async function tmdbFetch(endpoint, params = {}) {
+    const url = new URL(`https://api.themoviedb.org/3${endpoint}`);
+    url.searchParams.set('api_key', TMDB_KEY);
+    url.searchParams.set('language', 'ar');
+    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k,v));
+    const res = await fetch(url);
     return res.json();
   }
 
-  function posterUrl(path) { return path ? `${IMG_BASE}w342${path}` : ''; }
-  function backdropUrl(path) { return path ? `${IMG_BASE}original${path}` : ''; }
-
-  async function loadHero() {
-    try {
-      const data = await tmdb('/movie/now_playing?language=ar&region=EG');
-      heroMovies = data.results.filter(m => m.backdrop_path).slice(0,5);
-      if(heroMovies.length) setHero(0);
-    } catch(e) { console.warn(e); }
+  // ===================== RENDER MOVIE CARD =====================
+  function renderMovieCard(movie, type = 'movie') {
+    const title = movie.title || movie.name;
+    const poster = movie.poster_path ? IMG_BASE + movie.poster_path : 'https://via.placeholder.com/300x450?text=No+Poster';
+    const year = (movie.release_date || movie.first_air_date || '').split('-')[0] || '—';
+    return `
+      <div class="movie-card" onclick="openSmartPlayer(${movie.id}, '${type}')">
+        <img class="movie-card-poster" src="${poster}" alt="${title}" loading="lazy" style="width:100%; aspect-ratio:2/3; object-fit:cover;" />
+        <div class="movie-card-overlay" style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, #000, transparent); padding:0.5rem;">
+          <div class="movie-card-title">${title}</div>
+          <div class="movie-card-meta">${year} ⭐ ${(movie.vote_average || 0).toFixed(1)}</div>
+        </div>
+      </div>
+    `;
   }
 
-  function setHero(index) {
-    const m = heroMovies[index];
-    if(!m) return;
-    currentHeroMovie = m;
-    document.getElementById('heroBg').style.backgroundImage = `url(${backdropUrl(m.backdrop_path)})`;
-    document.getElementById('heroTitle').innerHTML = m.title;
-    document.getElementById('heroDesc').innerHTML = m.overview || 'لا يوجد وصف';
+  // ===================== SMART PLAYER (AUTO SOURCE SELECTOR) =====================
+  window.openSmartPlayer = async function(id, type) {
+    currentMediaType = type;
+    currentMovie = { id, media_type: type };
+    document.getElementById('player-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const frameDiv = document.getElementById('playerFrame');
+    const loader = document.getElementById('playerLoader');
+    loader.style.display = 'flex';
+    loader.innerHTML = '🔄 فحص السيرفرات المتاحة (0/' + SOURCES.length + ')...';
+    frameDiv.innerHTML = '';
+    frameDiv.appendChild(loader);
+    
+    for (let i = 0; i < SOURCES.length; i++) {
+      const src = SOURCES[i];
+      loader.innerHTML = `🔍 جرب السيرفر: ${src.name} (${i+1}/${SOURCES.length})...`;
+      const iframeSrc = src.url(id, type);
+      // اختبار خفي للسيرفر (fetch بسيط)
+      try {
+        const testController = new AbortController();
+        const timeoutId = setTimeout(() => testController.abort(), 3000);
+        await fetch(iframeSrc, { mode: 'no-cors', signal: testController.signal });
+        clearTimeout(timeoutId);
+        // نجح الاختبار الضمني
+        loader.style.display = 'none';
+        const iframe = document.createElement('iframe');
+        iframe.src = iframeSrc;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.allow = 'autoplay; encrypted-media; fullscreen';
+        iframe.allowFullscreen = true;
+        frameDiv.innerHTML = '';
+        frameDiv.appendChild(iframe);
+        if (kidsPlayerFrame && childLockActive) {
+          iframe.style.pointerEvents = 'none';
+        }
+        showToast(`✅ تم التشغيل عبر ${src.name}`);
+        return;
+      } catch(e) {
+        console.log(`${src.name} فشل:`, e);
+      }
+    }
+    // إذا فشلت كل السيرفرات
+    loader.innerHTML = '⚠️ جميع السيرفرات معطلة حالياً. حاول مرة أخرى لاحقاً.';
+    setTimeout(() => closePlayer(), 2000);
+  };
+
+  function closePlayer() {
+    document.getElementById('player-modal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('playerFrame').innerHTML = '<div id="playerLoader" style="display:flex; align-items:center; justify-content:center; height:100%;">⏳ جاري البحث عن أفضل سيرفر...</div>';
   }
 
-  async function loadMovies() {
-    try {
-      const [popular, trending] = await Promise.all([
-        tmdb('/movie/popular?language=ar'),
-        tmdb('/trending/movie/week?language=ar')
-      ]);
-      renderMovies('moviesRow', popular.results.slice(0,12));
-      renderMovies('trendingRow', trending.results.slice(0,12));
-    } catch(e) { console.warn(e); }
+  // ===================== CHILD LOCK =====================
+  function toggleChildLock() {
+    childLockActive = !childLockActive;
+    const btn = document.getElementById('childLockBtn');
+    if (childLockActive) {
+      btn.innerHTML = '🔴 قفل نشط (اضغط مطولاً لإلغاء)';
+      btn.classList.add('active');
+      if (kidsPlayerFrame) kidsPlayerFrame.style.pointerEvents = 'none';
+      showToast('تم قفل الشاشة. اضغط مع الاستمرار 3 ثوانٍ لإلغاء القفل.');
+      // إلغاء القفل بالضغط المطول
+      let pressTimer;
+      btn.onmousedown = () => { pressTimer = setTimeout(() => { childLockActive = false; btn.innerHTML = '🔒 قفل الشاشة (للأطفال)'; btn.classList.remove('active'); if(kidsPlayerFrame) kidsPlayerFrame.style.pointerEvents = 'auto'; showToast('تم إلغاء قفل الشاشة'); }, 2000); };
+      btn.onmouseup = () => clearTimeout(pressTimer);
+      btn.ontouchstart = () => { pressTimer = setTimeout(() => { childLockActive = false; btn.innerHTML = '🔒 قفل الشاشة (للأطفال)'; btn.classList.remove('active'); if(kidsPlayerFrame) kidsPlayerFrame.style.pointerEvents = 'auto'; showToast('تم إلغاء قفل الشاشة'); }, 2000); };
+      btn.ontouchend = () => clearTimeout(pressTimer);
+    } else {
+      btn.innerHTML = '🔒 قفل الشاشة (للأطفال)';
+      btn.classList.remove('active');
+      if (kidsPlayerFrame) kidsPlayerFrame.style.pointerEvents = 'auto';
+    }
   }
 
-  function renderMovies(containerId, movies) {
-    const container = document.getElementById(containerId);
-    if(!movies.length) { container.innerHTML = '<p>لا توجد أفلام</p>'; return; }
-    container.innerHTML = movies.map(m => `
-      <div class="movie-card" onclick='openDetail(${JSON.stringify(m)})'>
-        <img class="movie-card-poster" src="${posterUrl(m.poster_path)}">
-        <div class="movie-card-rating">⭐ ${(m.vote_average||0).toFixed(1)}</div>
-        <button class="movie-card-play-btn" onclick="event.stopPropagation();playMovieNow(${JSON.stringify(m).replace(/"/g,'&quot;')})">▶</button>
-        <div class="movie-card-title">${m.title}</div>
+  // ===================== INFINITE SCROLL =====================
+  async function loadMoreMovies() {
+    if (isLoadingMore) return;
+    isLoadingMore = true;
+    currentPage++;
+    const data = await tmdbFetch('/movie/popular', { page: currentPage });
+    const newMovies = data.results;
+    const row = document.getElementById('nowPlayingRow');
+    newMovies.forEach(m => { row.insertAdjacentHTML('beforeend', renderMovieCard(m, 'movie')); });
+    isLoadingMore = false;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) loadMoreMovies();
+  }, { threshold: 0.5 });
+  document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.getElementById('infinite-trigger');
+    if (trigger) observer.observe(trigger);
+  });
+
+  // ===================== KIDS MODE =====================
+  async function loadKidsContent() {
+    const data = await tmdbFetch('/discover/movie', { with_genres: 16, sort_by: 'popularity.desc', 'certification.lte': 'G' });
+    const grid = document.getElementById('kidsGrid');
+    grid.innerHTML = data.results.slice(0, 20).map(m => `
+      <div class="kids-card" onclick="openSmartPlayer(${m.id}, 'movie')">
+        <img src="${IMG_BASE + m.poster_path}" style="width:100%; border-radius:12px;" />
+        <p style="text-align:center; margin-top:0.3rem;">${m.title}</p>
       </div>
     `).join('');
   }
+  window.openKidsMode = () => { document.getElementById('kids-mode').classList.add('active'); loadKidsContent(); };
+  window.closeKidsMode = () => { document.getElementById('kids-mode').classList.remove('active'); childLockActive = false; };
 
-  function playMovieNow(movie) {
-    currentHeroMovie = movie;
-    openMoviePlayer();
-  }
+  // ===================== DISCLAIMER & HOME =====================
+  window.openDisclaimer = () => document.getElementById('disclaimer-page').classList.add('open');
+  window.closeDisclaimer = () => document.getElementById('disclaimer-page').classList.remove('open');
+  window.showHome = () => { document.getElementById('disclaimer-page').classList.remove('open'); document.getElementById('kids-mode').classList.remove('active'); };
 
-  function openMoviePlayer() {
-    if(!currentHeroMovie) { showToast('اختار فيلماً أولاً'); return; }
-    const modal = document.getElementById('player-modal');
-    const msg = document.getElementById('playerMsg');
-    const btn = document.getElementById('playerBtn');
-    
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    
-    const mediaType = currentHeroMovie.first_air_date ? 'tv' : 'movie';
-    currentPlayerUrl = `https://vidsrc.xyz/embed/${mediaType}/${currentHeroMovie.id}`;
-    msg.innerHTML = `⚠️ سيتم فتح الفيلم بجودة عالية<br>قد يظهر إعلان بسيط`;
-    btn.style.display = 'block';
-  }
-
-  function closePlayerModal() {
-    document.getElementById('player-modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function openExternal() {
-    if(currentPlayerUrl) {
-      window.open(currentPlayerUrl, '_blank');
-      closePlayerModal();
+  // ===================== LOAD INITIAL CONTENT =====================
+  async function init() {
+    const trending = await tmdbFetch('/trending/movie/week');
+    const nowPlaying = await tmdbFetch('/movie/now_playing');
+    document.getElementById('trendingRow').innerHTML = trending.results.slice(0, 12).map(m => renderMovieCard(m, 'movie')).join('');
+    document.getElementById('nowPlayingRow').innerHTML = nowPlaying.results.slice(0, 12).map(m => renderMovieCard(m, 'movie')).join('');
+    if (trending.results[0]) {
+      document.getElementById('heroBg').style.backgroundImage = `url(${BACKDROP_BASE + trending.results[0].backdrop_path})`;
+      document.getElementById('heroContent').innerHTML = `<h1 class="hero-title">${trending.results[0].title}</h1><button class="btn-play-premium" onclick="openSmartPlayer(${trending.results[0].id},'movie')">▶ شغّل الآن</button>`;
     }
   }
+  function showToast(msg) { const t = document.createElement('div'); t.textContent = msg; t.style.position='fixed'; t.style.bottom='20px'; t.style.left='50%'; t.style.transform='translateX(-50%)'; t.style.background='var(--c-gold)'; t.style.color='#000'; t.style.padding='0.6rem 1.2rem'; t.style.borderRadius='40px'; t.style.zIndex='9999'; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
+  window.filterByMood = async (genreId) => {
+    const data = await tmdbFetch('/discover/movie', { with_genres: genreId });
+    document.getElementById('nowPlayingRow').innerHTML = data
+        document.getElementById('nowPlayingRow').innerHTML = data.results.slice(0, 12).map(m => renderMovieCard(m, 'movie')).join('');
+    showToast(`🎬 تم التصفية حسب النوع`);
+  };
 
-  function openDetail(movie) {
-    if(!movie) return;
-    currentHeroMovie = movie;
-    document.getElementById('detailTitle').innerHTML = movie.title;
-    document.getElementById('detailOverview').innerHTML = movie.overview || 'لا يوجد وصف';
-    document.getElementById('detailBackdrop').src = backdropUrl(movie.backdrop_path) || posterUrl(movie.poster_path);
-    document.getElementById('detail-modal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDetail() {
-    document.getElementById('detail-modal').style.display = 'none';
-    document.body.style.overflow = '';
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerHTML = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
-
-  async function openKidsMode() {
-    document.getElementById('kids-mode').classList.add('active');
-    document.body.style.overflow = 'hidden';
-    const grid = document.getElementById('kidsGrid');
-    if(grid.children.length < 2) {
-      const data = await tmdb('/discover/movie?with_genres=16&sort_by=popularity.desc');
-      grid.innerHTML = data.results.slice(0,12).map(m => `
-        <div class="kids-card" style="background:rgba(255,255,255,0.05);border-radius:16px;overflow:hidden;cursor:pointer" onclick='openDetail(${JSON.stringify(m)})'>
-          <img src="${posterUrl(m.poster_path)}" style="width:100%;aspect-ratio:2/3;object-fit:cover">
-          <div style="padding:0.5rem;text-align:center;font-size:0.75rem">${m.title}</div>
-        </div>
-      `).join('');
-    }
-  }
-
-  function closeKidsMode() {
-    document.getElementById('kids-mode').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
+  // ===================== SEARCH FUNCTIONALITY =====================
   const searchInput = document.getElementById('searchInput');
+  const searchDropdown = document.getElementById('searchDropdown');
+  
   searchInput.addEventListener('input', async (e) => {
-    const q = e.target.value.trim();
-    if(q.length < 2) { loadMovies(); return; }
-    const data = await tmdb(`/search/movie?query=${encodeURIComponent(q)}&language=ar`);
-    renderMovies('moviesRow', data.results.slice(0,12));
-    document.getElementById('trendingRow').innerHTML = '';
+    const query = e.target.value.trim();
+    if (query.length < 2) { searchDropdown.classList.remove('open'); return; }
+    
+    try {
+      const data = await tmdbFetch('/search/multi', { query: query });
+      const results = data.results.filter(r => r.media_type !== 'person').slice(0, 8);
+      if (results.length === 0) {
+        searchDropdown.innerHTML = '<div style="padding:1rem; color:var(--c-muted);">❌ لا توجد نتائج</div>';
+      } else {
+        searchDropdown.innerHTML = results.map(r => `
+          <div onclick="openSmartPlayer(${r.id}, '${r.media_type === 'tv' ? 'tv' : 'movie'}')" style="display:flex; align-items:center; gap:0.8rem; padding:0.7rem 1rem; cursor:pointer; border-bottom:1px solid rgba(255,255,255,0.05); transition:background 0.2s;">
+            <img src="${r.poster_path ? IMG_BASE + r.poster_path : 'https://via.placeholder.com/40x60'}" style="width:40px; height:56px; object-fit:cover; border-radius:6px;">
+            <div>
+              <div style="font-weight:500;">${r.title || r.name}</div>
+              <div style="font-size:0.7rem; color:var(--c-muted);">⭐ ${(r.vote_average || 0).toFixed(1)}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+      searchDropdown.classList.add('open');
+    } catch(err) { console.error(err); }
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrapper')) searchDropdown.classList.remove('open');
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    loadHero();
-    loadMovies();
+  // ===================== KEYBOARD SHORTCUTS =====================
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closePlayer();
+      closeKidsMode();
+      closeDisclaimer();
+    }
+    if (e.key === 'f' && document.getElementById('player-modal').classList.contains('open')) {
+      const iframe = document.querySelector('#player-frame iframe');
+      if (iframe) iframe.requestFullscreen();
+    }
   });
+
+  // ===================== PRE-FETCHING (ذكاء تنبؤي) =====================
+  let prefecthTimeout;
+  function prefetchNextMovie() {
+    const firstCard = document.querySelector('.movie-card');
+    if (firstCard) {
+      const onClickAttr = firstCard.getAttribute('onclick');
+      if (onClickAttr) {
+        // استخراج الـ ID من الـ onclick (تنظيف بسيط)
+        const match = onClickAttr.match(/openSmartPlayer\((\d+),/);
+        if (match && match[1]) {
+          const nextId = match[1];
+          // تحميل رابط السيرفر في الخلفية (preconnect)
+          const link = document.createElement('link');
+          link.rel = 'preconnect';
+          link.href = 'https://vidsrc.pro';
+          document.head.appendChild(link);
+        }
+      }
+    }
+  }
+  setInterval(prefetchNextMovie, 5000);
+
+  // ===================== SAVE USER WATCH HISTORY =====================
+  function saveToHistory(movieId, type) {
+    let history = JSON.parse(localStorage.getItem('moodie_history') || '[]');
+    history = history.filter(h => h.id !== movieId);
+    history.unshift({ id: movieId, type: type, timestamp: Date.now() });
+    if (history.length > 50) history.pop();
+    localStorage.setItem('moodie_history', JSON.stringify(history));
+  }
+
+  // تعديل openSmartPlayer عشان يحفظ السجل
+  const originalOpenSmartPlayer = window.openSmartPlayer;
+  window.openSmartPlayer = async function(id, type) {
+    saveToHistory(id, type);
+    return originalOpenSmartPlayer(id, type);
+  };
+
+  // ===================== LOAD RECOMMENDATIONS BASED ON HISTORY =====================
+  async function loadRecommendations() {
+    const history = JSON.parse(localStorage.getItem('moodie_history') || '[]');
+    if (history.length === 0) return;
+    
+    // جلب آخر 3 أفلام شاهدها المستخدم
+    const recentGenres = [];
+    for (let i = 0; i < Math.min(3, history.length); i++) {
+      const item = history[i];
+      const details = await tmdbFetch(`/${item.type}/${item.id}`);
+      if (details.genres) {
+        details.genres.forEach(g => recentGenres.push(g.id));
+      }
+    }
+    
+    // جلب أكثر genre تكرر
+    const genreCounts = {};
+    recentGenres.forEach(g => { genreCounts[g] = (genreCounts[g] || 0) + 1; });
+    const topGenre = Object.keys(genreCounts).sort((a,b) => genreCounts[b] - genreCounts[a])[0];
+    
+    if (topGenre) {
+      const recommendations = await tmdbFetch('/discover/movie', { with_genres: topGenre });
+      const recSection = document.createElement('div');
+      recSection.className = 'section';
+      recSection.innerHTML = `<h2 class="section-title">🎯 بناءً على مشاهداتك السابقة</h2><div class="movie-row" id="recRow"></div>`;
+      document.getElementById('main-content').insertBefore(recSection, document.getElementById('infinite-trigger'));
+      document.getElementById('recRow').innerHTML = recommendations.results.slice(0, 10).map(m => renderMovieCard(m, 'movie')).join('');
+    }
+  }
+
+  // ===================== SERVICE WORKER FOR OFFLINE CACHE (PWA READY) =====================
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW error:', err));
+  }
+
+  // ===================== LAUNCH EVERYTHING =====================
+  document.addEventListener('DOMContentLoaded', async () => {
+    await init();
+    await loadRecommendations();
+    
+    // إخفاء splash بعد ثواني
+    setTimeout(() => {
+      const splash = document.getElementById('splash');
+      if (splash) splash.style.display = 'none';
+    }, 4000);
+  });
+
+  // ===================== FIX GITHUB PAGES ISSUE =====================
+  // إضافة ملف .nojekyll تلقائياً عن طريق console.log تذكير
+  console.log('%c🚀 MOODIE Premium запущен | Для GitHub Pages: создайте пустой файл .nojekyll', 'color: #c9a84c; font-size: 16px;');
 </script>
+
+<!-- ===================== إعلانات ذكية غير مزعجة ===================== -->
+<div class="ad-slot" style="position: fixed; bottom: 10px; right: 10px; z-index: 999; opacity: 0.6; font-size: 10px; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 20px;">
+  <span style="color: rgba(255,255,255,0.3);">MOODIE ✦ Premium</span>
+</div>
+
 </body>
-      </html>
+</html>
