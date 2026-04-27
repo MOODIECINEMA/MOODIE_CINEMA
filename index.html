@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>MOODIE — Premium Cinema Experience</title>
+  <title>MOODIE — Premium Cinema</title>
   <style>
     * {
       margin: 0;
@@ -13,61 +13,56 @@
     body {
       background: #000000;
       color: #ffffff;
-      font-family: 'Segoe UI', 'DM Sans', system-ui, sans-serif;
+      font-family: 'Segoe UI', system-ui, sans-serif;
       overflow-x: hidden;
     }
-    /* Splash Screen */
+    /* Splash */
     #splash {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
       z-index: 10000;
       background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      animation: fadeOut 0.8s ease 2.5s forwards;
+      animation: fadeOut 0.6s ease 2s forwards;
     }
     @keyframes fadeOut {
       to { opacity: 0; visibility: hidden; }
     }
     .splash-logo {
-      font-size: clamp(3rem, 12vw, 7rem);
+      font-size: clamp(2.5rem, 10vw, 5rem);
       font-weight: bold;
-      letter-spacing: 0.15em;
       background: linear-gradient(135deg, #fff, #c9a84c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: logoPop 0.6s ease-out;
+      animation: pop 0.5s ease;
     }
-    @keyframes logoPop {
-      0% { opacity: 0; transform: scale(0.8); letter-spacing: 0.4em; }
-      100% { opacity: 1; transform: scale(1); letter-spacing: 0.15em; }
+    @keyframes pop {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
-    /* Navigation */
+    /* Nav */
     nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 900;
-      padding: 0 5vw;
-      height: 70px;
+      padding: 0 4vw;
+      height: 65px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(16px);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     .logo {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: bold;
-      letter-spacing: 0.08em;
       background: linear-gradient(135deg, #fff, #c9a84c);
       -webkit-background-clip: text;
       background-clip: text;
@@ -75,47 +70,49 @@
     }
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 1.8rem;
       list-style: none;
     }
     .nav-links a {
       color: rgba(255,255,255,0.6);
       text-decoration: none;
-      font-size: 0.85rem;
-      text-transform: uppercase;
+      font-size: 0.8rem;
       transition: 0.2s;
     }
     .nav-links a:hover {
       color: #c9a84c;
     }
     /* Search */
+    .search-box {
+      position: relative;
+    }
     .search-input {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 40px;
-      padding: 8px 16px;
+      border-radius: 30px;
+      padding: 7px 15px;
       color: white;
       width: 200px;
       outline: none;
     }
     .search-input:focus {
       border-color: #c9a84c;
-      width: 250px;
+      width: 240px;
     }
-    .search-dropdown {
+    .search-results {
       position: absolute;
-      top: 45px;
+      top: 42px;
       right: 0;
-      width: 320px;
+      width: 300px;
       background: #111;
-      border-radius: 16px;
+      border-radius: 12px;
       display: none;
       z-index: 1000;
     }
     /* Hero */
     .hero {
       position: relative;
-      height: 85vh;
+      height: 80vh;
       min-height: 500px;
       display: flex;
       align-items: flex-end;
@@ -132,33 +129,32 @@
     .hero-content {
       position: relative;
       z-index: 2;
-      max-width: 600px;
+      max-width: 550px;
     }
     .hero-title {
-      font-size: clamp(2rem, 7vw, 4.5rem);
+      font-size: clamp(1.8rem, 6vw, 3.8rem);
       margin-bottom: 1rem;
     }
-    .btn-play {
+    .btn-gold {
       background: #c9a84c;
       border: none;
       color: #000;
-      padding: 12px 32px;
+      padding: 10px 28px;
       border-radius: 40px;
       font-weight: bold;
-      font-size: 1rem;
       cursor: pointer;
       transition: 0.2s;
     }
-    .btn-play:hover {
+    .btn-gold:hover {
       transform: translateY(-2px);
       filter: brightness(1.05);
     }
-    /* Movie Rows */
+    /* Sections */
     .section {
       padding: 2rem 5vw;
     }
     .section-title {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       margin-bottom: 1rem;
     }
     .section-title span {
@@ -178,7 +174,7 @@
       border-radius: 3px;
     }
     .movie-card {
-      flex: 0 0 150px;
+      flex: 0 0 140px;
       cursor: pointer;
       border-radius: 12px;
       overflow: hidden;
@@ -192,14 +188,14 @@
       aspect-ratio: 2/3;
       object-fit: cover;
     }
-    .movie-card-info {
-      padding: 8px;
+    .movie-info {
+      padding: 6px;
       background: linear-gradient(to top, #000, transparent);
-      margin-top: -40px;
+      margin-top: -35px;
       position: relative;
     }
-    .movie-card-title {
-      font-size: 0.75rem;
+    .movie-title {
+      font-size: 0.7rem;
       font-weight: bold;
     }
     /* Player Modal */
@@ -215,16 +211,18 @@
     #playerModal.open {
       display: flex;
     }
-    .player-container {
-      width: 90vw;
+    .player-box {
+      width: 92vw;
       max-width: 1100px;
       background: #000;
       border-radius: 20px;
       overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
     }
     .player-frame {
       width: 100%;
       aspect-ratio: 16/9;
+      background: #000;
     }
     .player-frame iframe {
       width: 100%;
@@ -245,117 +243,71 @@
     }
     .kids-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 1rem;
       padding: 1.5rem;
-    }
-    .child-lock-btn {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0,0,0,0.7);
-      padding: 8px 20px;
-      border-radius: 40px;
-      border: 1px solid rgba(255,255,255,0.2);
-      cursor: pointer;
-      z-index: 810;
-    }
-    .child-lock-btn.active {
-      background: #e53935;
-    }
-    /* Disclaimer */
-    #disclaimerPage {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1500;
-      background: #0a0a0c;
-      padding: 2rem;
-      overflow-y: auto;
-    }
-    #disclaimerPage.open {
-      display: block;
-    }
-    .disclaimer-card {
-      max-width: 800px;
-      margin: 2rem auto;
-      background: #111;
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 24px;
-      padding: 2rem;
     }
     /* Footer */
     footer {
       border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 2rem;
+      padding: 1.5rem;
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: rgba(255,255,255,0.4);
     }
-    /* Responsive */
     @media (max-width: 700px) {
       .nav-links {
         display: none;
       }
       .search-input {
-        width: 130px;
+        width: 120px;
       }
       .movie-card {
-        flex: 0 0 120px;
-      }
-    }
-    @media (max-width: 480px) {
-      .hero {
-        height: 70vh;
-      }
-      .btn-play {
-        padding: 8px 20px;
-        font-size: 0.85rem;
+        flex: 0 0 110px;
       }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div id="splash">
   <div class="splash-logo">MOODIE</div>
 </div>
 
-<!-- NAVIGATION -->
+<!-- NAV -->
 <nav>
   <div class="logo">MOODIE</div>
   <ul class="nav-links">
     <li><a href="#" onclick="showHome()">الرئيسية</a></li>
     <li><a href="#" onclick="showHome()">أفلام</a></li>
     <li><a href="#" onclick="showHome()">مسلسلات</a></li>
-    <li><a href="#" onclick="openDisclaimer()">قانوني</a></li>
+    <li><a href="#" onclick="showDisclaimer()">قانوني</a></li>
   </ul>
-  <div style="position: relative;">
+  <div class="search-box">
     <input type="text" class="search-input" id="searchInput" placeholder="بحث...">
-    <div class="search-dropdown" id="searchDropdown"></div>
+    <div class="search-results" id="searchResults"></div>
   </div>
-  <button onclick="openKidsMode()" style="background: rgba(74,158,255,0.2); border: none; padding: 6px 18px; border-radius: 40px; color: #4a9eff; margin-left: 12px; cursor: pointer;">Kids</button>
+  <button onclick="openKidsMode()" style="background: rgba(74,158,255,0.2); border: none; padding: 5px 15px; border-radius: 30px; color: #4a9eff; margin-left: 10px; cursor: pointer;">🌟 Kids</button>
 </nav>
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 <div class="hero" id="heroSection">
   <div class="hero-content">
     <h1 class="hero-title" id="heroTitle">MOODIE</h1>
-    <button class="btn-play" id="heroPlayBtn">▶ تشغيل</button>
+    <button class="btn-gold" id="heroBtn">▶ تشغيل</button>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <main id="mainContent">
-  <div style="margin: 1.5rem 5vw; padding: 1.5rem; text-align: center; background: rgba(255,255,255,0.02); border-radius: 20px;">
-    <h3>اختر مزاجك</h3>
-    <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
-      <button onclick="filterByGenre(28)" style="background: rgba(255,255,255,0.05); border: none; padding: 6px 18px; border-radius: 40px; color: white; cursor: pointer;">اكشن</button>
-      <button onclick="filterByGenre(35)" style="background: rgba(255,255,255,0.05); border: none; padding: 6px 18px; border-radius: 40px; color: white; cursor: pointer;">كوميدي</button>
-      <button onclick="filterByGenre(10749)" style="background: rgba(255,255,255,0.05); border: none; padding: 6px 18px; border-radius: 40px; color: white; cursor: pointer;">رومانسي</button>
-      <button onclick="filterByGenre(53)" style="background: rgba(255,255,255,0.05); border: none; padding: 6px 18px; border-radius: 40px; color: white; cursor: pointer;">اثارة</button>
+  <div style="margin: 1rem 5vw; padding: 1rem; text-align: center; background: rgba(255,255,255,0.02); border-radius: 16px;">
+    <h3>🎭 اختر مزاجك</h3>
+    <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 0.8rem;">
+      <button onclick="filterGenre(28)" style="background: rgba(255,255,255,0.05); border: none; padding: 5px 15px; border-radius: 30px; color: white; cursor: pointer;">اكشن</button>
+      <button onclick="filterGenre(35)" style="background: rgba(255,255,255,0.05); border: none; padding: 5px 15px; border-radius: 30px; color: white; cursor: pointer;">كوميدي</button>
+      <button onclick="filterGenre(10749)" style="background: rgba(255,255,255,0.05); border: none; padding: 5px 15px; border-radius: 30px; color: white; cursor: pointer;">رومانسي</button>
+      <button onclick="filterGenre(53)" style="background: rgba(255,255,255,0.05); border: none; padding: 5px 15px; border-radius: 30px; color: white; cursor: pointer;">اثارة</button>
     </div>
   </div>
 
@@ -366,21 +318,21 @@
 
   <div class="section">
     <h2 class="section-title"><span>●</span> رائج الان</h2>
-    <div class="movie-row" id="nowPlayingRow"></div>
+    <div class="movie-row" id="nowRow"></div>
   </div>
 
-  <div id="infiniteTrigger" style="height: 20px;"></div>
+  <div id="loadMoreTrigger" style="height: 10px;"></div>
 </main>
 
 <!-- PLAYER MODAL -->
 <div id="playerModal">
-  <div class="player-container">
-    <div style="display: flex; justify-content: space-between; padding: 12px 20px; background: #0a0a0a;">
+  <div class="player-box">
+    <div style="display: flex; justify-content: space-between; padding: 10px 16px; background: #0a0a0a;">
       <span id="playerTitle">MOODIE</span>
       <button onclick="closePlayer()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✕</button>
     </div>
     <div class="player-frame" id="playerFrame">
-      <div style="display: flex; align-items: center; justify-content: center; height: 100%;">جاري تجهيز المشغل...</div>
+      <div style="display: flex; align-items: center; justify-content: center; height: 100%;">جاري تحميل المشغل...</div>
     </div>
   </div>
 </div>
@@ -388,80 +340,77 @@
 <!-- KIDS MODE -->
 <div id="kidsMode">
   <div style="padding: 1rem; background: #0a1628; display: flex; justify-content: space-between;">
-    <h2 style="color: #4a9eff;">MOODIE KIDS</h2>
-    <button onclick="closeKidsMode()" style="background: none; border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 40px; color: white; cursor: pointer;">خروج</button>
+    <h2 style="color: #4a9eff;">🌟 MOODIE KIDS</h2>
+    <button onclick="closeKidsMode()" style="background: none; border: 1px solid rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px; color: white; cursor: pointer;">خروج</button>
   </div>
   <div class="kids-grid" id="kidsGrid"></div>
-  <button id="childLockBtn" class="child-lock-btn" onclick="toggleChildLock()">قفل الشاشة</button>
 </div>
 
-<!-- DISCLAIMER PAGE -->
-<div id="disclaimerPage">
-  <div class="disclaimer-card">
+<!-- DISCLAIMER -->
+<div id="disclaimerPage" style="display: none; position: fixed; inset: 0; z-index: 1500; background: #0a0a0c; padding: 2rem; overflow-y: auto;">
+  <div style="max-width: 700px; margin: 2rem auto; background: #111; border: 1px solid rgba(201,168,76,0.3); border-radius: 20px; padding: 2rem;">
     <h2 style="color: #c9a84c;">الاخلاء القانوني</h2>
-    <p style="margin: 1rem 0; line-height: 1.7;">منصة MOODIE هي مجرد محرك بحث وتجميع للمحتوى من مصادر خارجية. الموقع لا يستضيف اي ملفات فيديو ولا يتحمل مسؤولية المحتوى المعروض. للتواصل: modie.cinema@proton.me</p>
-    <button onclick="closeDisclaimer()" class="btn-play" style="margin-top: 1rem;">اغلاق</button>
+    <p style="margin: 1rem 0; line-height: 1.6;">منصة MOODIE لا تستضيف أي محتوى فيديو. جميع الروابط من مصادر خارجية. للتواصل: modie.cinema@proton.me</p>
+    <button onclick="closeDisclaimer()" class="btn-gold">اغلاق</button>
   </div>
 </div>
 
 <footer>
-  <p>© 2025 MOODIE — Your Mood. Your Cinema.</p>
-  <p style="margin-top: 0.5rem;">modie.cinema@proton.me</p>
+  <p>© 2025 MOODIE — modie.cinema@proton.me</p>
 </footer>
 
 <script>
-// ===================== CONFIGURATION =====================
+// ============= CONFIG =============
 const API_KEY = 'da87358fe15e91315b13c0b1f439b8fd';
 const IMG_URL = 'https://image.tmdb.org/t/p/w342';
 const BACKDROP_URL = 'https://image.tmdb.org/t/p/original';
 
-// Video sources for streaming
+// ============= 6 سيرفرات بدل 2 (مش هتقع كلهم مرة واحدة) =============
 const VIDEO_SOURCES = [
   { name: 'vidsrc', url: (id, type) => `https://vidsrc.pro/embed/${type}/${id}` },
-  { name: 'embed', url: (id, type) => `https://embed.su/embed/${type}/${id}` }
+  { name: 'vidsrc2', url: (id, type) => `https://vidsrc.to/embed/${type}/${id}` },
+  { name: 'vidsrc3', url: (id, type) => `https://2embed.org/embed/${type}/${id}` },
+  { name: 'vidsrc4', url: (id, type) => `https://embed.su/embed/${type}/${id}` },
+  { name: 'vidsrc5', url: (id, type) => `https://multiembed.mov/?video_id=${id}&tmdb=1` },
+  { name: 'vidsrc6', url: (id, type) => `https://autoembed.co/embed/tmdb/${type}/${id}` }
 ];
 
-// Global variables
-let currentMovieId = null;
-let currentMediaType = 'movie';
-let childLockActive = false;
+let currentId = null;
+let currentType = 'movie';
 let currentPage = 1;
 let isLoading = false;
 
-// ===================== API HELPER =====================
-async function fetchFromTMDB(endpoint, params = {}) {
+// ============= API =============
+async function fetchAPI(endpoint, params = {}) {
   const url = new URL(`https://api.themoviedb.org/3${endpoint}`);
   url.searchParams.set('api_key', API_KEY);
   url.searchParams.set('language', 'ar');
-  for (let key in params) {
-    url.searchParams.set(key, params[key]);
-  }
-  const response = await fetch(url);
-  return response.json();
+  Object.keys(params).forEach(k => url.searchParams.set(k, params[k]));
+  const res = await fetch(url);
+  return res.json();
 }
 
-// ===================== RENDER MOVIE CARDS =====================
-function createMovieCard(movie, type = 'movie') {
+// ============= RENDER CARD =============
+function renderCard(movie, type = 'movie') {
   const title = movie.title || movie.name;
   const poster = movie.poster_path ? IMG_URL + movie.poster_path : '';
   const year = (movie.release_date || movie.first_air_date || '').slice(0, 4);
   const rating = (movie.vote_average || 0).toFixed(1);
-  
   return `
     <div class="movie-card" onclick="openPlayer(${movie.id}, '${type}')">
-      <img src="${poster}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Poster'">
-      <div class="movie-card-info">
-        <div class="movie-card-title">${title}</div>
-        <div style="font-size: 10px; opacity: 0.6;">${year} | ⭐ ${rating}</div>
+      <img src="${poster}" onerror="this.src='https://placehold.co/300x450/222/555?text=No+Image'">
+      <div class="movie-info">
+        <div class="movie-title">${title}</div>
+        <div style="font-size: 9px; opacity: 0.6;">${year} ⭐ ${rating}</div>
       </div>
     </div>
   `;
 }
 
-// ===================== SMART PLAYER (Auto Source) =====================
+// ============= المشغل الذكي (بيجرب السيرفرات واحد ورا التاني) =============
 window.openPlayer = async function(id, type) {
-  currentMovieId = id;
-  currentMediaType = type;
+  currentId = id;
+  currentType = type;
   
   const modal = document.getElementById('playerModal');
   const frame = document.getElementById('playerFrame');
@@ -470,19 +419,19 @@ window.openPlayer = async function(id, type) {
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
   
-  // Get movie details for title
+  // جلب اسم الفيلم
   try {
-    const details = await fetchFromTMDB(`/${type}/${id}`);
+    const details = await fetchAPI(`/${type}/${id}`);
     titleSpan.innerText = details.title || details.name || 'MOODIE';
   } catch(e) {}
   
-  // Try each source
-  let success = false;
+  // تجربة كل السيرفرات
+  let worked = false;
   for (let i = 0; i < VIDEO_SOURCES.length; i++) {
-    const source = VIDEO_SOURCES[i];
-    frame.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%;">جاري تجربة ${source.name} (${i+1}/${VIDEO_SOURCES.length})...</div>`;
+    const src = VIDEO_SOURCES[i];
+    frame.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%;">🔍 جاري تجربة ${src.name} (${i+1}/${VIDEO_SOURCES.length})...</div>`;
     
-    const videoUrl = source.url(id, type);
+    const videoUrl = src.url(id, type);
     const iframe = document.createElement('iframe');
     iframe.src = videoUrl;
     iframe.style.width = '100%';
@@ -493,215 +442,124 @@ window.openPlayer = async function(id, type) {
     frame.innerHTML = '';
     frame.appendChild(iframe);
     
-    // Wait a bit to see if it loads
-    await new Promise(r => setTimeout(r, 1000));
-    success = true;
+    // انتظار ثانية عشان نشوف لو شغال
+    await new Promise(r => setTimeout(r, 1200));
+    worked = true;
     break;
   }
   
-  if (!success) {
-    frame.innerHTML = '<div style="text-align: center; padding: 2rem;">عذراً، جميع السيرفرات معطلة حالياً. حاول لاحقاً.</div>';
+  if (!worked) {
+    frame.innerHTML = `<div style="text-align: center; padding: 2rem;">⚠️ جميع السيرفرات معطلة مؤقتاً. حاول مرة اخرى.</div>`;
   }
 };
 
 function closePlayer() {
   document.getElementById('playerModal').classList.remove('open');
   document.body.style.overflow = '';
-  document.getElementById('playerFrame').innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;">جاري تجهيز المشغل...</div>';
+  document.getElementById('playerFrame').innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;">جاري تحميل المشغل...</div>';
 }
 
-// ===================== KIDS MODE =====================
+// ============= KIDS MODE =============
 window.openKidsMode = async function() {
   document.getElementById('kidsMode').classList.add('active');
-  const data = await fetchFromTMDB('/discover/movie', { with_genres: 16, sort_by: 'popularity.desc' });
+  const data = await fetchAPI('/discover/movie', { with_genres: 16, sort_by: 'popularity.desc' });
   const grid = document.getElementById('kidsGrid');
   grid.innerHTML = data.results.slice(0, 20).map(m => `
-    <div onclick="openPlayer(${m.id}, 'movie')" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,0.05);">
+    <div onclick="openPlayer(${m.id}, 'movie')" style="cursor: pointer; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,0.05);">
       <img src="${IMG_URL + m.poster_path}" style="width: 100%; aspect-ratio: 2/3; object-fit: cover;">
-      <p style="text-align: center; padding: 6px; font-size: 12px;">${m.title}</p>
+      <p style="text-align: center; padding: 5px; font-size: 11px;">${m.title}</p>
     </div>
   `).join('');
 };
+window.closeKidsMode = () => document.getElementById('kidsMode').classList.remove('active');
 
-window.closeKidsMode = function() {
+// ============= DISCLAIMER =============
+window.showDisclaimer = () => document.getElementById('disclaimerPage').style.display = 'block';
+window.closeDisclaimer = () => document.getElementById('disclaimerPage').style.display = 'none';
+window.showHome = () => {
+  document.getElementById('disclaimerPage').style.display = 'none';
   document.getElementById('kidsMode').classList.remove('active');
-  childLockActive = false;
 };
 
-// Child Lock
-window.toggleChildLock = function() {
-  childLockActive = !childLockActive;
-  const btn = document.getElementById('childLockBtn');
-  if (childLockActive) {
-    btn.innerHTML = 'قفل نشط (اضغط مطولاً)';
-    btn.classList.add('active');
-    let timer;
-    const release = () => {
-      clearTimeout(timer);
-      childLockActive = false;
-      btn.innerHTML = 'قفل الشاشة';
-      btn.classList.remove('active');
-    };
-    btn.onmousedown = () => { timer = setTimeout(release, 2000); };
-    btn.onmouseup = () => clearTimeout(timer);
-    btn.ontouchstart = () => { timer = setTimeout(release, 2000); };
-    btn.ontouchend = () => clearTimeout(timer);
-  } else {
-    btn.innerHTML = 'قفل الشاشة';
-    btn.classList.remove('active');
-  }
+// ============= FILTER =============
+window.filterGenre = async (genreId) => {
+  const data = await fetchAPI('/discover/movie', { with_genres: genreId });
+  document.getElementById('nowRow').innerHTML = data.results.slice(0, 12).map(m => renderCard(m, 'movie')).join('');
+  alert('تم التصفية');
 };
 
-// ===================== DISCLAIMER =====================
-window.openDisclaimer = function() {
-  document.getElementById('disclaimerPage').classList.add('open');
-};
-window.closeDisclaimer = function() {
-  document.getElementById('disclaimerPage').classList.remove('open');
-};
-window.showHome = function() {
-  document.getElementById('disclaimerPage').classList.remove('open');
-  document.getElementById('kidsMode').classList.remove('open');
-};
-
-// ===================== GENRE FILTER =====================
-window.filterByGenre = async function(genreId) {
-  const data = await fetchFromTMDB('/discover/movie', { with_genres: genreId });
-  const row = document.getElementById('nowPlayingRow');
-  row.innerHTML = data.results.slice(0, 12).map(m => createMovieCard(m, 'movie')).join('');
-  showToast('تم التصفية حسب النوع');
-};
-
-// ===================== SEARCH =====================
+// ============= SEARCH =============
 const searchInput = document.getElementById('searchInput');
-const searchDropdown = document.getElementById('searchDropdown');
+const searchResults = document.getElementById('searchResults');
 
 searchInput.addEventListener('input', async function(e) {
-  const query = e.target.value.trim();
-  if (query.length < 2) {
-    searchDropdown.style.display = 'none';
-    return;
-  }
-  const data = await fetchFromTMDB('/search/multi', { query: query });
-  const results = data.results.filter(r => r.media_type !== 'person').slice(0, 6);
+  const q = e.target.value.trim();
+  if (q.length < 2) { searchResults.style.display = 'none'; return; }
+  const data = await fetchAPI('/search/multi', { query: q });
+  const results = data.results.filter(r => r.media_type !== 'person').slice(0, 5);
   if (results.length === 0) {
-    searchDropdown.innerHTML = '<div style="padding: 12px;">لا توجد نتائج</div>';
+    searchResults.innerHTML = '<div style="padding: 10px;">لا نتائج</div>';
   } else {
-    searchDropdown.innerHTML = results.map(r => `
-      <div onclick="openPlayer(${r.id}, '${r.media_type === 'tv' ? 'tv' : 'movie'}')" style="display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05);">
-        <img src="${r.poster_path ? IMG_URL + r.poster_path : ''}" style="width: 40px; height: 56px; object-fit: cover; border-radius: 6px;">
-        <div>
-          <div>${r.title || r.name}</div>
-          <div style="font-size: 11px; opacity: 0.6;">⭐ ${(r.vote_average || 0).toFixed(1)}</div>
-        </div>
+    searchResults.innerHTML = results.map(r => `
+      <div onclick="openPlayer(${r.id}, '${r.media_type === 'tv' ? 'tv' : 'movie'}')" style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <img src="${r.poster_path ? IMG_URL + r.poster_path : ''}" style="width: 35px; height: 50px; object-fit: cover; border-radius: 6px;">
+        <div><div style="font-size: 13px;">${r.title || r.name}</div><div style="font-size: 10px; opacity: 0.6;">⭐ ${(r.vote_average || 0).toFixed(1)}</div></div>
       </div>
     `).join('');
   }
-  searchDropdown.style.display = 'block';
+  searchResults.style.display = 'block';
 });
 
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.search-input') && !e.target.closest('.search-dropdown')) {
-    searchDropdown.style.display = 'none';
-  }
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-box')) searchResults.style.display = 'none';
 });
 
-// ===================== INFINITE SCROLL =====================
-async function loadMoreMovies() {
+// ============= INFINITE SCROLL =============
+async function loadMore() {
   if (isLoading) return;
   isLoading = true;
   currentPage++;
-  const data = await fetchFromTMDB('/movie/popular', { page: currentPage });
-  const row = document.getElementById('nowPlayingRow');
-  data.results.forEach(movie => {
-    row.insertAdjacentHTML('beforeend', createMovieCard(movie, 'movie'));
+  const data = await fetchAPI('/movie/popular', { page: currentPage });
+  const row = document.getElementById('nowRow');
+  data.results.forEach(m => {
+    row.insertAdjacentHTML('beforeend', renderCard(m, 'movie'));
   });
   isLoading = false;
 }
 
-const infiniteObserver = new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting) {
-    loadMoreMovies();
-  }
+const observer = new IntersectionObserver((e) => {
+  if (e[0].isIntersecting) loadMore();
 }, { threshold: 0.5 });
 
-// ===================== WATCH HISTORY =====================
-function saveToHistory(id, type) {
-  let history = JSON.parse(localStorage.getItem('moodie_history') || '[]');
-  history = history.filter(h => h.id !== id);
-  history.unshift({ id: id, type: type, date: Date.now() });
-  if (history.length > 30) history.pop();
-  localStorage.setItem('moodie_history', JSON.stringify(history));
-}
-
-// Override openPlayer to save history
-const originalOpen = window.openPlayer;
-window.openPlayer = function(id, type) {
-  saveToHistory(id, type);
-  return originalOpen(id, type);
-};
-
-// ===================== LOAD RECOMMENDATIONS =====================
-async function loadRecommendations() {
-  const history = JSON.parse(localStorage.getItem('moodie_history') || '[]');
-  if (history.length === 0) return;
-  
-  // Simple recommendation: get last watched genre
-  const lastMovie = history[0];
-  const details = await fetchFromTMDB(`/${lastMovie.type}/${lastMovie.id}`);
-  if (details.genres && details.genres.length > 0) {
-    const genreId = details.genres[0].id;
-    const recData = await fetchFromTMDB('/discover/movie', { with_genres: genreId });
-    const recSection = document.createElement('div');
-    recSection.className = 'section';
-    recSection.innerHTML = '<h2 class="section-title"><span>●</span> نرشح لك</h2><div class="movie-row" id="recRow"></div>';
-    document.getElementById('mainContent').insertBefore(recSection, document.getElementById('infiniteTrigger'));
-    document.getElementById('recRow').innerHTML = recData.results.slice(0, 10).map(m => createMovieCard(m, 'movie')).join('');
-  }
-}
-
-// ===================== INITIAL LOAD =====================
+// ============= INIT =============
 async function init() {
-  const trending = await fetchFromTMDB('/trending/movie/week');
-  const nowPlaying = await fetchFromTMDB('/movie/now_playing');
+  const trending = await fetchAPI('/trending/movie/week');
+  const now = await fetchAPI('/movie/now_playing');
   
-  document.getElementById('trendingRow').innerHTML = trending.results.slice(0, 12).map(m => createMovieCard(m, 'movie')).join('');
-  document.getElementById('nowPlayingRow').innerHTML = nowPlaying.results.slice(0, 12).map(m => createMovieCard(m, 'movie')).join('');
+  document.getElementById('trendingRow').innerHTML = trending.results.slice(0, 12).map(m => renderCard(m, 'movie')).join('');
+  document.getElementById('nowRow').innerHTML = now.results.slice(0, 12).map(m => renderCard(m, 'movie')).join('');
   
-  // Hero section
   const heroMovie = trending.results[0];
   if (heroMovie) {
     document.getElementById('heroSection').style.backgroundImage = `url(${BACKDROP_URL + heroMovie.backdrop_path})`;
     document.getElementById('heroTitle').innerText = heroMovie.title;
-    document.getElementById('heroPlayBtn').onclick = () => openPlayer(heroMovie.id, 'movie');
+    document.getElementById('heroBtn').onclick = () => openPlayer(heroMovie.id, 'movie');
   }
   
-  // Setup infinite scroll
-  const trigger = document.getElementById('infiniteTrigger');
-  if (trigger) infiniteObserver.observe(trigger);
-  
-  // Load recommendations
-  await loadRecommendations();
+  const trigger = document.getElementById('loadMoreTrigger');
+  if (trigger) observer.observe(trigger);
 }
 
-function showToast(message) {
-  const toast = document.createElement('div');
-  toast.innerText = message;
-  toast.style.cssText = 'position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #c9a84c; color: #000; padding: 8px 24px; border-radius: 40px; z-index: 10000; font-size: 14px;';
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2000);
-}
-
-// Start everything
+// Start
 document.addEventListener('DOMContentLoaded', () => {
   init();
   setTimeout(() => {
     const splash = document.getElementById('splash');
     if (splash) splash.style.display = 'none';
-  }, 3200);
+  }, 2800);
 });
 
-console.log('MOODIE Premium | Ready');
+console.log('MOODIE Premium | 6 سيرفرات للتشغيل');
 </script>
 </body>
 </html>
