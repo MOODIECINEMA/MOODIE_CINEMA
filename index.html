@@ -1,262 +1,513 @@
-import { useEffect, useState } from "react";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MOODIE | تجربة سينمائية بريميوم</title>
+    <!-- Font Awesome Icons (شكلها نضيف) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-// IMPORTANT:
-// ضع مفتاح TMDB الخاص بك هنا بشكل آمن
-// لا تضع المفتاح الحقيقي داخل GitHub مباشرة
-const API_KEY = "YOUR_TMDB_API_KEY";
-const BASE_URL = "https://api.themoviedb.org/3";
-const IMAGE_URL = "https://image.tmdb.org/t/p/original";
+        body {
+            background-color: #0A0A0A;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-export default function MoodiePremium() {
-  const [trending, setTrending] = useState([]);
-  const [kids, setKids] = useState([]);
-  const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
-  const [hero, setHero] = useState(null);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E50914;
+            border-radius: 10px;
+        }
 
-  useEffect(() => {
-    loadHome();
-  }, []);
+        /* Header - Like Netflix Premium */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #E50914, #FFB81C);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+        }
+        .logo span {
+            font-size: 0.8rem;
+            color: #E50914;
+            font-weight: 400;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #E50914;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid #333;
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+        }
+        .search-box i {
+            color: #aaa;
+        }
+        #searchInput {
+            background: transparent;
+            border: none;
+            padding: 0 10px;
+            color: white;
+            font-size: 0.9rem;
+            width: 200px;
+            outline: none;
+        }
+        .mode-toggle {
+            background: #1F1F1F;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .mode-toggle.kids-active {
+            background: #E50914;
+            color: white;
+        }
 
-  async function loadHome() {
-    try {
-      const trendRes = await fetch(
-        `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=ar`
-      );
-      const trendData = await trendRes.json();
+        /* Hero Section - Featured Movie */
+        .hero {
+            height: 85vh;
+            background-size: cover;
+            background-position: top center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 4rem 5rem 4rem;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, #0A0A0A 0%, transparent 70%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .hero-content .rating {
+            color: #FFD700;
+            margin-bottom: 1rem;
+        }
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #ddd;
+        }
+        .watch-btn {
+            background: #E50914;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .watch-btn:hover {
+            background: #f6121d;
+            transform: scale(1.02);
+        }
 
-      const kidsRes = await fetch(
-        `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16,10751&language=ar&sort_by=popularity.desc`
-      );
-      const kidsData = await kidsRes.json();
+        /* Movie Rows */
+        .row {
+            padding: 30px 50px 0 50px;
+        }
+        .row h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .movies-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            scroll-behavior: smooth;
+            padding-bottom: 15px;
+        }
+        .movie-card {
+            min-width: 200px;
+            width: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: #141414;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .movie-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+        .movie-card h3 {
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+        }
 
-      setTrending(trendData.results || []);
-      setKids(kidsData.results || []);
-      setHero((trendData.results || [])[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+        /* Video Player Modal (Premium Look) */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .video-modal.active {
+            display: flex;
+        }
+        .video-wrapper {
+            width: 90%;
+            max-width: 1200px;
+            background: black;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        .video-wrapper iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+        }
+        .close-video {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            z-index: 2001;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.8rem;
+        }
 
-  async function handleSearch(value) {
-    setSearch(value);
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; flex-wrap: wrap; gap: 10px; }
+            .hero { padding: 0 1rem 2rem 1rem; }
+            .hero-content h1 { font-size: 2rem; }
+            .movies-container { gap: 10px; }
+            .movie-card { min-width: 140px; width: 140px; }
+            .movie-card img { height: 200px; }
+        }
+    </style>
+</head>
+<body>
 
-    if (!value.trim()) {
-      setResults([]);
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${value}&language=ar`
-      );
-      const data = await res.json();
-      setResults(data.results || []);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const shownMovies = results.length ? results : trending;
-
-  return (
-    <div
-      style={{
-        background: "#07070b",
-        color: "white",
-        minHeight: "100vh",
-        fontFamily: "Arial",
-      }}
-    >
-      {/* Top Navbar */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "18px 30px",
-          position: "sticky",
-          top: 0,
-          background: "rgba(0,0,0,0.85)",
-          backdropFilter: "blur(10px)",
-          zIndex: 999,
-        }}
-      >
-        <h1 style={{ fontSize: 28, margin: 0 }}>
-          MOODIE <span style={{ color: "#f5c518" }}>VIP</span>
-        </h1>
-
-        <input
-          value={search}
-          onChange={(e) => handleSearch(e.target.value)}
-          placeholder="ابحث عن فيلم أو مسلسل..."
-          style={{
-            width: 320,
-            padding: 12,
-            borderRadius: 10,
-            border: "1px solid #222",
-            background: "#111",
-            color: "white",
-            outline: "none",
-          }}
-        />
-      </div>
-
-      {/* Hero Banner */}
-      {hero && (
-        <div
-          style={{
-            height: "75vh",
-            backgroundImage: `linear-gradient(to top, #07070b, rgba(0,0,0,0.2)), url(${IMAGE_URL}${hero.backdrop_path})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            display: "flex",
-            alignItems: "flex-end",
-            padding: 40,
-          }}
-        >
-          <div style={{ maxWidth: 650 }}>
-            <h2 style={{ fontSize: 42, marginBottom: 10 }}>
-              {hero.title}
-            </h2>
-
-            <p style={{ color: "#ddd", lineHeight: 1.7 }}>
-              {hero.overview || "تجربة سينمائية بريميوم داخل منصة MOODIE"}
-            </p>
-
-            <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-              <button
-                style={{
-                  padding: "14px 22px",
-                  border: "none",
-                  borderRadius: 10,
-                  background: "#f5c518",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-              >
-                ▶ شغل الآن
-              </button>
-
-              <button
-                style={{
-                  padding: "14px 22px",
-                  borderRadius: 10,
-                  border: "1px solid #444",
-                  background: "rgba(255,255,255,0.08)",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
-                المزيد من التفاصيل
-              </button>
-            </div>
-          </div>
+    <div class="navbar">
+        <div class="logo">
+            <h1>MOODIE <span>™</span></h1>
         </div>
-      )}
-
-      {/* Trending Section */}
-      <SectionTitle title="🔥 الأكثر مشاهدة الآن" />
-      <MovieRow movies={shownMovies} />
-
-      {/* Kids Mode */}
-      <div style={{ padding: "10px 30px" }}>
-        <div
-          style={{
-            background: "linear-gradient(90deg,#16213e,#0f3460)",
-            borderRadius: 18,
-            padding: 25,
-            marginBottom: 15,
-          }}
-        >
-          <h2>👶 Kids Mode</h2>
-          <p style={{ color: "#d8e6ff" }}>
-            مساحة آمنة للأطفال بمحتوى عائلي مناسب وتجربة مشاهدة نظيفة وآمنة.
-          </p>
+        <div class="nav-links">
+            <a href="#" class="active" id="homeLink">الرئيسية</a>
+            <a href="#" id="kidsLink">Kids Mode 🧸</a>
         </div>
-      </div>
-
-      <SectionTitle title="🧸 أفلام الأطفال والعائلة" />
-      <MovieRow movies={kids} />
-
-      {/* Footer + Watermark */}
-      <div
-        style={{
-          textAlign: "center",
-          padding: 40,
-          color: "#666",
-          marginTop: 30,
-        }}
-      >
-        Powered by MOODIE • Premium Cinema Experience • 4K Streaming Ready
-      </div>
-
-      <div
-        style={{
-          position: "fixed",
-          bottom: 15,
-          right: 20,
-          opacity: 0.12,
-          fontSize: 28,
-          fontWeight: "bold",
-          pointerEvents: "none",
-        }}
-      >
-        MOODIE
-      </div>
-    </div>
-  );
-}
-
-function SectionTitle({ title }) {
-  return (
-    <div style={{ padding: "20px 30px 10px" }}>
-      <h2 style={{ margin: 0 }}>{title}</h2>
-    </div>
-  );
-}
-
-function MovieRow({ movies }) {
-  const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        gap: 14,
-        overflowX: "auto",
-        padding: "10px 30px 25px",
-      }}
-    >
-      {movies.map((movie) => (
-        <div
-          key={movie.id}
-          style={{
-            minWidth: 180,
-            background: "#111",
-            borderRadius: 14,
-            overflow: "hidden",
-            flexShrink: 0,
-          }}
-        >
-          <div
-            style={{
-              height: 260,
-              backgroundImage: `url(${IMAGE_URL}${movie.poster_path})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-
-          <div style={{ padding: 12 }}>
-            <h4 style={{ margin: "0 0 6px" }}>{movie.title}</h4>
-            <p style={{ margin: 0, color: "#aaa", fontSize: 13 }}>
-              ⭐ {movie.vote_average?.toFixed(1)}
-            </p>
-          </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلم...">
         </div>
-      ))}
+        <div class="mode-toggle" id="modeToggleBtn">
+            <i class="fas fa-child"></i> وضع الأطفال
+        </div>
     </div>
-  );
-}
-      
+
+    <!-- Hero Section -->
+    <div class="hero" id="heroSection">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 id="heroTitle">Joker: Folie à Deux</h1>
+            <div class="rating" id="heroRating">★ 9.8</div>
+            <p id="heroDesc">تجربة سينمائية فريدة مع أداء أسطوري...</p>
+            <button class="watch-btn" id="heroWatchBtn"><i class="fas fa-play"></i> شغل الآن</button>
+        </div>
+    </div>
+
+    <div class="row" id="trendingRow">
+        <h2><i class="fas fa-fire"></i> الأكثر مشاهدة في منطقتك</h2>
+        <div class="movies-container" id="trendingContainer"></div>
+    </div>
+
+    <div class="row" id="nowPlayingRow">
+        <h2><i class="fas fa-ticket-alt"></i> يعرض الآن في السينما</h2>
+        <div class="movies-container" id="nowPlayingContainer"></div>
+    </div>
+
+    <div class="row" id="topRatedRow">
+        <h2><i class="fas fa-star"></i> الأعلى تقييماً على الإطلاق</h2>
+        <div class="movies-container" id="topRatedContainer"></div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 MOODIE - تجربة سينمائية بريميوم | بيانات الأفلام مقدمة من TMDB</p>
+        <p>صممناها بحب لكل عشاق السينما 🎬</p>
+    </div>
+
+    <!-- فيديو مودال -->
+    <div class="video-modal" id="videoModal">
+        <button class="close-video" id="closeVideoBtn">&times;</button>
+        <div class="video-wrapper" id="videoWrapper">
+            <iframe id="movieIframe" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // ---------- بيانات TMDB API الخاصة بك (من الصورة) ----------
+        const API_KEY = "da87358fe15e91315b13c0b1f439b8fd";
+        const ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYTg3MzU4ZmUxNWU5MTMxNWIxM2MwYjFmNDM5YjhMZCIsImMiOjE0NjQyNTg1OTc1MjkiLCJleHAiOjE2ODg4MDU3NTA1MSwibmFtZSI6ImRlZmluaXR5IiwiaWF0IjoxNjg4ODQ1NzQxMSwiaXNzIjoiaHR0cHM6Ly9saXZlcml6ZW5kb3duLmNvbS93d3cvMjAyMi8yMC8wMC8wMi8wNS8wNS8wNS8wNS8wNS8wNC8wNS8wNS8wNS8wNS8wNi8wNS8wNS8wNS8wNS8wNy8wNS8wNS8wNS8wNS8wOC8wNS8wNS8wNS8wNS8wOS8wNS8wNS8wNS8wNS8wNi8wNS8wNS8wNS8wNS8wNy8wNS8wNS8wNS8wNS8wOC8wNS8wNS8wNS8wNS8wOS8wNS8wNS8wNS8wNS8wOg";
+        
+        // Base URL للصور (جودة عالية)
+        const IMG_BASE = "https://image.tmdb.org/t/p/w500";
+        const BACKDROP_BASE = "https://image.tmdb.org/t/p/original";
+
+        let currentMode = "adult"; // adult or kids
+        let currentMoviesData = []; 
+
+        // هيدير الهيدر بتاع API
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${ACCESS_TOKEN}`
+            }
+        };
+
+        // دوال لجلب البيانات
+        async function fetchMovies(endpoint) {
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/${endpoint}`, options);
+                const data = await res.json();
+                return data.results || [];
+            } catch(error) {
+                console.error("API Error:", error);
+                return [];
+            }
+        }
+
+        // فلترة للأطفال (kids mode): تصنيف عمري أقل من 14، وأفلام عائلية)
+        function filterKids(movies) {
+            return movies.filter(movie => {
+                // نمنع الأفلام اللي تصنيفها R أو NC-17
+                if (movie.adult === true) return false;
+                if (movie.vote_average < 6) return false;
+                // نبحث عن أفلام عائلية أو رسوم متحركة عن طريق id genres (مش دقيق بس آمن)
+                return true; 
+            }).slice(0, 12);
+        }
+
+        // عرض الأفلام في container مع التعامل مع وضع الأطفال
+        function renderMovies(containerId, movies, rowType) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            if (!movies.length) {
+                container.innerHTML = "<p style='color:gray'>لا توجد أفلام متاحة حالياً</p>";
+                return;
+            }
+            let filtered = [...movies];
+            if (currentMode === "kids") {
+                filtered = filterKids(filtered);
+            }
+            container.innerHTML = filtered.map(movie => `
+                <div class="movie-card" data-id="${movie.id}" data-title="${movie.title}" data-overview="${movie.overview || ''}" data-poster="${IMG_BASE + movie.poster_path}" data-backdrop="${BACKDROP_BASE + movie.backdrop_path}" data-date="${movie.release_date}">
+                    <img src="${IMG_BASE + movie.poster_path}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x280?text=No+Image'">
+                    <h3>${movie.title}</h3>
+                </div>
+            `).join('');
+
+            // إضافة event listeners لكل بطاقة
+            document.querySelectorAll(`#${containerId} .movie-card`).forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.dataset.title;
+                    const overview = card.dataset.overview;
+                    const backdrop = card.dataset.backdrop;
+                    const movieId = card.dataset.id;
+                    showMovieDetails(title, overview, backdrop, movieId);
+                });
+            });
+        }
+
+        // عرض تفاصيل الفيلم في Hero ومعاينة
+        function showMovieDetails(title, overview, backdrop, movieId) {
+            document.getElementById('heroTitle').innerText = title;
+            document.getElementById('heroDesc').innerText = overview?.substring(0, 150) || "فيلم رائع ينتظرك على MOODIE";
+            if(backdrop) document.getElementById('heroSection').style.backgroundImage = `linear-gradient(0deg, #0A0A0A 0%, transparent 70%), url(${backdrop})`;
+            document.getElementById('heroWatchBtn').onclick = () => playMovie(movieId, title);
+        }
+
+        async function playMovie(movieId, movieTitle) {
+            // البحث عن فيديو (trailer) تابع للفيلم
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, options);
+                const data = await res.json();
+                const trailer = data.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
+                if(trailer) {
+                    const videoModal = document.getElementById('videoModal');
+                    const iframe = document.getElementById('movieIframe');
+                    iframe.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+                    videoModal.classList.add('active');
+                } else {
+                    alert("للأسف الفيديو غير متوفر حالياً، لكن الفيلم موجود على المنصة قريباً 🎬");
+                }
+            } catch(e) {
+                alert("حدث خطأ في تحميل المشغل");
+            }
+        }
+
+        // جلب وعرض كل الأقسام
+        async function loadAllData() {
+            const trendingMovies = await fetchMovies("trending/movie/day");
+            const nowPlaying = await fetchMovies("movie/now_playing");
+            const topRated = await fetchMovies("movie/top_rated");
+
+            renderMovies("trendingContainer", trendingMovies, "trending");
+            renderMovies("nowPlayingContainer", nowPlaying, "nowplaying");
+            renderMovies("topRatedContainer", topRated, "toprated");
+
+            // تعيين البطل (Hero) لأول فيلم من الأكثر مشاهدة
+            if(trendingMovies.length) {
+                const heroMovie = trendingMovies[0];
+                document.getElementById('heroTitle').innerText = heroMovie.title;
+                document.getElementById('heroDesc').innerText = heroMovie.overview || "استمتع بأحدث الأفلام الحصرية على MOODIE بجودة 4K.";
+                if(heroMovie.backdrop_path) document.getElementById('heroSection').style.backgroundImage = `linear-gradient(0deg, #0A0A0A 0%, transparent 70%), url(${BACKDROP_BASE + heroMovie.backdrop_path})`;
+                document.getElementById('heroWatchBtn').onclick = () => playMovie(heroMovie.id, heroMovie.title);
+            }
+        }
+
+        // البحث عن الأفلام
+        async function searchMovies(query) {
+            if(query.trim() === "") {
+                loadAllData();
+                return;
+            }
+            const searchResults = await fetchMovies(`search/movie?query=${encodeURIComponent(query)}`);
+            if(currentMode === "kids") {
+                const kidsResults = filterKids(searchResults);
+                renderMovies("trendingContainer", kidsResults, "search");
+                document.getElementById("nowPlayingContainer").innerHTML = "";
+                document.getElementById("topRatedContainer").innerHTML = "";
+                document.getElementById("nowPlayingRow").style.display = "none";
+                document.getElementById("topRatedRow").style.display = "none";
+            } else {
+                renderMovies("trendingContainer", searchResults, "search");
+                document.getElementById("nowPlayingContainer").innerHTML = "";
+                document.getElementById("topRatedContainer").innerHTML = "";
+                document.getElementById("nowPlayingRow").style.display = "none";
+                document.getElementById("topRatedRow").style.display = "none";
+            }
+        }
+
+        // تبديل وضع الأطفال
+        function toggleKidsMode() {
+            if(currentMode === "adult") {
+                currentMode = "kids";
+                document.getElementById("modeToggleBtn").classList.add("kids-active");
+                document.getElementById("kidsLink").style.color = "#E50914";
+                document.getElementById("homeLink").style.color = "white";
+                loadAllData(); // إعادة تحميل مع فلتر الأطفال
+                document.getElementById("nowPlayingRow").style.display = "block";
+                document.getElementById("topRatedRow").style.display = "block";
+            } else {
+                currentMode = "adult";
+                document.getElementById("modeToggleBtn").classList.remove("kids-active");
+                document.getElementById("homeLink").style.color = "#E50914";
+                document.getElementById("kidsLink").style.color = "white";
+                loadAllData();
+                document.getElementById("nowPlayingRow").style.display = "block";
+                document.getElementById("topRatedRow").style.display = "block";
+            }
+        }
+
+        // الأحداث
+        document.getElementById("modeToggleBtn").addEventListener("click", toggleKidsMode);
+        document.getElementById("kidsLink").addEventListener("click", (e) => {
+            e.preventDefault();
+            if(currentMode !== "kids") toggleKidsMode();
+        });
+        document.getElementById("homeLink").addEventListener("click", (e) => {
+            e.preventDefault();
+            if(currentMode !== "adult") toggleKidsMode();
+            document.getElementById("searchInput").value = "";
+            loadAllData();
+            document.getElementById("nowPlayingRow").style.display = "block";
+            document.getElementById("topRatedRow").style.display = "block";
+        });
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            searchMovies(e.target.value);
+        });
+        document.getElementById("closeVideoBtn").addEventListener("click", () => {
+            document.getElementById("videoModal").classList.remove("active");
+            document.getElementById("movieIframe").src = "";
+        });
+        // بدء التطبيق
+        loadAllData();
+    </script>
+</body>
+</html>
