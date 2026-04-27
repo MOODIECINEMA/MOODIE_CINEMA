@@ -502,4 +502,61 @@ searchInput.addEventListener('input', async (e) => {
       </div>
     `).join('');
   }
-  searchDropdown.classLis
+  searchDropdown.classList.add('open');
+});
+document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrapper')) searchDropdown.classList.remove('open'); });
+
+// ===================== INFINITE SCROLL =====================
+async function loadMore() {
+  if (isLoading) return;
+  isLoading = true;
+  currentPage++;
+  const data = await tmdbFetch('/movie/popular', { page: currentPage });
+  const row = document.getElementById('nowPlayingRow');
+  data.results.forEach(m => { row.insertAdjacentHTML('beforeend', renderMovieCard(m, 'movie')); });
+  isLoading = false;
+}
+const observer = new IntersectionObserver((e) => { if (e[0].isIntersecting) loadMore(); }, { threshold: 0.5 });
+observer.observe(document.getElementById('infinite-trigger'));
+
+// ===================== HISTORY & RECOMMENDATIONS =====================
+function saveToHistory(id, type) {
+  let history = JSON.parse(localStorage.getItem('moodie_history') || '[]');
+  history = history.filter(h => h.id !== id);
+  history.unshift({ id, type, time: Date.now() });
+  if (history.length > 30) history.pop();
+  localStorage.setItem('moodie_history', JSON.stringify(history));
+}
+const origOpen = window.openSmartPlayer;
+window.openSmartPlayer = async function(id, type) { saveToHistory(id, type); return origOpen(id, type); };
+
+// ===================== INIT =====================
+async function init() {
+  const trending = await tmdbFetch('/trending/movie/week');
+  const nowPlaying = await tmdbFetch('/movie/now_playing');
+  document.getElementById('trendingRow').innerHTML = trending.results.slice(0, 12).map(m => renderMovieCard(m, 'movie')).join('');
+  document.getElementById('nowPlayingRow').innerHTML = nowPlaying.results.slice(0, 12).map(m => renderMovieCard(m, 'movie')).join('');
+  if (trending.results[0]) {
+    document.getElementById('heroBg').style.backgroundImage = `url(${BACKDROP_BASE + trending.results[0].backdrop_path})`;
+    document.getElementById('heroContent').innerHTML = `<h1 class="hero-title">${trending.results[0].title}</h1><button class="btn-play-premium" onclick="openSmartPlayer(${trending.results[0].id},'movie')">▶ شغّل الآن</button>`;
+  }
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#c9a84c; color:#000; padding:8px 20px; border-radius:40px; z-index:10000; font-size:14px;';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  setTimeout(() => { const s = document.getElementById('splash'); if(s) s.style.display = 'none'; }, 4000);
+});
+
+// تذكير GitHub Pages
+console.log('%c MOODIE | تأكد من وجود ملف .nojekyll فارغ بجانب index.html', 'color:#c9a84c');
+</script>
+</body>
+</html>
