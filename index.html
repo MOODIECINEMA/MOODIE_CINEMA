@@ -1374,7 +1374,7 @@
     loadHero();
     loadSections();
   });
-    // ==================== المشغل الذكي الاحترافي ====================
+     // ==================== المشغل الذكي الاحترافي (احذف اللي قبله) ====================
   
   const PLAYERS = [
     { name: '🎬 Vidsrc.pro', url: (id, type) => `https://vidsrc.pro/embed/${type}/${id}` },
@@ -1384,6 +1384,7 @@
 
   let activeFrame = null;
 
+  // المشغل الذكي الرئيسي
   window.openSmartPlayer = async function(id, type, title) {
     const modal = document.getElementById('player-modal');
     const loading = document.getElementById('playerLoading');
@@ -1412,7 +1413,7 @@
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
-      iframe.allow = 'autoplay; fullscreen';
+      iframe.allow = 'autoplay; fullscreen; encrypted-media';
       iframe.allowFullscreen = true;
       
       const wrapper = document.createElement('div');
@@ -1423,16 +1424,17 @@
       wrapper.style.background = '#000';
       wrapper.appendChild(iframe);
       
+      // العلامة المائية
       const wm = document.createElement('div');
       wm.innerHTML = 'MOODIE™';
       wm.style.position = 'absolute';
       wm.style.bottom = '12px';
       wm.style.right = '15px';
-      wm.style.zIndex = '10';
+      wm.style.zIndex = '9999';
       wm.style.pointerEvents = 'none';
-      wm.style.fontFamily = "'Bebas Neue'";
+      wm.style.fontFamily = "'Bebas Neue', sans-serif";
       wm.style.fontSize = '0.9rem';
-      wm.style.background = 'linear-gradient(135deg,#c9a84c,#fff)';
+      wm.style.background = 'linear-gradient(135deg, #c9a84c, #fff)';
       wm.style.webkitBackgroundClip = 'text';
       wm.style.backgroundClip = 'text';
       wm.style.color = 'transparent';
@@ -1440,7 +1442,7 @@
       
       try {
         const c = new AbortController();
-        setTimeout(() => c.abort(), 2000);
+        setTimeout(() => c.abort(), 2500);
         await fetch(p.url(id, type), { mode: 'no-cors', signal: c.signal });
         
         const container = document.querySelector('.player-container');
@@ -1449,48 +1451,60 @@
         container.insertBefore(wrapper, loading);
         activeFrame = wrapper;
         loading.style.display = 'none';
-        showToast(`✅ ${p.name.split(' ')[1]}`);
+        
+        const toastMsg = document.getElementById('toast');
+        if(toastMsg) {
+          toastMsg.textContent = `✅ تم التشغيل عبر ${p.name.split(' ')[1]}`;
+          toastMsg.classList.add('show');
+          setTimeout(() => toastMsg.classList.remove('show'), 2500);
+        }
         return;
-      } catch(e) {}
+      } catch(e) {
+        console.log(`${p.name} غير متاح`);
+      }
     }
     
-    if(loaderText) loaderText.textContent = '⚠️ السيرفرات معطلة';
-    setTimeout(() => { loading.style.display = 'flex'; noDiv.style.display = 'flex'; }, 1500);
+    if(loaderText) loaderText.textContent = '⚠️ جميع السيرفرات معطلة حالياً';
+    setTimeout(() => {
+      loading.style.display = 'flex';
+      noDiv.style.display = 'flex';
+    }, 1500);
   };
 
+  // إغلاق المشغل
   window.closePlayer = function() {
-    document.getElementById('player-modal').classList.remove('open');
+    const modal = document.getElementById('player-modal');
+    modal.classList.remove('open');
     document.body.style.overflow = '';
     if(activeFrame) { activeFrame.remove(); activeFrame = null; }
-    document.getElementById('playerLoading').style.display = 'flex';
-    document.getElementById('ytFrame').src = '';
+    const loading = document.getElementById('playerLoading');
+    if(loading) loading.style.display = 'flex';
+    const ytFrame = document.getElementById('ytFrame');
+    if(ytFrame) ytFrame.src = '';
   };
 
+  // تشغيل الفيلم الحالي
   window.openPlayer = function() {
     if(currentHeroMovie) {
-      openSmartPlayer(currentHeroMovie.id, currentHeroMovie.first_air_date ? 'tv' : 'movie', currentHeroMovie.title);
+      openSmartPlayer(currentHeroMovie.id, currentHeroMovie.first_air_date ? 'tv' : 'movie', currentHeroMovie.title || currentHeroMovie.name);
     } else {
-      showToast('اختر فيلماً أولاً');
+      const toastMsg = document.getElementById('toast');
+      if(toastMsg) {
+        toastMsg.textContent = '❌ اختر فيلماً أولاً';
+        toastMsg.classList.add('show');
+        setTimeout(() => toastMsg.classList.remove('show'), 2500);
+      }
     }
   };
 
-  function showToast(msg) {
-    let t = document.getElementById('toast');
-    if(!t) {
-      t = document.createElement('div');
-      t.id = 'toast';
-      t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#c9a84c;color:#000;padding:8px 20px;border-radius:40px;z-index:10000;font-size:13px;';
-      document.body.appendChild(t);
-    }
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
-
+  // ملء الشاشة
   window.toggleFullscreen = function() {
     const el = document.querySelector('.player-container');
-    if(!document.fullscreenElement) el.requestFullscreen();
-    else document.exitFullscreen();
+    if(!document.fullscreenElement) {
+      el.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
   };
 </script>
 </body>
