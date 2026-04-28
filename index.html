@@ -894,31 +894,36 @@ const HEADERS    = { 'Authorization': `Bearer ${API_TOKEN}`, 'Content-Type': 'ap
 ================================================================ */
 const STREAM_SERVERS = [
   {
-    id: 's1', name: '🎬 Vidsrc',
+    id: 's1', name: '🎬 AutoEmbed',
     url: (id, type, s, e) => type === 'tv'
-      ? `https://vidsrc.pro/embed/tv/${id}/${s}/${e}`
-      : `https://vidsrc.pro/embed/movie/${id}`,
+      ? `https://autoembed.to/embed/tv/${id}/${s}/${e}`
+      : `https://autoembed.to/embed/movie/${id}`,
   },
   {
-    id: 's2', name: '🎥 2Embed',
+    id: 's2', name: '🎥 VidSrc.icu',
     url: (id, type, s, e) => type === 'tv'
-      ? `https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`
-      : `https://www.2embed.cc/embed/${id}`,
+      ? `https://vidsrc.icu/embed/tv/${id}/${s}/${e}`
+      : `https://vidsrc.icu/embed/movie/${id}`,
   },
   {
-    id: 's3', name: '🎞️ Embed.su',
+    id: 's3', name: '🎞️ MovieWeb',
     url: (id, type, s, e) => type === 'tv'
-      ? `https://embed.su/embed/tv/${id}/${s}/${e}`
-      : `https://embed.su/embed/movie/${id}`,
+      ? `https://movieweb.app/tv/${id}/${s}/${e}`
+      : `https://movieweb.app/movie/${id}`,
   },
   {
-    id: 's4', name: '📺 Vidsrc.to',
+    id: 's4', name: '📺 2Embed.su',
     url: (id, type, s, e) => type === 'tv'
-      ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}`
-      : `https://vidsrc.to/embed/movie/${id}`,
+      ? `https://2embed.su/embed/tv/${id}/${s}/${e}`
+      : `https://2embed.su/embed/movie/${id}`,
   },
+  {
+    id: 's5', name: '🔥 Vidsrc.cc',
+    url: (id, type, s, e) => type === 'tv'
+      ? `https://vidsrc.cc/embed/tv/${id}/${s}/${e}`
+      : `https://vidsrc.cc/embed/movie/${id}`,
+  }
 ];
-
 let activeFrame      = null;
 let currentServerId  = 's1';
 let currentPlayData  = null;
