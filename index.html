@@ -2,365 +2,341 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>VoltFlix | شاهد أحدث الأفلام والمسلسلات مجاناً</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoltFlix | منصة الترفيه الأولى</title>
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluent/48/000000/movie-projector.png">
-    
-    <!-- SEO الفتاك ليتصدر الموقع في جوجل -->
-    <meta name="description" content="منصة VoltFlix لمشاهدة أحدث الأفلام والمسلسلات بجودة عالية وبدون إعلانات مزعجة ومتوافقة تماماً مع الموبايل والشاشات الذكية.">
-    <meta name="keywords" content="VoltFlix, فولت فليكس, أفلام ومسلسلات, مشاهدة أفلام اون لاين, نتفليكس مجانا">
-    <meta name="robots" content="index, follow">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-color: #E50914; 
-            --bg-color: #141414; 
+            --primary: #E50914;
+            --main-bg: #141414;
             --card-bg: #181818;
-            --text-color: #ffffff;
-            --text-muted: #aaaaaa;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Cairo', sans-serif; 
-            -webkit-tap-highlight-color: transparent; /* يمنع الوميض الأزرق في الموبايل عند الضغط */
-        }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--main-bg); color: #fff; overflow-x: hidden; }
 
-        /* سبلش سكرين نتفليكس الاحترافية */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: #000;
-            z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
+        /* سبلش سكرين حقيقية سريعة */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: opacity 0.4s;
         }
-        .splash-logo { color: var(--primary-color); font-size: calc(2.5rem + 2vw); font-weight: 900; letter-spacing: 4px; animation: pulse 1.5s infinite alternate; }
-        .loader-bar { width: 160px; height: 4px; background: #222; border-radius: 2px; overflow: hidden; margin-top: 20px; }
-        .loader-progress { width: 0%; height: 100%; background: var(--primary-color); animation: load 2s ease-in-out forwards; }
+        .splash-title { color: var(--primary); font-size: 4rem; font-weight: 900; letter-spacing: 3px; }
 
-        /* نيفبار كامل متجاوب */
+        /* الهيدر */
         header {
             position: fixed; top: 0; left: 0; width: 100%; padding: 20px 4%;
             display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%); transition: 0.4s;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
-        header.scrolled { background-color: var(--bg-color); padding: 12px 4%; border-bottom: 1px solid #252525; }
-        .logo { color: var(--primary-color); font-size: calc(1.5rem + 0.5vw); font-weight: 900; text-decoration: none; letter-spacing: 1px; }
+        .logo { color: var(--primary); font-size: 2rem; font-weight: 900; text-decoration: none; }
         
-        /* شريط البحث الذكي */
-        .search-box { display: flex; align-items: center; background: rgba(0,0,0,0.6); border: 1px solid #555; padding: 6px 12px; border-radius: 4px; }
-        .search-box input { background: transparent; border: none; color: #fff; outline: none; padding-right: 10px; width: 140px; font-size: 0.9rem; transition: width 0.4s; }
-        .search-box input:focus { width: 220px; }
-        .search-box i { color: #fff; font-size: 0.9rem; }
-
-        /* الهيرو البانر الضخم فوق */
-        .hero {
-            position: relative; height: 75vh; min-height: 450px; display: flex; align-items: center; padding: 0 4%;
-            background-size: cover; background-position: center center;
+        .search-wrapper { position: relative; }
+        .search-wrapper input {
+            background: rgba(0,0,0,0.6); border: 1px solid #555; padding: 8px 15px;
+            color: #fff; border-radius: 4px; outline: none; width: 240px; font-size: 0.9rem;
         }
-        .hero::before {
+
+        /* البانر العلوي الضخم */
+        .hero-banner {
+            height: 80vh; position: relative; background-size: cover; background-position: center;
+            display: flex; align-items: center; padding: 0 4%;
+        }
+        .hero-banner::before {
+            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(to right, rgba(20,20,20,0.9) 30%, transparent 100%),
+                        linear-gradient(to top, var(--main-bg) 0%, transparent 40%);
+        }
+        .hero-text { position: relative; z-index: 10; max-width: 650px; }
+        .hero-text h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 15px; line-height: 1.2; }
+        .hero-text p { font-size: 1.1rem; color: #ccc; margin-bottom: 20px; }
+
+        /* صفوف الأفلام الانزلاقية (شغل نتفليكس الحقيقي) */
+        .content-area { padding: 0 4% 50px 4%; margin-top: -60px; position: relative; z-index: 100; }
+        .row-container { margin-bottom: 40px; }
+        .row-container h2 { font-size: 1.4rem; margin-bottom: 15px; font-weight: 700; }
+        
+        .slider-box {
+            display: flex; gap: 12px; overflow-x: auto; padding: 10px 0;
+            scroll-behavior: smooth;
+        }
+        .slider-box::-webkit-scrollbar { height: 6px; }
+        .slider-box::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        
+        .movie-poster {
+            min-width: 180px; width: 180px; height: 260px; background: var(--card-bg);
+            border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.3s;
+            position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .movie-poster:hover { transform: scale(1.06); z-index: 10; }
+        .movie-poster img { width: 100%; height: 100%; object-fit: cover; }
+        .movie-title-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            font-size: 0.85rem; font-weight: bold; text-align: center;
+        }
+
+        /* كارت العرض والمشغل (Modal) */
+        .netflix-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0,0,0,0.9); z-index: 5000; display: none;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-card {
+            background: var(--card-bg); width: 100%; max-width: 850px;
+            border-radius: 8px; overflow: hidden; position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .close-btn {
+            position: absolute; top: 15px; right: 15px; background: #000; color: #fff;
+            border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 200;
+        }
+        
+        /* مكان المشغل السحري */
+        .player-frame-wrapper {
+            width: 100%; height: 450px; background: #000; display: none;
+        }
+        .player-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
+
+        .modal-backdrop-img { height: 350px; background-size: cover; background-position: center; position: relative; }
+        .modal-backdrop-img::before {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(20,20,20,0.9) 30%, transparent 100%), linear-gradient(to top, var(--bg-color) 0%, transparent 40%);
-        }
-        .hero-content { position: relative; z-index: 10; max-width: 650px; width: 100%; }
-        .hero-title { font-size: calc(1.8rem + 1.5vw); font-weight: 900; margin-bottom: 12px; line-height: 1.2; }
-        .hero-overview { font-size: calc(0.9rem + 0.2vw); color: #e5e5e5; margin-bottom: 20px; line-height: 1.5; }
-        
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-size: 1rem; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; transition: 0.2s; }
-        .btn-primary { background-color: #fff; color: #000; }
-        .btn-primary:hover { background-color: rgba(255,255,255,0.8); }
-
-        /* صفوف البوسترات الأفقية (Netflix Rows مع دعم اللمس الكامل لـ iOS و Android) */
-        .main-layout { padding: 0 0 50px 0; margin-top: -40px; position: relative; z-index: 20; }
-        .movie-row { margin-bottom: 25px; padding-right: 4%; }
-        .row-title { font-size: calc(1.1rem + 0.3vw); margin-bottom: 10px; font-weight: 700; letter-spacing: 0.5px; }
-        
-        .posters-container { 
-            display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* سحب ناعم جداً على آيفون وأندرويد */
-        }
-        /* إخفاء شريط التمرير الافتراضي المقزز لجعل التصميم نظيف */
-        .posters-container::-webkit-scrollbar { height: 4px; }
-        .posters-container::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-        
-        /* كروت متجاوبة تماماً */
-        .movie-card { 
-            min-width: calc(130px + 4vw); width: calc(130px + 4vw); 
-            height: calc(195px + 6vw); background-color: var(--card-bg); 
-            border-radius: 6px; overflow: hidden; cursor: pointer; 
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); position: relative; 
-        }
-        /* تأثير التكبير يتم تفعيله فقط على الشاشات التي تدعم الهوفر (الكمبيوتر) عشان الموبايل ميهنجش */
-        @media (hover: hover) {
-            .movie-card:hover { transform: scale(1.06); z-index: 50; boxShadow: 0 10px 20px rgba(0,0,0,0.5); }
-            .movie-card:hover .card-overlay { opacity: 1; }
-        }
-        .movie-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        .card-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: linear-gradient(to top, #000 80%, transparent); opacity: 0; transition: 0.3s; }
-        .card-overlay h4 { font-size: 0.85rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-
-        /* نتائج البحث */
-        #search-results-section { display: none; padding: 90px 4% 40px 4%; }
-        .search-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(120px + 4vw), 1fr)); gap: 15px; }
-
-        /* الكارت الضخم والمشغل المتجاوب 100% (Netflix style Modal) */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; padding: 10px; }
-        .modal.open { opacity: 1; visibility: visible; }
-        .modal-content { background-color: var(--card-bg); width: 100%; max-width: 850px; border-radius: 8px; overflow: hidden; position: relative; max-height: 94vh; overflow-y: auto; }
-        
-        .modal-banner { position: relative; height: 40vh; min-height: 240px; background-size: cover; background-position: center; }
-        .modal-banner::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--card-bg) 0%, transparent 100%); }
-        .close-modal { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; z-index: 100; font-size: 1rem; }
-        
-        /* مشغل فيديو بأبعاد ذهبية متجاوبة على كل الشاشات */
-        .video-box { display: none; width: 100%; position: relative; padding-top: 56.25%; /* أبعاد 16:9 السحرية لتطابق الهواتف والشاشات */ background: #000; }
-        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        .modal-body { padding: 25px; display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-        .detail-title { font-size: calc(1.4rem + 0.6vw); font-weight: 900; margin-bottom: 10px; }
-        .detail-overview { color: #e5e5e5; line-height: 1.6; margin-bottom: 15px; font-size: 0.95rem; }
-        .meta-info p { margin-bottom: 8px; font-size: 0.9rem; }
-        .green-meta { color: #46d369; font-weight: bold; }
-
-        /* شاشات الموبايل والتابلت الصغيرة */
-        @media(max-width: 768px) {
-            header { padding: 15px 4%; }
-            .search-box input { width: 100px; }
-            .search-box input:focus { width: 140px; }
-            .modal-body { grid-template-columns: 1fr; padding: 20px; gap: 15px; }
-            .hero { height: 60vh; }
+            background: linear-gradient(to top, var(--card-bg), transparent);
         }
 
-        /* كود الحركات */
-        @keyframes load { from { width: 0%; } to { width: 100%; } }
-        @keyframes pulse { from { transform: scale(0.97); opacity: 0.8; } to { transform: scale(1.03); opacity: 1; } }
+        .modal-details { padding: 30px; }
+        .modal-details h2 { font-size: 2rem; margin-bottom: 15px; }
+        .modal-details p { color: #bbb; line-height: 1.6; margin-bottom: 20px; }
+        
+        .play-now-btn {
+            background: var(--primary); color: #fff; border: none; padding: 12px 30px;
+            font-size: 1.1rem; font-weight: bold; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+        }
+        .play-now-btn:hover { background: #b80710; }
+
+        #search-screen { display: none; padding: 100px 4% 50px 4%; }
+        .search-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- السبلش سكرين المطور -->
-    <div id="splash-screen">
-        <div class="splash-logo">VOLTFLIX</div>
-        <div class="loader-bar">
-            <div class="loader-progress"></div>
-        </div>
+    <!-- السبلش سكرين -->
+    <div id="splash">
+        <div class="splash-title">VOLTFLIX</div>
     </div>
 
-    <!-- الهيدر الذكي -->
-    <header id="main-header">
-        <div class="nav-right">
-            <a href="#" class="logo" onclick="window.location.reload();">VOLTFLIX</a>
-        </div>
-        <div class="nav-left">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="ابحث عن العروض والمسلسلات...">
-                <i class="fas fa-search"></i>
-            </div>
+    <!-- الهيدر -->
+    <header>
+        <a href="#" class="logo" onclick="window.location.reload()">VOLTFLIX</a>
+        <div class="search-wrapper">
+            <input type="text" id="live-search" placeholder="ابحث عن الأفلام الحركية والدراما...">
         </div>
     </header>
 
-    <!-- سيكشن نتايج البحث الفوري -->
-    <section id="search-results-section">
-        <h2 class="row-title" id="search-query-title">نتائج البحث</h2>
-        <div class="search-grid" id="search-grid-container"></div>
-    </section>
+    <!-- شاشة البحث -->
+    <main id="search-screen">
+        <h2 style="margin-bottom: 20px;">نتائج البحث:</h2>
+        <div class="search-grid" id="search-results-box"></div>
+    </main>
 
-    <!-- الواجهة الأساسية للمنصة -->
-    <div id="main-content-wrapper">
-        <section class="hero" id="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title" id="hero-title">جاري التجهيز...</h1>
-                <p class="hero-overview" id="hero-overview">...</p>
-                <div>
-                    <button class="btn btn-primary" id="hero-play-btn"><i class="fas fa-play"></i> تشغيل</button>
-                </div>
+    <!-- المحتوى الرئيسي للموقع -->
+    <div id="main-site-content">
+        <section class="hero-banner" id="hero-bg">
+            <div class="hero-text">
+                <h1 id="hero-title">جاري تحميل فيلم البانر...</h1>
+                <p id="hero-desc">تصفح أقوى الأفلام الحصرية بجودة عالية مباشرة.</p>
+                <button class="play-now-btn" id="hero-trigger-btn"><i class="fas fa-play"></i> عرض التفاصيل</button>
             </div>
         </section>
 
-        <main class="main-layout">
-            <div class="movie-row">
-                <h2 class="row-title">الأفلام الشائعة الآن</h2>
-                <div class="posters-container" id="row-trending"></div>
+        <div class="content-area">
+            <div class="row-container">
+                <h2>الأفلام الشائعة المقترحة لك</h2>
+                <div class="slider-box" id="trending-row"></div>
             </div>
-            <div class="movie-row">
-                <h2 class="row-title">أفلام الحركة والإثارة (Action)</h2>
-                <div class="posters-container" id="row-action"></div>
+            <div class="row-container">
+                <h2>أفلام الحركة والإثارة (Action)</h2>
+                <div class="slider-box" id="action-row"></div>
             </div>
-            <div class="movie-row">
-                <h2 class="row-title">الأعلى تقييماً عالمياً</h2>
-                <div class="posters-container" id="row-top-rated"></div>
-            </div>
-        </main>
+        </div>
     </div>
 
-    <!-- كارت نتفليكس والـ Iframe المطور للأبعاد -->
-    <div class="modal" id="movie-modal">
-        <div class="modal-content">
-            <button class="close-modal" id="close-modal-btn"><i class="fas fa-times"></i></button>
+    <!-- الكارت الضخم والمشغل المدمج -->
+    <div class="netflix-modal" id="video-modal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeScreen()"><i class="fas fa-times"></i></button>
             
-            <div class="video-box" id="video-box-wrapper">
-                <!-- تم إضافة الـ sandbox لتعطيل ومنع فتح الإعلانات المنبثقة تماماً على الموبايل والآيفون -->
-                <iframe id="video-iframe" allowfullscreen sandbox="allow-scripts opacity allow-same-origin allow-forms"></iframe>
+            <!-- السيرفر المباشر الفعال -->
+            <div class="player-frame-wrapper" id="player-container">
+                <iframe id="stream-iframe" src="" allowfullscreen></iframe>
             </div>
+
+            <div class="modal-backdrop-img" id="modal-img"></div>
             
-            <div class="modal-banner" id="modal-banner"></div>
-            <div class="modal-body">
-                <div>
-                    <h2 class="detail-title" id="modal-title">-</h2>
-                    <p class="detail-overview" id="modal-overview">-</p>
-                    <button class="btn btn-primary" id="modal-play-btn" style="background-color: var(--primary-color); color: #fff; width: 100%; justify-content: center; margin-top: 10px;"><i class="fas fa-play"></i> تشغيل الفيلم كامل</button>
-                </div>
-                <div class="meta-info">
-                    <p><span class="green-meta">التطابق: 99%</span></p>
-                    <p><span>التقييم:</span> <span id="modal-rating" style="color: #ffc107; font-weight: bold;">0.0</span></p>
-                    <p><span>تاريخ العرض:</span> <span id="modal-date">-</span></p>
-                </div>
+            <div class="modal-details">
+                <h2 id="modal-title">اسم العمل</h2>
+                <p id="modal-desc">تفاصيل وقصة الفيلم كاملة...</p>
+                <button class="play-now-btn" id="start-movie-btn"><i class="fas fa-play"></i> تشغيل الفيلم كاملاً</button>
             </div>
         </div>
     </div>
 
     <script>
-        // داتا الـ API النظيفة والمنقحة بالكامل
-        const API_KEY = 'da87358fe15e91315b13c0b1f439b8fd'; 
-        const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMG_URL = 'https://image.tmdb.org/t/p/original';
-        const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
+        // مفاتيحك الشغالة تماماً
+        const KEY = 'da87358fe15e91315b13c0b1f439b8fd';
+        const BASE = 'https://api.themoviedb.org/3';
+        const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
+        const HD_IMAGE_PATH = 'https://image.tmdb.org/t/p/original';
 
-        // تأثير تغير لون الهيدر عند النزول
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 30) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
+        // إخفاء السبلش سكرين فوراً عند الجاهزية
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const sp = document.getElementById('splash');
+                sp.style.opacity = '0';
+                setTimeout(() => sp.style.display = 'none', 400);
+            }, 1200);
         });
 
-        // بناء الصفوف بشكل أفقي وتفاعلي
-        async function buildNetflixRow(endpoint, elementId, customParams = '') {
+        // دالة جلب وعرض الأفلام في الصفوف بطريقة تمنع ظهور صفحة بيضاء فاضية
+        async function getMoviesData(path, containerId, isHero = false) {
             try {
-                const response = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}&language=ar${customParams}`);
-                const data = await response.json();
-                const movies = data.results;
-                const container = document.getElementById(elementId);
+                const res = await fetch(`${BASE}${path}?api_key=${KEY}&language=ar-SA`);
+                const data = await res.json();
                 
+                if (!data.results || data.results.length === 0) {
+                    throw new Error("داتا الـ API فارغة");
+                }
+
+                const movies = data.results;
+                const container = document.getElementById(containerId);
                 container.innerHTML = '';
-                if(!movies || movies.length === 0) return [];
+
+                if(isHero) {
+                    setHero(movies[0]);
+                }
 
                 movies.forEach(movie => {
-                    if (!movie.poster_path || !movie.backdrop_path) return;
-                    const card = document.createElement('div');
-                    card.classList.add('movie-card');
-                    card.innerHTML = `
-                        <img src="${POSTER_URL}${movie.poster_path}" alt="${movie.title}">
-                        <div class="card-overlay"><h4>${movie.title}</h4></div>
+                    if(!movie.poster_path) return;
+                    
+                    const p = document.createElement('div');
+                    p.classList.add('movie-poster');
+                    p.innerHTML = `
+                        <img src="${IMAGE_PATH}${movie.poster_path}" alt="${movie.title}">
+                        <div class="movie-title-overlay">${movie.title || movie.name}</div>
                     `;
-                    // دعم الضغط اللمسي الفوري على الموبايلات
-                    card.addEventListener('click', () => openNetflixModal(movie));
-                    container.appendChild(card);
+                    p.onclick = () => openScreen(movie);
+                    container.appendChild(p);
                 });
-                return movies;
-            } catch (err) {
-                console.error("خطأ اتصال:", err);
+
+            } catch (error) {
+                console.error("حصلت مشكلة في الكول، بنشغل نظام الأمان الاحتياطي:", error);
+                // خطة أمان احتياطية: لو سيرفر TMDB هنج، بنعرض أفلام داتا ثابتة عشان موقعك ميبقاش فاضي أبداً
+                fillFallbackData(containerId);
             }
         }
 
-        function setupHeroBanner(movie) {
-            const hero = document.getElementById('hero-section');
-            // تحسين جودة صورة البانر الخلفية لتناسب الشاشات الكبيرة والـ 4K
-            hero.style.backgroundImage = `url('${IMG_URL}${movie.backdrop_path}')`;
-            document.getElementById('hero-title').innerText = movie.title;
-            document.getElementById('hero-overview').innerText = movie.overview ? movie.overview.substring(0, 150) + '...' : 'عرض شيق ومثير متوفر الآن بجودة فائقة السرعة.';
-            document.getElementById('hero-play-btn').onclick = () => openNetflixModal(movie);
+        function setHero(movie) {
+            document.getElementById('hero-bg').style.backgroundImage = `url('${HD_IMAGE_PATH}${movie.backdrop_path}')`;
+            document.getElementById('hero-title').innerText = movie.title || movie.name;
+            document.getElementById('hero-desc').innerText = movie.overview ? movie.overview.substring(0, 160) + '...' : 'فيلم شيق ومثير متاح للمشاهدة الفورية.';
+            document.getElementById('hero-trigger-btn').onclick = () => openScreen(movie);
         }
 
-        function openNetflixModal(movie) {
-            const modal = document.getElementById('movie-modal');
-            document.getElementById('video-box-wrapper').style.display = 'none';
-            document.getElementById('video-iframe').src = '';
-            document.getElementById('modal-banner').style.display = 'block';
+        // فتح الكارت والمشغل
+        function openScreen(movie) {
+            const modal = document.getElementById('video-modal');
+            document.getElementById('player-container').style.display = 'none';
+            document.getElementById('stream-iframe').src = '';
+            document.getElementById('modal-img').style.display = 'block';
 
-            document.getElementById('modal-banner').style.backgroundImage = `url('${IMG_URL}${movie.backdrop_path}')`;
-            document.getElementById('modal-title').innerText = movie.title;
-            document.getElementById('modal-overview').innerText = movie.overview || 'فيلم رائع ومشوق متوفر الآن للمشاهدة الكاملة بأحدث الترجمات.';
-            document.getElementById('modal-rating').innerText = movie.vote_average.toFixed(1);
-            document.getElementById('modal-date').innerText = movie.release_date || 'عرض أول';
-
-            document.getElementById('modal-play-btn').onclick = function() {
-                document.getElementById('modal-banner').style.display = 'none';
-                document.getElementById('video-box-wrapper').style.display = 'block';
-                // جلب داتا البث المتجاوبة 100% مع الأجهزة الذكية
-                document.getElementById('video-iframe').src = `https://vidsrc.to/embed/movie/${movie.id}`;
+            document.getElementById('modal-img').style.backgroundImage = `url('${HD_IMAGE_PATH}${movie.backdrop_path || movie.poster_path}')`;
+            document.getElementById('modal-title').innerText = movie.title || movie.name;
+            document.getElementById('modal-desc').innerText = movie.overview || 'فيلم رائع مليء بالأحداث، متاح للمشاهدة المباشرة الآن بجودة عالية.';
+            
+            // تشغيل السيرفر البديل المستقر جداً للأفلام المترجمة
+            document.getElementById('start-movie-btn').onclick = function() {
+                document.getElementById('modal-img').style.display = 'none';
+                document.getElementById('player-container').style.display = 'block';
+                
+                // استخدام سيرفر vidsrc.cc أو vidsrc.me المستقر للبث المباشر المفتوح
+                document.getElementById('stream-iframe').src = `https://vidsrc.me/embed/movie?tmdb=${movie.id}`;
             };
-            modal.classList.add('open');
+
+            modal.style.display = 'flex';
         }
 
-        document.getElementById('close-modal-btn').addEventListener('click', () => {
-            document.getElementById('movie-modal').classList.remove('open');
-            document.getElementById('video-iframe').src = '';
-        });
+        function closeScreen() {
+            document.getElementById('video-modal').style.display = 'none';
+            document.getElementById('stream-iframe').src = ''; // قفل الصوت فوراً
+        }
 
         // محرك البحث اللحظي السريع
-        const searchInput = document.getElementById('search-input');
-        const mainWrapper = document.getElementById('main-content-wrapper');
-        const searchSection = document.getElementById('search-results-section');
-        const searchContainer = document.getElementById('search-grid-container');
+        document.getElementById('live-search').addEventListener('input', async (e) => {
+            const val = e.target.value.trim();
+            const main = document.getElementById('main-site-content');
+            const searchScr = document.getElementById('search-screen');
+            const resBox = document.getElementById('search-results-box');
 
-        searchInput.addEventListener('input', async (e) => {
-            const query = e.target.value.trim();
-            if(query.length < 2) {
-                searchSection.style.display = 'none';
-                mainWrapper.style.display = 'block';
+            if(val.length < 2) {
+                searchScr.style.display = 'none';
+                main.style.display = 'block';
                 return;
             }
-            try {
-                const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=ar&query=${encodeURIComponent(query)}`);
-                const data = await res.json();
-                const results = data.results;
 
-                mainWrapper.style.display = 'none';
-                searchSection.style.display = 'block';
-                document.getElementById('search-query-title').innerText = `نتائج البحث عن: ${query}`;
-                
-                searchContainer.innerHTML = '';
-                results.forEach(movie => {
-                    if(!movie.poster_path) return;
-                    const card = document.createElement('div');
-                    card.classList.add('movie-card');
-                    card.innerHTML = `
-                        <img src="${POSTER_URL}${movie.poster_path}" alt="${movie.title}">
-                        <div class="card-overlay"><h4>${movie.title}</h4></div>
-                    `;
-                    card.addEventListener('click', () => openNetflixModal(movie));
-                    searchContainer.appendChild(card);
-                });
-            } catch (err) { console.error(err); }
+            main.style.display = 'none';
+            searchScr.style.display = 'block';
+
+            try {
+                const res = await fetch(`${BASE}/search/movie?api_key=${KEY}&language=ar&query=${encodeURIComponent(val)}`);
+                const data = await res.json();
+                resBox.innerHTML = '';
+
+                if(data.results) {
+                    data.results.forEach(movie => {
+                        if(!movie.poster_path) return;
+                        const p = document.createElement('div');
+                        p.classList.add('movie-poster');
+                        p.innerHTML = `
+                            <img src="${IMAGE_PATH}${movie.poster_path}" alt="${movie.title}">
+                            <div class="movie-title-overlay">${movie.title}</div>
+                        `;
+                        p.onclick = () => openScreen(movie);
+                        resBox.appendChild(p);
+                    });
+                }
+            } catch(e) { console.log("خطأ بحث"); }
         });
 
-        // تهيئة وإقلاع المنصة أوتوماتيكياً
-        async function init() {
-            const trending = await buildNetflixRow('/movie/trending/day', 'row-trending');
-            if(trending && trending.length > 0) setupHeroBanner(trending[0]);
-            await buildNetflixRow('/discover/movie', 'row-action', '&with_genres=28');
-            await buildNetflixRow('/movie/top_rated', 'row-top-rated');
-            
-            // إغلاق شاشة التحميل وسحب الستار
-            const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
-            setTimeout(() => splash.style.visibility = 'hidden', 500);
+        // داتا الأمان الاحتياطية عشان شكل الموقع يفضل فخم وشغال حتى لو الـ API علق
+        function fillFallbackData(containerId) {
+            const box = document.getElementById(containerId);
+            box.innerHTML = '';
+            const backup = [
+                {id: 550, title: "Fight Club", poster_path: "/pB8BM7pdSp6B66I097b9nbSJW0p.jpg", backdrop_path: "/hZ3feY47wUe3vGgGWvXQ6uC0S01.jpg", overview: "فيلم دراما كلاسيكي شهير."},
+                {id: 27205, title: "Inception", poster_path: "/o06fVwW6wNo8m7mcl4gPIST1m8F.jpg", backdrop_path: "/s3TBrRGB1W7jWw1m7Up69m60Y8x.jpg", overview: "رحلة داخل عالم الأحلام وسرقتها."},
+                {id: 157336, title: "Interstellar", poster_path: "/gEU2vYmBGa7vLMj6pG3X3vNfK87.jpg", backdrop_path: "/xJHokvJZgWx9Z6M6icE9Iu0z8R0.jpg", overview: "السفر عبر الثقوب الدودية لإنقاذ البشرية."}
+            ];
+            backup.forEach(movie => {
+                const p = document.createElement('div');
+                p.classList.add('movie-poster');
+                p.innerHTML = `
+                    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+                    <div class="movie-title-overlay">${movie.title}</div>
+                `;
+                p.onclick = () => openScreen(movie);
+                box.appendChild(p);
+            });
         }
 
-        init();
+        // تشغيل دوال الإقلاع الفورية لقنوات الأفلام
+        getMoviesData('/movie/popular', 'trending-row', true);
+        getMoviesData('/discover/movie', 'action-row', false, '&with_genres=28');
+
     </script>
 </body>
-</html>
+        </html>
