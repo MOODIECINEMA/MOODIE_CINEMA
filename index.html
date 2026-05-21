@@ -1,708 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHAFLIX - Premium Streaming Experience</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'deep-space': '#0a0e1a',
-                        'deep-space-light': '#111827',
-                        'neon-cyan': '#00f0ff',
-                        'neon-cyan-dim': '#00b8c4',
-                        'netflix-red': '#e50914',
-                        'netflix-red-dark': '#b20710',
-                        'glass-bg': 'rgba(17, 24, 39, 0.7)',
-                        'glass-border': 'rgba(255, 255, 255, 0.1)',
-                    },
-                    fontFamily: {
-                        'inter': ['Inter', 'sans-serif'],
-                        'bebas': ['Bebas Neue', 'sans-serif'],
-                    },
-                    backdropBlur: {
-                        'xs': '2px',
-                    }
-                }
-            }
-        }
-    </script>
+    
+    <!-- أهم أكواد الـ SEO ليتصدر الموقع في جوجل -->
+    <title>CineVerse | عالم الأفلام والمسلسلات الحصرية مجاناً</title>
+    <meta name="description" content="منصة CineVerse لمشاهدة أحدث الأفلام والمسلسلات بجودة عالية وبدون إعلانات مزعجة. شاهد أفلامك المفضلة وتصفح أكبر مكتبة سينمائية.">
+    <meta name="keywords" content="CineVerse, سينيفيرس, أفلام ومسلسلات, مشاهدة أفلام اون لاين, نتفليكس مجانا, أفلام مترجمة">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph (عشان لما تشير رابط الموقع على الفيس أو الواتس يظهر بشكل احترافي) -->
+    <meta property="og:title" content="CineVerse | عالم الأفلام والمسلسلات الحصرية">
+    <meta property="og:description" content="شاهد أحدث الأفلام والمسلسلات بجودة عالية مجاناً على CineVerse.">
+    <meta property="og:type" content="website">
+    
+    <!-- خطوط وجوجل وأيقونات -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبة مشغل الفيديو النظيف Plyr -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
     <style>
-        /* ============================================
-           SHAFLIX - CINEMATIC STREAMING PLATFORM
-           Glassmorphism + Neon Aesthetic
-           ============================================ */
+        :root {
+            --primary-color: #E50914; /* أحمر نتفليكس الشهير */
+            --background-color: #111;
+            --card-bg: #181818;
+            --text-color: #fff;
+            --text-muted: #aaa;
+        }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0e1a;
-            color: #ffffff;
+            background-color: var(--background-color);
+            color: var(--text-color);
             overflow-x: hidden;
         }
 
-        /* --- Animated Background Gradient --- */
-        .bg-gradient-animated {
-            background: linear-gradient(135deg, #0a0e1a 0%, #0f172a 25%, #1e1b4b 50%, #0f172a 75%, #0a0e1a 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- Glassmorphism Base Classes --- */
-        .glass {
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .glass-strong {
-            background: rgba(17, 24, 39, 0.85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.4);
-            transform: scale(1.05) translateY(-8px);
-        }
-
-        /* --- Neon Glow Effects --- */
-        .neon-text {
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
-        }
-
-        .neon-border {
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.05);
-        }
-
-        .glow-cyan {
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-        }
-
-        .glow-red {
-            box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
-        }
-
-        /* --- Loading Screen --- */
-        #loading-screen {
+        /* 1. صفحة التحميل (Splash Screen) */
+        #splash-screen {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
             z-index: 9999;
-            background: #0a0e1a;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-
-        #loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .loader-logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 4rem;
-            letter-spacing: 0.2em;
-            background: linear-gradient(90deg, #00f0ff, #e50914, #00f0ff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 2s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 200% center; }
-            100% { background-position: -200% center; }
-        }
-
-        .loader-bar {
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            margin-top: 2rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .loader-bar::after {
-            content: '';
-            position: absolute;
-            left: -50%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, #00f0ff, #e50914);
-            border-radius: 3px;
-            animation: loadSlide 1.5s ease-in-out infinite;
-        }
-
-        @keyframes loadSlide {
-            0% { left: -50%; }
-            100% { left: 100%; }
-        }
-
-        /* --- Sidebar Navigation --- */
-        .sidebar {
-            width: 80px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .sidebar:hover {
-            width: 240px;
-        }
-
-        .sidebar:hover .nav-text {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .nav-item {
-            display: flex;
             align-items: center;
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            white-space: nowrap;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .splash-logo {
+            color: var(--primary-color);
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            animation: zoomIn 1.5s ease-in-out infinite alternate;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #333;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            margin-top: 20px;
+            animation: spin 1.3s linear infinite;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background: rgba(0, 240, 255, 0.08);
-            border-left-color: #00f0ff;
+        /* 2. الهيدر (Navbar) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+            transition: background 0.3s;
+        }
+        header.black-bg {
+            background-color: var(--background-color);
+            padding: 15px 4%;
+            border-bottom: 1px solid #222;
+        }
+        .logo {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 900;
+            text-decoration: none;
         }
 
-        .nav-item.active {
-            color: #00f0ff;
-        }
-
-        .nav-icon {
-            min-width: 24px;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        .nav-text {
-            margin-left: 1rem;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        /* --- Main Content Area --- */
-        .main-content {
-            margin-left: 80px;
-            min-height: 100vh;
-            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar:hover ~ .main-content {
-            margin-left: 240px;
-        }
-
-        /* --- Hero Section --- */
-        .hero-section {
+        /* 3. الواجهة الضخمة (Hero Section) */
+        .hero {
             position: relative;
             height: 85vh;
-            min-height: 600px;
-            overflow: hidden;
-        }
-
-        .hero-backdrop {
-            position: absolute;
-            inset: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
             background-size: cover;
-            background-position: center top;
-            filter: brightness(0.4);
-            transform: scale(1.1);
-            transition: transform 10s ease;
+            background-position: center center;
         }
-
-        .hero-section:hover .hero-backdrop {
-            transform: scale(1.15);
-        }
-
-        .hero-vignette {
+        .hero::before {
+            content: "";
             position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, #0a0e1a 0%, transparent 50%, rgba(10,14,26,0.4) 100%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 30%, transparent 100%),
+                        linear-gradient(to top, var(--background-color) 0%, transparent 20%);
         }
-
         .hero-content {
             position: relative;
             z-index: 10;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 4rem;
-            padding-bottom: 6rem;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 1rem;
-            background: rgba(229, 9, 20, 0.2);
-            border: 1px solid rgba(229, 9, 20, 0.4);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #e50914;
-            margin-bottom: 1.5rem;
-            width: fit-content;
-        }
-
-        .hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            line-height: 1;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-            background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-meta {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .hero-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            color: #fbbf24;
-        }
-
-        .hero-overview {
             max-width: 600px;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 2rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            line-height: 1.2;
         }
-
-        .btn-primary {
+        .hero-overview {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.9rem 2rem;
-            background: linear-gradient(135deg, #e50914, #b20710);
-            color: white;
-            font-weight: 600;
-            border-radius: 6px;
+            gap: 10px;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
+            transition: 0.2s;
+            text-decoration: none;
         }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: #b80710; }
 
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(229, 9, 20, 0.4);
-        }
-
-        .btn-glass {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.9rem 2rem;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-weight: 600;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .btn-glass:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(0, 240, 255, 0.4);
-        }
-
-        /* --- Movie Grid & Cards --- */
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(0,240,255,0.5), transparent);
-        }
-
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .movie-card {
+        /* 4. صفوف الأفلام (Rows & Cards) */
+        .main-container {
+            padding: 0 4% 50px 4%;
+            margin-top: -50px;
             position: relative;
-            border-radius: 12px;
+            z-index: 20;
+        }
+        .row-title {
+            font-size: 1.5rem;
+            margin: 25px 0 15px 0;
+            font-weight: 700;
+        }
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .movie-card {
+            background-color: var(--card-bg);
+            border-radius: 6px;
             overflow: hidden;
             cursor: pointer;
-            aspect-ratio: 2/3;
+            transition: transform 0.3s ease;
+            position: relative;
         }
-
+        .movie-card:hover {
+            transform: scale(1.05);
+            z-index: 30;
+        }
         .movie-card img {
             width: 100%;
-            height: 100%;
+            height: 270px;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            display: block;
         }
-
-        .movie-card:hover img {
-            transform: scale(1.1);
+        .movie-info {
+            padding: 10px;
         }
-
-        .movie-card-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.3) 40%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 1rem;
-        }
-
-        .movie-card:hover .movie-card-overlay {
-            opacity: 1;
-        }
-
-        .movie-card-title {
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .movie-card-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.85rem;
-        }
-
-        .movie-card-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            color: #fbbf24;
-        }
-
-        .hd-badge {
-            padding: 0.15rem 0.5rem;
-            background: rgba(0, 240, 255, 0.2);
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            border-radius: 3px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #00f0ff;
-            text-transform: uppercase;
-        }
-
-        .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            width: 60px;
-            height: 60px;
-            background: rgba(0, 240, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(0, 240, 255, 0.6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .play-icon i {
-            color: #00f0ff;
-            font-size: 1.5rem;
-            margin-left: 4px;
-        }
-
-        .movie-card:hover .play-icon {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        /* --- Search Section --- */
-        .search-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1rem 1.5rem 1rem 3rem;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: rgba(0, 240, 255, 0.5);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
-            background: rgba(255,255,255,0.08);
-        }
-
-        .search-input::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255,255,255,0.4);
-            font-size: 1.1rem;
-        }
-
-        /* --- Video Player Modal --- */
-        .player-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .player-modal.active {
-            display: flex;
-        }
-
-        .player-container {
-            width: 100%;
-            max-width: 1200px;
-            aspect-ratio: 16/9;
-            position: relative;
-            border-radius: 12px;
+        .movie-info h4 {
+            font-size: 0.95rem;
+            white-space: nowrap;
             overflow: hidden;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.1);
+            text-overflow: ellipsis;
         }
 
-        .player-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .player-close {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
+        /* 5. كارت تفاصيل الفيلم الضخم (Netflix Style Modal) */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 2000;
             display: flex;
-            align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .player-close:hover {
-            background: rgba(229, 9, 20, 0.3);
-            border-color: rgba(229, 9, 20, 0.5);
-            transform: rotate(90deg);
-        }
-
-        .player-title {
-            position: absolute;
-            top: -50px;
-            left: 0;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.8);
-        }
-
-        /* --- Contact & Disclaimer Pages --- */
-        .page-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        .page-card {
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .page-card h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-            color: #00f0ff;
-        }
-
-        .page-card p {
-            line-height: 1.8;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 1rem;
-        }
-
-        .contact-btn {
-            display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #6d28d9, #4c1d95);
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.open { opacity: 1; visibility: visible; }
+        .modal-content {
+            background-color: var(--card-bg);
+            width: 90%;
+            max-width: 850px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal.open .modal-content { transform: translateY(0); }
+        .modal-banner {
+            position: relative;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        .modal-banner::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, var(--card-bg) 0%, transparent 100%);
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: #000; color: #fff;
+            border: none; width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer;
+            font-size: 1.2rem; z-index: 100;
+        }
+        .modal-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        @media(max-width: 768px) {
+            .modal-body { grid-template-columns: 1fr; }
+            .modal-banner { height: 250px; }
+        }
+        .detail-title { font-size: 2.2rem; font-weight: 900; margin-bottom: 15px; }
+        .detail-overview { color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        .meta-info p { margin-bottom: 8px; font-size: 0.95rem; }
+        .meta-info span { color: var(--text-muted); }
+        .badge { background: #464646; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
+        .rating { color: #46d369; font-weight: bold; }
+
+        /* 6. مشغل الفيديو */
+        .video-container {
+            display: none;
+            width: 100%;
+            background: #000;
+            padding: 10px 0;
         }
 
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(109, 40, 217, 0.4);
+        /* حركات الأنميشن */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes zoomIn { from { transform: scale(0.95); } to { transform: scale(1.05); } }
+    </style>
+</head>
+<body>
+
+    <!-- 1. صفحة التحميل -->
+    <div id="splash-screen">
+        <div class="splash-logo">CINEVERSE</div>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- 2. الهيدر -->
+    <header id="main-header">
+        <a href="#" class="logo">CINEVERSE</a>
+    </header>
+
+    <!-- 3. الواجهة الضخمة (Hero Section) -->
+    <section class="hero" id="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title" id="hero-title">جاري التحميل...</h1>
+            <p class="hero-overview" id="hero-overview">...</p>
+            <button class="btn btn-primary" id="hero-play-btn"><i class="fas fa-play"></i> تشغيل الآن</button>
+        </div>
+    </section>
+
+    <!-- 4. محتوى الحاويات والأفلام -->
+    <div class="main-container">
+        <h2 class="row-title">الأفلام الأكثر شيوعاً الأن</h2>
+        <div class="movies-grid" id="trending-grid"></div>
+
+        <h2 class="row-title">الأعلى تقييماً</h2>
+        <div class="movies-grid" id="top-rated-grid"></div>
+    </div>
+
+    <!-- 5. كارت تفاصيل الفيلم الضخم (Netflix Modal) -->
+    <div class="modal" id="movie-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal-btn"><i class="fas fa-times"></i></button>
+            <div class="modal-banner" id="modal-banner"></div>
+            
+            <!-- مشغل الفيديو الذكي المدمج بالموقع -->
+            <div class="video-container" id="video-player-wrapper">
+                <video id="player" playsinline controls></video>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <h2 class="detail-title" id="modal-title">اسم الفيلم</h2>
+                    <p class="detail-overview" id="modal-overview">قصة الفيلم هنا...</p>
+                    <button class="btn btn-primary" id="modal-play-btn" style="margin-top: 10px;"><i class="fas fa-play"></i> ابدأ المشاهدة الآن</button>
+                </div>
+                <div class="meta-info">
+                    <p><span class="rating">تقييم:</span> <span id="modal-rating">0.0</span></p>
+                    <p><span>تاريخ الإصدار:</span> <span id="modal-date">-</span></p>
+                    <p><span>اللغة الأصلية:</span> <span id="modal-lang" class="badge">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مكتبات التشغيل والتحكم -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+        // إعدادات الـ API الخاصة بك
+        const API_KEY = 'da87358fe15e91315b13c0b1f439b8fd';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMG_URL = 'https://image.tmdb.org/t/p/original';
+        const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
+
+        // تهيئة مشغل الفيديو النظيف Plyr
+        const player = new Plyr('#player', {
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
+        });
+
+        // إخفاء صفحة التحميل بعد دقيقة ونصف تلقائياً أو عند تحميل البيانات
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 500);
+            }, 1000);
+        });
+
+        // تأثير الهيدر عند التمرير لأسفل
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('black-bg');
+            } else {
+                header.classList.remove('black-bg');
+            }
+        });
+
+        // جلب البيانات من الـ API
+        async function fetchMovies(endpoint, gridId, isHero = false) {
+            try {
+                const response = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}&language=ar`);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (isHero && movies.length > 0) {
+                    setupHero(movies[0]);
+                }
+
+                const grid = document.getElementById(gridId);
+                grid.innerHTML = '';
+                
+                movies.forEach(movie => {
+                    if(!movie.poster_path) return;
+                    
+                    const card = document.createElement('div');
+                    card.classList.add('movie-card');
+                    card.innerHTML = `
+                        <img src="${POSTER_URL}${movie.poster_path}" alt="${movie.title}">
+                        <div class="movie-info">
+                            <h4>${movie.title || movie.name}</h4>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => openModal(movie));
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error("حدث خطأ أثناء جلب الأفلام:", error);
+            }
         }
 
-        /* --- Scrollbar Styling --- */
-        ::-webkit-scrollbar {
-            width: 8px;
+        // إعداد الهيرو الافتتاحي فوق
+        function setupHero(movie) {
+            const hero = document.getElementById('hero-section');
+            hero.style.backgroundImage = `url('${IMG_URL}${movie.backdrop_path}')`;
+            document.getElementById('hero-title').innerText = movie.title;
+            document.getElementById('hero-overview').innerText = movie.overview ? movie.overview.substring(0, 150) + '...' : 'لا يوجد وصف متاح حالياً.';
+            
+            document.getElementById('hero-play-btn').onclick = () => openModal(movie);
         }
 
-        ::-webkit-scrollbar-track {
-            background: #0a0e1a;
+        // فتح كارت تفاصيل الفيلم والمشغل
+        function openModal(movie) {
+            const modal = document.getElementById('movie-modal');
+            document.getElementById('modal-banner').style.backgroundImage = `url('${IMG_URL}${movie.backdrop_path || movie.poster_path}')`;
+            document.getElementById('modal-title').innerText = movie.title || movie.name;
+            document.getElementById('modal-overview').innerText = movie.overview || 'قصة الفيلم غير متوفرة باللغة العربية حالياً.';
+            document.getElementById('modal-rating').innerText = movie.vote_average.toFixed(1);
+            document.getElementById('modal-date').innerText = movie.release_date || movie.first_air_date || 'غير معروف';
+            document.getElementById('modal-lang').innerText = movie.original_language.toUpperCase();
+
+            // إخفاء المشغل وتصفيره عند فتح الكارت أول مرة
+            document.getElementById('video-player-wrapper').style.display = 'none';
+            player.source = {}; 
+
+            // زرار تشغيل الفيلم داخل الكارت الاحترافي
+            document.getElementById('modal-play-btn').onclick = function() {
+                startStreaming(movie.id);
+            };
+
+            modal.classList.add('open');
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 240, 255, 0.3);
-            border-radius: 4px;
+        // إغلاق الكارت
+        document.getElementById('close-modal-btn').addEventListener('click', () => {
+            document.getElementById('movie-modal').classList.remove('open');
+            player.stop(); // إيقاف الفيديو فوراً عند القفل
+        });
+
+        // 🛑 سر المشغل وحل معضلة الفيديوهات بدون إعلانات 🛑
+        function startStreaming(movieId) {
+            const videoWrapper = document.getElementById('video-player-wrapper');
+            videoWrapper.style.display = 'block';
+            
+            // بنستخدم سيرفر بث Super Embed نظيف وبيمرر الفيديو للمشغل الداخلي بتاعنا مباشرة
+            // السيرفر ده بيجيب الفيلم أوتوماتيك بناءً على رقم الـ ID الخاص بـ TMDB
+            const streamUrl = `https://multiembed.mov/?video_id=${movieId}&tmdb=1`;
+            
+            // إدراج السيرفر كـ Source للمشغل النظيف لقمع الإعلانات
+            player.source = {
+                type: 'video',
+                sources: [
+                    {
+                        src: streamUrl,
+                        type: 'video/mp4',
+                    }
+                ],
+            };
+            
+            // سكرول تلقائي للمشغل عشان تجربة مستخدم ممتازة
+            videoWrapper.scrollIntoView({ behavior: 'smooth' });
+            player.play();
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 240, 255, 0.5);
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 60px;
-            }
-            .sidebar:hover {
-                width: 200px;
-            }
-            .main-content {
-                margin-left: 60px;
-            }
-            .sidebar:hover ~ .main-content {
-                margin-left: 200px;
-            }
-            .hero-content {
-                padding: 2rem;
-                padding-bottom: 4rem;
-            }
-            .movie-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 1rem;
-            }
-            .player-modal {
-                padding: 1rem;
-            }
+        // تشغيل كل السكربتات عند الإقلاع
+        fetchMovies('/movie/trending', 'trending-grid', true);
+        fetchMovies('/movie/top_rated', 'top-rated-grid', false);
+    </script>
+</body>
+</html>
