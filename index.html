@@ -517,4 +517,103 @@
         function openNetflixModal(movie) {
             const modal = document.getElementById('movie-modal');
             
-            // تهيئة وإخ
+            // تهيئة وإخفاء المشغل لحين طلب المستخدم لتجنب تداخل الصوت
+            document.getElementById('video-box-wrapper').style.display = 'none';
+            document.getElementById('video-iframe').src = '';
+            document.getElementById('modal-banner').style.display = 'block';
+
+            // ملء بيانات الكارت كاملة
+            document.getElementById('modal-banner').style.backgroundImage = `url('${IMG_URL}${movie.backdrop_path || movie.poster_path}')`;
+            document.getElementById('modal-title').innerText = movie.title || movie.name;
+            document.getElementById('modal-overview').innerText = movie.overview || 'قصة هذا العمل الفني مشوقة للغاية ومليئة بالأحداث المثيرة، متوفرة للمشاهدة المباشرة فوراً.';
+            document.getElementById('modal-rating').innerText = movie.vote_average ? movie.vote_average.toFixed(1) : '7.5';
+            document.getElementById('modal-date').innerText = movie.release_date || movie.first_air_date || 'عرض حصري';
+            document.getElementById('modal-lang').innerText = movie.original_language ? movie.original_language.toUpperCase() : 'EN';
+
+            // تشغيل المشغل الكامل المدمج بالموقع لقمع الإعلانات
+            document.getElementById('modal-play-btn').onclick = function() {
+                document.getElementById('modal-banner').style.display = 'none';
+                const videoWrapper = document.getElementById('video-box-wrapper');
+                videoWrapper.style.display = 'block';
+                
+                // دمج كود مشغل ميديا نظيف يقوم بجلب ملفات المشاهدة أوتوماتيك بناءً على المعرف
+                document.getElementById('video-iframe').src = `https://vidsrc.to/embed/movie/${movie.id}`;
+            };
+
+            modal.classList.add('open');
+        }
+
+        // إغلاق كارت العرض وإطفاء السينما
+        document.getElementById('close-modal-btn').addEventListener('click', () => {
+            document.getElementById('movie-modal').classList.remove('open');
+            document.getElementById('video-iframe').src = ''; // تصفير السورس لقطع الصوت نهائياً
+        });
+
+        // 🧠 نظام البحث الذكي والفوري المربوط بالـ API 🧠
+        const searchInput = document.getElementById('search-input');
+        const mainWrapper = document.getElementById('main-content-wrapper');
+        const searchSection = document.getElementById('search-results-section');
+        const searchContainer = document.getElementById('search-grid-container');
+
+        searchInput.addEventListener('input', async (e) => {
+            const query = e.target.value.trim();
+            
+            if(query.length < 2) {
+                // لو مسح البحث يرجع لمظهر نتفليكس الرئيسي فوراً
+                searchSection.style.display = 'none';
+                mainWrapper.style.display = 'block';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=ar&query=${encodeURIComponent(query)}`);
+                const data = await res.json();
+                const results = data.results;
+
+                mainWrapper.style.display = 'none';
+                searchSection.style.display = 'block';
+                document.getElementById('search-query-title').innerText = `نتائج البحث الذكية عن: ${query}`;
+                
+                searchContainer.innerHTML = '';
+                if(results.length === 0) {
+                    searchContainer.innerHTML = `<p style="padding: 20px; color: var(--text-muted);">لم نجد أفلاماً تطابق بحثك، جرب كتابة اسم آخر..</p>`;
+                    return;
+                }
+
+                results.forEach(movie => {
+                    if(!movie.poster_path) return;
+                    const card = document.createElement('div');
+                    card.classList.add('movie-card');
+                    card.innerHTML = `
+                        <img src="${POSTER_URL}${movie.poster_path}" alt="${movie.title}">
+                        <div class="card-overlay">
+                            <h4>${movie.title}</h4>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => openNetflixModal(movie));
+                    searchContainer.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error("خطأ في الاتصال بمحرك البحث المتقدم:", err);
+            }
+        });
+
+        // دالة البدء الكبرى وإقلاع المصادر
+        async function initVoltFlix() {
+            // 1. جلب وبناء صف التريند وتعيين البانر العلوي منه
+            const trendingMovies = await buildNetflixRow('/movie/trending/day', 'row-trending');
+            if(trendingMovies && trendingMovies.length > 0) {
+                setupHeroBanner(trendingMovies[0]);
+            }
+            // 2. جلب صف أفلام الأكشن والحركة (Genre ID 28 لـ TMDB)
+            buildNetflixRow('/discover/movie', 'row-action', '&with_genres=28');
+            // 3. جلب صف الأفلام الأعلى تقييماً
+            buildNetflixRow('/movie/top_rated', 'row-top-rated');
+        }
+
+        // إطلاق المنصة
+        initVoltFlix();
+    </script>
+</body>
+</html>
