@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <b:include data='blog' name='all-head-content'/>
+  <title>VoltFlix - مشاهدة أفلام ومسلسلات أونلاين</title>
+
+  <meta content='VoltFlix - منصة مشاهدة الأفلام والمسلسلات أونلاين مجاناً بجودة عالية' name='description'/>
+  <meta content='أفلام, مسلسلات, مشاهدة اونلاين, VoltFlix' name='keywords'/>
+  <meta content='index, follow' name='robots'/>
+
+  <meta content='website' property='og:type'/>
+  <meta content='VoltFlix - مشاهدة أفلام ومسلسلات أونلاين' property='og:title'/>
+  <meta content='منصة VoltFlix لمشاهدة الأفلام والمسلسلات أونلاين مجاناً' property='og:description'/>
+  <meta content='https://img.icons8.com/fluent/512/000000/movie-projector.png' property='og:image'/>
+
+  <meta content='summary_large_image' name='twitter:card'/>
+  <meta content='VoltFlix - مشاهدة أفلام ومسلسلات أونلاين' name='twitter:title'/>
+
+  <link href='data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;rect width=&quot;100&quot; height=&quot;100&quot; rx=&quot;18&quot; fill=&quot;%23e50914&quot;/&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;75&quot; x=&quot;10&quot; fill=&quot;white&quot; font-weight=&quot;900&quot;&gt;V&lt;/text&gt;&lt;/svg&gt;' rel='icon' type='image/svg+xml'/>
+
+  <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&amp;display=swap' rel='stylesheet'/>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css' rel='stylesheet'/>
+
+  <script type='application/ld+json' id='schema-org'>
+  {
+    &quot;@context&quot;: &quot;https://schema.org&quot;,
+    &quot;@type&quot;: &quot;WebSite&quot;,
+    &quot;name&quot;: &quot;VoltFlix&quot;,
+    &quot;url&quot;: &quot;https://voltflix.blogspot.com/&quot;
+  }
+  </script>
+
+<style>
+:root{--red:#e50914;--red2:#b20710;--bg:#0a0a0a;--card:#141414;--modal:#181818;--w:#fff;--g:#b3b3b3;--m:#555;--brd:#2a2a2a;--gold:#f5c518;--green:#46d369;--r:6px;--sh:0 8px 32px rgba(0,0,0,.6);--f:'Cairo',sans-serif;--tr:.3s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--bg);color:var(--w);min-height:100vh;overflow-x:hidden;direction:rtl}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+button{cursor:pointer;font-family:var(--f);border:none;outline:none}
+
+#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .8s,visibility .8s}
+#splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.slogo{font-size:3.5rem;font-weight:900;animation:sp 1.4s ease infinite alternate}
+.slogo span{color:var(--red)}
+.sbar{width:180px;height:3px;background:var(--brd);border-radius:2px;margin-top:20px;overflow:hidden}
+.sprog{height:100%;background:var(--red);border-radius:2px;animation:sl 2.2s ease forwards}
+@keyframes sp{from{opacity:.6}to{opacity:1}}
+@keyframes sl{from{width:0}to{width:100%}}
+
+#hdr{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(0,0,0,.95),transparent);transition:background var(--tr)}
+#hdr.sc{background:rgba(10,10,10,.98);box-shadow:0 2px 20px rgba(0,0,0,.5)}
+.logo{font-size:1.8rem;font-weight:900;display:flex;align-items:center;gap:8px;cursor:pointer}
+.lico{width:34px;height:34px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;font-weight:900}
+.logo span{color:var(--red)}
+.nav{display:flex;gap:20px;align-items:center}
+.nav a{color:var(--g);font-size:.88rem;font-weight:600;transition:color var(--tr);cursor:pointer}
+.nav a:hover{color:#fff}
+.acts{display:flex;align-items:center;gap:10px}
+.bico{background:transparent;color:var(--g);font-size:1rem;padding:8px;border-radius:50%;transition:all var(--tr)}
+.bico:hover{color:#fff;background:rgba(255,255,255,.1)}
+.wlbtn{position:relative}
+.wlc{background:var(--red);color:#fff;font-size:.6rem;font-weight:700;border-radius:50%;width:15px;height:15px;display:none;align-items:center;justify-content:center;position:absolute;top:-2px;right:-2px}
+
+.sw{display:flex;align-items:center;background:rgba(0,0,0,.7);border:1px solid var(--brd);border-radius:4px;overflow:hidden;transition:border-color var(--tr);width:210px}
+.sw:focus-within{border-color:#fff}
+.sw input{background:transparent;border:none;color:#fff;font-family:var(--f);font-size:.88rem;padding:8px 10px;width:100%;outline:none;direction:rtl}
+.sw input::placeholder{color:var(--m)}
+.sw button{background:transparent;color:var(--g);padding:8px 10px;transition:color var(--tr)}
+.sw button:hover{color:#fff}
+
+#sres{position:fixed;top:64px;right:5%;width:310px;background:var(--modal);border:1px solid var(--brd);border-radius:var(--r);box-shadow:var(--sh);max-height:400px;overflow-y:auto;z-index:99;display:none}
+#sres.vis{display:block}
+.si{display:flex;gap:10px;padding:10px 14px;cursor:pointer;transition:background var(--tr);align-items:center}
+.si:hover{background:rgba(255,255,255,.07)}
+.si img{width:38px;height:54px;border-radius:4px;object-fit:cover;flex-shrink:0}
+.si h4{font-size:.88rem;font-weight:600;margin-bottom:2px}
+.si p{font-size:.75rem;color:var(--m)}
+
+#hero{position:relative;height:82vh;min-height:480px;display:flex;align-items:flex-end;padding:0 5% 6%;overflow:hidden}
+.hbg{position:absolute;inset:0;background-size:cover;background-position:center top;transition:background-image .8s}
+.hov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(0,0,0,.55) 40%,rgba(0,0,0,.15) 80%,transparent 100%)}
+.hcon{position:relative;z-index:2;max-width:540px}
+.hbadge{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:3px;margin-bottom:12px}
+.htitle{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:12px;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.hdesc{font-size:.92rem;color:var(--g);line-height:1.7;margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hmeta{display:flex;gap:14px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.hmeta span{font-size:.83rem;color:var(--g);display:flex;align-items:center;gap:5px}
+.hmeta .rt{color:var(--gold);font-weight:700}
+.hacts{display:flex;gap:10px;flex-wrap:wrap}
+.bp{background:var(--red);color:#fff;padding:11px 26px;border-radius:var(--r);font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:7px;transition:all var(--tr);box-shadow:0 4px 16px rgba(229,9,20,.35)}
+.bp:hover{background:var(--red2);transform:translateY(-1px)}
+.bs{background:rgba(255,255,255,.14);color:#fff;padding:11px 22px;border-radius:var(--r);font-weight:600;font-size:.92rem;display:flex;align-items:center;gap:7px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);transition:all var(--tr)}
+.bs:hover{background:rgba(255,255,255,.24)}
+
+#main{padding:0 5% 60px}
+.sec{margin-bottom:36px}
+.sech{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sect{font-size:1.2rem;font-weight:700;display:flex;align-items:center;gap:9px}
+.sect::before{content:'';display:block;width:4px;height:20px;background:var(--red);border-radius:2px}
+
+.row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin;scrollbar-color:var(--brd) transparent}
+.row::-webkit-scrollbar{height:3px}
+.row::-webkit-scrollbar-thumb{background:var(--brd);border-radius:2px}
+
+.card{flex-shrink:0;width:155px;cursor:pointer;transition:transform var(--tr);border-radius:var(--r);overflow:hidden;position:relative}
+.card:hover{transform:scale(1.06);z-index:2}
+.cposter{width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--card);display:block}
+.cov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 55%);opacity:0;transition:opacity var(--tr);display:flex;flex-direction:column;justify-content:flex-end;padding:9px}
+.card:hover .cov{opacity:1}
+.ctit{font-size:.8rem;font-weight:700;line-height:1.3;margin-bottom:3px}
+.cmeta{font-size:.7rem;color:var(--g);display:flex;gap:7px}
+.crt{color:var(--gold);font-weight:700}
+.cpb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:rgba(229,9,20,.88);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity var(--tr)}
+.card:hover .cpb{opacity:1}
+.cbadge{position:absolute;top:7px;right:7px;background:var(--red);color:#fff;font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:3px}
+
+.sk{flex-shrink:0;width:155px;aspect-ratio:2/3;background:linear-gradient(90deg,var(--card) 25%,#1c1c1c 50%,var(--card) 75%);background-size:200% 100%;animation:sh 1.5s infinite;border-radius:var(--r)}
+@keyframes sh{to{background-position:-200% 0}}
+
+#mover{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
+#mover.open{display:flex}
+#mod{background:var(--modal);border-radius:12px;width:100%;max-width:840px;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 20px 80px rgba(0,0,0,.85);animation:mi .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mi{from{transform:scale(.88) translateY(18px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.mcls{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.75);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:10;transition:background var(--tr)}
+.mcls:hover{background:var(--red)}
+.mbk{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px 12px 0 0}
+.mbody{padding:22px}
+.mtit{font-size:1.6rem;font-weight:900;margin-bottom:10px}
+.mmeta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.mmeta span{font-size:.83rem;color:var(--g);display:flex;align-items:center;gap:5px}
+.mmeta .rt{color:var(--gold);font-weight:700;font-size:.95rem}
+.mgens{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.gtag{background:rgba(255,255,255,.07);border:1px solid var(--brd);color:var(--g);font-size:.75rem;padding:3px 11px;border-radius:20px}
+.mdesc{font-size:.92rem;line-height:1.8;color:var(--g);margin-bottom:18px}
+.macts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+
+#pls{display:none}
+#pls.act{display:block}
+.plh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.plh h3{font-size:.95rem;font-weight:700}
+.stabs{display:flex;gap:7px}
+.stab{background:var(--card);color:var(--g);border:1px solid var(--brd);padding:5px 13px;border-radius:4px;font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.stab.act{background:var(--red);border-color:var(--red);color:#fff}
+.stab:hover:not(.act){border-color:var(--m);color:#fff}
+.plcon{position:relative;width:100%;height:450px;background:#000;border-radius:var(--r);overflow:hidden}
+.plcon iframe{width:100%;height:100%;border:none}
+.plload{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;gap:12px;z-index:5}
+.plload.hid{display:none}
+.spin{width:46px;height:46px;border:4px solid rgba(255,255,255,.1);border-top-color:var(--red);border-radius:50%;animation:sp2 .85s linear infinite}
+@keyframes sp2{to{transform:rotate(360deg)}}
+.plload p{color:var(--g);font-size:.88rem}
+.plnote{font-size:.75rem;color:var(--m);margin-top:7px;text-align:center}
+
+#wlp{position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--bg);z-index:150;display:none;overflow-y:auto;padding:36px 5%}
+#wlp.open{display:block}
+.pnhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+.pnhdr h2{font-size:1.5rem;font-weight:800}
+.wlgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
+.wlemp{text-align:center;padding:60px 20px;color:var(--m);grid-column:1/-1}
+.wlemp i{font-size:3rem;margin-bottom:14px;display:block}
+
+#smp{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:none;padding:30px 5%;overflow-y:auto}
+#smp.open{display:block}
+.smcon{background:var(--modal);border-radius:12px;padding:28px;max-width:780px;margin:0 auto}
+.smcon h2{font-size:1.3rem;font-weight:800;margin-bottom:18px}
+#smurls{background:#000;border:1px solid var(--brd);border-radius:var(--r);padding:14px;font-family:monospace;font-size:.78rem;color:#4ade80;max-height:380px;overflow-y:auto;white-space:pre-wrap;margin-bottom:14px;direction:ltr;text-align:left}
+.smbtns{display:flex;gap:10px;flex-wrap:wrap}
+
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(18px);background:rgba(25,25,25,.96);color:#fff;padding:11px 22px;border-radius:8px;font-size:.88rem;font-weight:600;border:1px solid var(--brd);box-shadow:var(--sh);z-index:400;opacity:0;transition:all var(--tr);pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+#ftr{background:var(--card);border-top:1px solid var(--brd);padding:36px 5% 22px;text-align:center}
+.flogo{font-size:1.45rem;font-weight:900;margin-bottom:7px}
+.flogo span{color:var(--red)}
+.fdesc{color:var(--m);font-size:.83rem;margin-bottom:18px}
+.flinks{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:18px}
+.flinks a{color:var(--g);font-size:.83rem;transition:color var(--tr);cursor:pointer}
+.flinks a:hover{color:#fff}
+.fcopy{color:var(--m);font-size:.78rem}
+
+@media(max-width:768px){
+  #hdr{padding:0 4%}
+  .nav{display:none}
+  #main{padding:0 3% 60px}
+  #hero{height:68vh;padding:0 4% 5%}
+  .htitle{font-size:1.45rem}
+  .hdesc{display:none}
+  .card{width:125px}
+  .sk{width:125px}
+  .plcon{height:240px}
+  #mod{max-height:96vh}
+  .mtit{font-size:1.15rem}
+  #sres{right:3%;left:3%;width:auto}
+  .sw{width:150px}
+}
+</style>
+</head>
+<body>
+
+<div id='splash'>
+  <div class='slogo'>Volt<span>Flix</span></div>
+  <div class='sbar'><div class='sprog'></div></div>
+</div>
+
+<div id='toast'></div>
+
+<header id='hdr'>
+  <div class='logo' onclick='scrollToTop()'>
+    <div class='lico'>V</div>
+    Volt<span>Flix</span>
+  </div>
+  <nav class='nav'>
+    <a onclick='scrollToTop()'>الرئيسية</a>
+    <a onclick='openWL()'>قائمتي</a>
+    <a onclick='openSM()'>خريطة الموقع</a>
+  </nav>
+  <div class='acts'>
+    <div class='sw'>
+      <input id='sinp' placeholder='ابحث عن فيلم...' type='text'/>
+      <button onclick='doSearch()'><i class='fas fa-search'></i></button>
+    </div>
+    <button class='bico wlbtn' onclick='openWL()' title='قائمة المشاهدة'>
+      <i class='fas fa-bookmark'></i>
+      <span class='wlc' id='wlc'>0</span>
+    </button>
+  </div>
+</header>
+
+<div id='sres'></div>
+
+<section id='hero'>
+  <div class='hbg' id='hbg'></div>
+  <div class='hov'></div>
+  <div class='hcon'>
+    <div class='hbadge'><i class='fas fa-fire'></i> الأكثر مشاهدة</div>
+    <h1 class='htitle' id='htit'>جارٍ التحميل...</h1>
+    <p class='hdesc' id='hdesc'></p>
+    <div class='hmeta' id='hmeta'></div>
+    <div class='hacts'>
+      <button class='bp' onclick='heroPlay()'><i class='fas fa-play'></i> شاهد الآن</button>
+      <button class='bs' onclick='heroInfo()'><i class='fas fa-info-circle'></i> مزيد</button>
+    </div>
+  </div>
+</section>
+
+<main id='main'>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-fire' style='color:var(--red)'></i> الأكثر رواجاً</h2></div>
+    <div class='row' id='r-trend'></div>
+  </div>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-star' style='color:var(--gold)'></i> الأعلى تقييماً</h2></div>
+    <div class='row' id='r-top'></div>
+  </div>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-bolt' style='color:var(--red)'></i> أفلام الأكشن</h2></div>
+    <div class='row' id='r-act'></div>
+  </div>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-laugh' style='color:#fbbf24'></i> الكوميديا</h2></div>
+    <div class='row' id='r-com'></div>
+  </div>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-skull' style='color:#9333ea'></i> رعب وإثارة</h2></div>
+    <div class='row' id='r-hor'></div>
+  </div>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-rocket' style='color:#06b6d4'></i> الخيال العلمي</h2></div>
+    <div class='row' id='r-sci'></div>
+  </div>
+  <div class='sec'>
+    <div class='sech'><h2 class='sect'><i class='fas fa-tv' style='color:#22c55e'></i> مسلسلات شائعة</h2></div>
+    <div class='row' id='r-tv'></div>
+  </div>
+</main>
+
+<div id='mover' onclick='closeMod(event)'>
+  <div id='mod'>
+    <button class='mcls' onclick='closeMod()'><i class='fas fa-times'></i></button>
+    <img alt='' class='mbk' id='mbk' src=''/>
+    <div class='mbody'>
+      <h2 class='mtit' id='mtit'></h2>
+      <div class='mmeta' id='mmeta'></div>
+      <div class='mgens' id='mgens'></div>
+      <p class='mdesc' id='mdesc'></p>
+      <div class='macts'>
+        <button class='bp' onclick='startPlay()'><i class='fas fa-play'></i> تشغيل الفيلم</button>
+        <button class='bs' id='wlbtn2' onclick='toggleWL()'><i class='far fa-bookmark'></i> أضف للمفضلة</button>
+      </div>
+      <div id='pls'>
+        <div class='plh'>
+          <h3><i class='fas fa-play-circle' style='color:var(--red)'></i> مشغل VoltFlix</h3>
+          <div class='stabs'>
+            <button class='stab act' onclick='swSrc(0)'>مصدر 1</button>
+            <button class='stab' onclick='swSrc(1)'>مصدر 2</button>
+            <button class='stab' onclick='swSrc(2)'>مصدر 3</button>
+          </div>
+        </div>
+        <div class='plcon'>
+          <div class='plload' id='plload'>
+            <div class='spin'></div>
+            <p>جارٍ تحميل المشغل...</p>
+          </div>
+          <iframe allowfullscreen='' allow='autoplay; fullscreen; encrypted-media; picture-in-picture' id='pliframe'></iframe>
+        </div>
+        <p class='plnote'>إذا لم يعمل المشغل، غير المصدر أو أوقف مانع الإعلانات مؤقتاً</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id='wlp'>
+  <div class='pnhdr'>
+    <h2><i class='fas fa-bookmark' style='color:var(--red)'></i> قائمة المشاهدة</h2>
+    <button class='bs' onclick='closeWL()'><i class='fas fa-arrow-right'></i> رجوع</button>
+  </div>
+  <div class='wlgrid' id='wlgrid'></div>
+</div>
+
+<div id='smp'>
+  <div class='smcon'>
+    <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:18px'>
+      <h2><i class='fas fa-sitemap' style='color:var(--red)'></i> خريطة الموقع</h2>
+      <button class='bs' onclick='document.getElementById("smp").classList.remove("open")'><i class='fas fa-times'></i> إغلاق</button>
+    </div>
+    <p style='color:var(--m);font-size:.83rem;margin-bottom:14px'>انسخ هذه الروابط وقدمها في Google Search Console:</p>
+    <div id='smurls'>جارٍ التحميل...</div>
+    <div class='smbtns'>
+      <button class='bp' onclick='copySM()'><i class='fas fa-copy'></i> نسخ الكل</button>
+      <button class='bs' onclick='genSM()'><i class='fas fa-sync'></i> تحديث</button>
+    </div>
+  </div>
+</div>
+
+<footer id='ftr'>
+  <div class='flogo'>Volt<span>Flix</span></div>
+  <p class='fdesc'>منصة مشاهدة الأفلام والمسلسلات أونلاين مجاناً بجودة عالية</p>
+  <div class='flinks'>
+    <a onclick='scrollToTop()'>الرئيسية</a>
+    <a onclick='openWL()'>قائمتي</a>
+    <a onclick='openSM()'>خريطة الموقع</a>
+    <a>سياسة الخصوصية</a>
+    <a>تواصل معنا</a>
+  </div>
+  <p class='fcopy'>&#169; 2025 VoltFlix - البيانات من TMDB</p>
+</footer>
+
+<script>
+//<![CDATA[
+/* VoltFlix - Fixed for Blogger XML - All & replaced, wrapped in CDATA */
+
+var CFG = {
+  KEY: 'da87358fe15e91315b13c0b1f439b8fd',
+  BASE: 'https://api.themoviedb.org/3',
+  IMG: 'https://image.tmdb.org/t/p',
+  SITE: 'https://voltflix.blogspot.com',
+  VSRC: [
+    function(id){ return 'https://vidsrc.me/embed/movie?tmdb=' + id; },
+    function(id){ return 'https://vidsrc.cc/v2/embed/movie/' + id; },
+    function(id){ return 'https://www.2embed.cc/embed/' + id; }
+  ],
+  TVSRC: [
+    function(id){ return 'https://vidsrc.me/embed/tv?tmdb=' + id + '&season=1&episode=1'; },
+    function(id){ return 'https://vidsrc.cc/v2/embed/tv/' + id + '/1/1'; },
+    function(id){ return 'https://www.2embed.cc/embedtv/' + id + '&s=1&e=1'; }
+  ]
+};
+
+var ST = {
+  movie: null,
+  src: 0,
+  isTV: false,
+  wl: JSON.parse(localStorage.getItem('vf_wl') || '[]'),
+  all: [],
+  hero: null,
+  stimer: null,
+  ftimer: null
+};
+
+function imgU(p, s) {
+  s = s || 'w300';
+  if (!p) return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+  return CFG.IMG + '/' + s + p;
+}
+
+async function api(ep, ps) {
+  ps = ps || {};
+  var url = new URL(CFG.BASE + ep);
+  url.searchParams.set('api_key', CFG.KEY);
+  url.searchParams.set('language', 'ar-SA');
+  Object.keys(ps).forEach(function(k){ url.searchParams.set(k, ps[k]); });
+  try {
+    var r = await fetch(url.toString());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } catch(e) {
+    console.error('API Error:', e);
+    return null;
+  }
+}
+
+function sk(n) {
+  return Array(n || 8).fill('<div class="sk"></div>').join('');
+}
+
+function card(m, tv) {
+  var id = m.id;
+  var t = (m.title || m.name || '').replace(/'/g, '&#39;');
+  var p = imgU(m.poster_path, 'w300');
+  var y = ((m.release_date || m.first_air_date || '')).slice(0,4);
+  var r = m.vote_average ? m.vote_average.toFixed(1) : '?';
+  var fn = tv ? 'openMod(' + id + ',true)' : 'openMod(' + id + ',false)';
+  return '<div class="card" onclick="' + fn + '">' +
+    '<img class="cposter" src="' + p + '" alt="' + t + '" loading="lazy"/>' +
+    '<div class="cpb"><i class="fas fa-play"></i></div>' +
+    (tv ? '<div class="cbadge">مسلسل</div>' : '') +
+    '<div class="cov">' +
+      '<div class="ctit">' + t + '</div>' +
+      '<div class="cmeta"><span class="crt"><i class="fas fa-star"></i> ' + r + '</span>' + (y ? '<span>' + y + '</span>' : '') + '</div>' +
+    '</div></div>';
+}
+
+async function loadRow(ep, ps, rowId, isHero) {
+  var el = document.getElementById(rowId);
+  if (!el) return;
+  el.innerHTML = sk();
+  var d = await api(ep, ps);
+  if (!d || !d.results) { el.innerHTML = '<p style="color:var(--m);padding:16px">فشل التحميل</p>'; return; }
+  var ms = d.results.slice(0, 20);
+  ST.all = ST.all.concat(ms.filter(function(m){ return !ST.all.find(function(x){ return x.id === m.id; }); }));
+  el.innerHTML = ms.map(function(m){ return card(m, false); }).join('');
+  if (isHero && ms[0]) { setHero(ms[0]); ST.hero = ms[0]; }
+}
+
+async function loadTV() {
+  var d = await api('/tv/popular');
+  if (!d) return;
+  var el = document.getElementById('r-tv');
+  el.innerHTML = d.results.slice(0,20).map(function(m){ return card(m, true); }).join('');
+}
+
+function setHero(m) {
+  var bg = imgU(m.backdrop_path, 'original');
+  document.getElementById('hbg').style.backgroundImage = 'url(' + bg + ')';
+  document.getElementById('htit').textContent = m.title || m.name || '';
+  document.getElementById('hdesc').textContent = m.overview || '';
+  document.getElementById('hmeta').innerHTML =
+    '<span class="rt"><i class="fas fa-star"></i> ' + ((m.vote_average||0).toFixed(1)) + '</span>' +
+    '<span><i class="fas fa-calendar"></i> ' + ((m.release_date||'').slice(0,4)) + '</span>' +
+    '<span style="color:var(--green)"><i class="fas fa-circle" style="font-size:.45rem"></i> متاح</span>';
+}
+
+function heroPlay() { if (ST.hero) openMod(ST.hero.id, false, true); }
+function heroInfo() { if (ST.hero) openMod(ST.hero.id, false, false); }
+
+async function openMod(id, tv, auto) {
+  ST.isTV = !!tv;
+  ST.src = 0;
+  document.getElementById('pls').classList.remove('act');
+  document.getElementById('mover').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  window.location.hash = '#/' + (tv ? 'tv' : 'movie') + '/' + id;
+
+  var ep = tv ? '/tv/' + id : '/movie/' + id;
+  var d = await api(ep);
+  if (!d) return;
+  ST.movie = d;
+
+  updSEO(d, tv);
+
+  var t = d.title || d.name || '';
+  var bk = imgU(d.backdrop_path, 'w1280');
+  var yr = ((d.release_date || d.first_air_date || '')).slice(0,4);
+  var rt = d.runtime ? (d.runtime + ' دقيقة') : ((d.episode_run_time && d.episode_run_time[0]) ? d.episode_run_time[0] + ' دق/حلقة' : '');
+  var gens = (d.genres || []).map(function(g){ return '<span class="gtag">' + g.name + '</span>'; }).join('');
+
+  document.getElementById('mbk').src = bk;
+  document.getElementById('mbk').alt = t;
+  document.getElementById('mtit').textContent = t;
+  document.getElementById('mdesc').textContent = d.overview || 'لا يوجد وصف متاح.';
+  document.getElementById('mgens').innerHTML = gens;
+  document.getElementById('mmeta').innerHTML =
+    '<span class="rt"><i class="fas fa-star"></i> ' + ((d.vote_average||0).toFixed(1)) + '/10</span>' +
+    (yr ? '<span><i class="fas fa-calendar"></i> ' + yr + '</span>' : '') +
+    (rt ? '<span><i class="fas fa-clock"></i> ' + rt + '</span>' : '') +
+    (d.vote_count ? '<span><i class="fas fa-users"></i> ' + d.vote_count.toLocaleString() + '</span>' : '');
+
+  var inWL = ST.wl.some(function(x){ return x.id === id; });
+  var wb = document.getElementById('wlbtn2');
+  wb.innerHTML = inWL ? '<i class="fas fa-bookmark"></i> في قائمتك' : '<i class="far fa-bookmark"></i> أضف للمفضلة';
+  wb.style.borderColor = inWL ? 'var(--green)' : '';
+
+  if (auto) setTimeout(startPlay, 300);
+}
+
+function closeMod(e) {
+  if (e && e.target !== document.getElementById('mover')) return;
+  document.getElementById('mover').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('pls').classList.remove('act');
+  var fr = document.getElementById('pliframe');
+  fr.src = '';
+  if (ST.ftimer) clearTimeout(ST.ftimer);
+  document.title = 'VoltFlix - مشاهدة أفلام ومسلسلات أونلاين';
+  if (window.location.hash) history.pushState('', document.title, window.location.pathname + window.location.search);
+}
+
+function startPlay() {
+  if (!ST.movie) return;
+  var ps = document.getElementById('pls');
+  ps.classList.add('act');
+  setTimeout(function(){ ps.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+  loadSrc(0);
+}
+
+function loadSrc(idx) {
+  if (!ST.movie) return;
+  ST.src = idx;
+  var srcs = ST.isTV ? CFG.TVSRC : CFG.VSRC;
+  var tabs = document.querySelectorAll('.stab');
+  tabs.forEach(function(t, i){ t.classList.toggle('act', i === idx); });
+
+  var ld = document.getElementById('plload');
+  var fr = document.getElementById('pliframe');
+  ld.classList.remove('hid');
+  fr.src = '';
+
+  if (ST.ftimer) clearTimeout(ST.ftimer);
+
+  var url = srcs[idx](ST.movie.id);
+
+  setTimeout(function(){
+    fr.src = url;
+    fr.onload = function(){ ld.classList.add('hid'); };
+    ST.ftimer = setTimeout(function(){
+      if (!ld.classList.contains('hid')) {
+        if (idx < srcs.length - 1) {
+          toast('جارٍ تجربة مصدر بديل...');
+          loadSrc(idx + 1);
+        } else {
+          ld.classList.add('hid');
+          toast('تعذر تحميل الفيلم - جرب تعطيل مانع الإعلانات');
+        }
+      }
+    }, 10000);
+  }, 400);
+}
+
+function swSrc(i) { loadSrc(i); }
+
+function toggleWL() {
+  var m = ST.movie;
+  if (!m) return;
+  var idx = ST.wl.findIndex(function(x){ return x.id === m.id; });
+  if (idx >= 0) {
+    ST.wl.splice(idx, 1);
+    toast('تم الحذف من قائمة المشاهدة');
+  } else {
+    ST.wl.push({ id: m.id, title: m.title || m.name, poster_path: m.poster_path, vote_average: m.vote_average, release_date: m.release_date || m.first_air_date, isTV: ST.isTV });
+    toast('تمت الإضافة إلى قائمة المشاهدة');
+  }
+  localStorage.setItem('vf_wl', JSON.stringify(ST.wl));
+  updWLCount();
+  var inWL = idx < 0;
+  var wb = document.getElementById('wlbtn2');
+  wb.innerHTML = inWL ? '<i class="fas fa-bookmark"></i> في قائمتك' : '<i class="far fa-bookmark"></i> أضف للمفضلة';
+  wb.style.borderColor = inWL ? 'var(--green)' : '';
+}
+
+function updWLCount() {
+  var c = ST.wl.length;
+  var el = document.getElementById('wlc');
+  el.textContent = c;
+  el.style.display = c > 0 ? 'flex' : 'none';
+}
+
+function openWL() {
+  document.getElementById('wlp').classList.add('open');
+  var g = document.getElementById('wlgrid');
+  if (ST.wl.length === 0) {
+    g.innerHTML = '<div class="wlemp"><i class="far fa-bookmark"></i><p>قائمة المشاهدة فارغة</p></div>';
+  } else {
+    g.innerHTML = ST.wl.map(function(m){ return card(m, m.isTV); }).join('');
+  }
+}
+function closeWL() { document.getElementById('wlp').classList.remove('open'); }
+
+document.getElementById('sinp').addEventListener('input', function(e){
+  clearTimeout(ST.stimer);
+  var q = e.target.value.trim();
+  if (!q) { document.getElementById('sres').classList.remove('vis'); return; }
+  ST.stimer = setTimeout(function(){ doSearch(q); }, 400);
+});
+
+document.addEventListener('click', function(e){
+  if (!e.target.closest('#sres') && !e.target.closest('.sw')) {
+    document.getElementById('sres').classList.remove('vis');
+  }
+});
+
+async function doSearch(q) {
+  q = q || document.getElementById('sinp').value.trim();
+  if (!q) return;
+  var d = await api('/search/multi', { query: q, include_adult: false });
+  if (!d) return;
+  var rs = d.results.filter(function(r){ return r.media_type !== 'person'; }).slice(0, 8);
+  var c = document.getElementById('sres');
+  if (!rs.length) {
+    c.innerHTML = '<p style="padding:14px;color:var(--m);text-align:center">لا توجد نتائج</p>';
+  } else {
+    c.innerHTML = rs.map(function(r){
+      var tv = r.media_type === 'tv';
+      var t = (r.title || r.name || '').replace(/'/g, '&#39;');
+      var y = ((r.release_date || r.first_air_date || '')).slice(0,4);
+      var p = imgU(r.poster_path, 'w92');
+      var rt = r.vote_average ? r.vote_average.toFixed(1) : '';
+      return '<div class="si" onclick="openMod(' + r.id + ',' + tv + ');document.getElementById(\'sres\').classList.remove(\'vis\')">' +
+        '<img src="' + p + '" alt="' + t + '"/>' +
+        '<div><h4>' + t + '</h4><p>' + (tv ? 'مسلسل' : 'فيلم') + (y ? ' - ' + y : '') + (rt ? ' - ' + rt : '') + '</p></div>' +
+      '</div>';
+    }).join('');
+  }
+  c.classList.add('vis');
+}
+
+function updSEO(m, tv) {
+  var t = m.title || m.name || '';
+  var desc = m.overview || ('شاهد ' + t + ' على VoltFlix');
+  var img2 = imgU(m.backdrop_path || m.poster_path, 'w1280');
+  var url = CFG.SITE + '/#/' + (tv ? 'tv' : 'movie') + '/' + m.id;
+  var yr = ((m.release_date || m.first_air_date || '')).slice(0,4);
+
+  document.title = t + ' | VoltFlix - مشاهدة ' + (tv ? 'مسلسل' : 'فيلم') + ' أونلاين';
+  setMeta('description', desc, false);
+  setMeta('keywords', t + ', مشاهدة ' + t + ', VoltFlix, ' + yr, false);
+  setMeta('og:title', document.title, true);
+  setMeta('og:description', desc, true);
+  setMeta('og:image', img2, true);
+  setMeta('twitter:title', document.title, true);
+  setMeta('twitter:description', desc, true);
+
+  var sc = document.getElementById('schema-org');
+  if (sc) sc.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': tv ? 'TVSeries' : 'Movie',
+    'name': t, 'description': desc, 'image': img2, 'url': url,
+    'aggregateRating': { '@type': 'AggregateRating', 'ratingValue': m.vote_average, 'ratingCount': m.vote_count, 'bestRating': '10' }
+  });
+}
+
+function setMeta(name, val, isProp) {
+  var attr = isProp ? 'property' : 'name';
+  var el = document.querySelector('meta[' + attr + '="' + name + '"]');
+  if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+  el.setAttribute('content', val);
+}
+
+function openSM() { document.getElementById('smp').classList.add('open'); genSM(); }
+function genSM() {
+  var lines = ST.all.map(function(m){ return CFG.SITE + '/#/movie/' + m.id + '  # ' + (m.title || m.name); }).join('\n');
+  document.getElementById('smurls').textContent = '# VoltFlix Sitemap\n# ' + ST.all.length + ' عنصر\n\n' + CFG.SITE + '/\n' + lines;
+}
+async function copySM() {
+  var t = document.getElementById('smurls').textContent;
+  try { await navigator.clipboard.writeText(t); toast('تم نسخ خريطة الموقع'); } catch(e) { toast('فشل النسخ'); }
+}
+
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 3000);
+}
+
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+window.addEventListener('hashchange', function(){
+  var h = window.location.hash;
+  var mm = h.match(/#\/movie\/(\d+)/);
+  var tm = h.match(/#\/tv\/(\d+)/);
+  if (mm) openMod(parseInt(mm[1]), false);
+  else if (tm) openMod(parseInt(tm[1]), true);
+});
+
+window.addEventListener('DOMContentLoaded', async function(){
+  updWLCount();
+  await Promise.all([
+    loadRow('/trending/movie/week', {}, 'r-trend', true),
+    loadRow('/movie/top_rated', {}, 'r-top', false),
+    loadRow('/discover/movie', { with_genres: '28', sort_by: 'popularity.desc' }, 'r-act', false),
+    loadRow('/discover/movie', { with_genres: '35', sort_by: 'popularity.desc' }, 'r-com', false),
+    loadRow('/discover/movie', { with_genres: '27', sort_by: 'popularity.desc' }, 'r-hor', false),
+    loadRow('/discover/movie', { with_genres: '878', sort_by: 'popularity.desc' }, 'r-sci', false),
+    loadTV()
+  ]);
+  setTimeout(function(){ document.getElementById('splash').classList.add('hidden'); }, 2300);
+  window.addEventListener('scroll', function(){
+    document.getElementById('hdr').classList.toggle('sc', window.scrollY > 70);
+  });
+  var h = window.location.hash;
+  if (h.match(/#\/movie\/\d+/) || h.match(/#\/tv\/\d+/)) {
+    var e = new HashChangeEvent('hashchange');
+    window.dispatchEvent(e);
+  }
+});
+//]]>
+</script>
+</body>
+</html>
